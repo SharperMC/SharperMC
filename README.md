@@ -58,4 +58,4 @@ SharperMC is a C# 1.8.x Minecraft server running on the .NET Framework.
 - [LibNoise](https://github.com/lessneek/LibNoise) Noise generating (World Genning).
 
 ## Licensing
-SharperMC uses MIT License you can find it [Here](https://example.com/licensing).
+SharperMC uses MIT License you can find it [Here](https://github.com/SharperMC/SharperMC/blob/master/LICENSE).
