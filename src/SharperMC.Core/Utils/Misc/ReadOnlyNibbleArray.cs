@@ -36,14 +36,8 @@ namespace SharperMC.Core.Utils
 
 		private NibbleArray NibbleArray { get; set; }
 
-		public byte this[int index]
-		{
-			get { return NibbleArray[index]; }
-		}
+		public byte this[int index] => NibbleArray[index];
 
-		public ReadOnlyCollection<byte> Data
-		{
-			get { return Array.AsReadOnly(NibbleArray.Data); }
-		}
+		public ReadOnlyCollection<byte> Data => Array.AsReadOnly(NibbleArray.Data);
 	}
 }

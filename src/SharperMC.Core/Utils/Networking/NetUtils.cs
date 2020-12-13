@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
@@ -34,12 +35,8 @@ namespace SharperMC.Core.Utils.Networking
     {
         public static bool PortAvailability(int portId)
         {
-            foreach (TcpConnectionInformation TCPInfo in IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections())
-            {
-                if (TCPInfo.LocalEndPoint.Port.Equals(portId))
-                    return false;
-            }
-            return true;
+            return IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpConnections()
+                .All(tcpInfo => !tcpInfo.LocalEndPoint.Port.Equals(portId));
         }
         
         public static int ReadVarInt(NetworkStream stream)
@@ -61,7 +58,7 @@ namespace SharperMC.Core.Utils.Networking
         }
         public static byte[] GetVarIntBytes(int integer)
         {
-            List<Byte> bytes = new List<byte>();
+            var bytes = new List<byte>();
             while ((integer & -128) != 0)
             {
                 bytes.Add((byte)(integer & 127 | 128));

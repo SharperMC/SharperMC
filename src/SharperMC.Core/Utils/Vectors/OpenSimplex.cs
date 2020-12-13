@@ -29,15 +29,15 @@ namespace SharperMC.Core.Utils
 {
 	public class OpenSimplexNoise
 	{
-		private const double Stretch_2D = -0.211324865405187; //(1/Math.sqrt(2+1)-1)/2;
-		private const double Stretch_3D = -1.0/6.0; //(1/Math.sqrt(3+1)-1)/3;
-		private const double Stretch_4D = -0.138196601125011; //(1/Math.sqrt(4+1)-1)/4;
-		private const double Squish_2D = 0.366025403784439; //(Math.sqrt(2+1)-1)/2;
-		private const double Squish_3D = 1.0/3.0; //(Math.sqrt(3+1)-1)/3;
-		private const double Squish_4D = 0.309016994374947; //(Math.sqrt(4+1)-1)/4;
-		private const double Norm_2D = 1.0/47.0;
-		private const double Norm_3D = 1.0/103.0;
-		private const double Norm_4D = 1.0/30.0;
+		private const double Stretch2D = -0.211324865405187; //(1/Math.sqrt(2+1)-1)/2;
+		private const double Stretch3D = -1.0/6.0; //(1/Math.sqrt(3+1)-1)/3;
+		private const double Stretch4D = -0.138196601125011; //(1/Math.sqrt(4+1)-1)/4;
+		private const double Squish2D = 0.366025403784439; //(Math.sqrt(2+1)-1)/2;
+		private const double Squish3D = 1.0/3.0; //(Math.sqrt(3+1)-1)/3;
+		private const double Squish4D = 0.309016994374947; //(Math.sqrt(4+1)-1)/4;
+		private const double Norm2D = 1.0/47.0;
+		private const double Norm3D = 1.0/103.0;
+		private const double Norm4D = 1.0/30.0;
 
 		private static readonly double[] Gradients2D =
 		{
@@ -363,14 +363,14 @@ namespace SharperMC.Core.Utils
 
 		public double Evaluate(double x, double y)
 		{
-			var stretchOffset = (x + y)*Stretch_2D;
+			var stretchOffset = (x + y)*Stretch2D;
 			var xs = x + stretchOffset;
 			var ys = y + stretchOffset;
 
 			var xsb = FastFloor(xs);
 			var ysb = FastFloor(ys);
 
-			var squishOffset = (xsb + ysb)*Squish_2D;
+			var squishOffset = (xsb + ysb)*Squish2D;
 			var dx0 = x - (xsb + squishOffset);
 			var dy0 = y - (ysb + squishOffset);
 
@@ -406,12 +406,12 @@ namespace SharperMC.Core.Utils
 				}
 				c = c.Next;
 			}
-			return value*Norm_2D;
+			return value*Norm2D;
 		}
 
 		public double Evaluate(double x, double y, double z)
 		{
-			var stretchOffset = (x + y + z)*Stretch_3D;
+			var stretchOffset = (x + y + z)*Stretch3D;
 			var xs = x + stretchOffset;
 			var ys = y + stretchOffset;
 			var zs = z + stretchOffset;
@@ -420,7 +420,7 @@ namespace SharperMC.Core.Utils
 			var ysb = FastFloor(ys);
 			var zsb = FastFloor(zs);
 
-			var squishOffset = (xsb + ysb + zsb)*Squish_3D;
+			var squishOffset = (xsb + ysb + zsb)*Squish3D;
 			var dx0 = x - (xsb + squishOffset);
 			var dy0 = y - (ysb + squishOffset);
 			var dz0 = z - (zsb + squishOffset);
@@ -464,12 +464,12 @@ namespace SharperMC.Core.Utils
 
 				c = c.Next;
 			}
-			return value*Norm_3D;
+			return value*Norm3D;
 		}
 
 		public double Evaluate(double x, double y, double z, double w)
 		{
-			var stretchOffset = (x + y + z + w)*Stretch_4D;
+			var stretchOffset = (x + y + z + w)*Stretch4D;
 			var xs = x + stretchOffset;
 			var ys = y + stretchOffset;
 			var zs = z + stretchOffset;
@@ -480,7 +480,7 @@ namespace SharperMC.Core.Utils
 			var zsb = FastFloor(zs);
 			var wsb = FastFloor(ws);
 
-			var squishOffset = (xsb + ysb + zsb + wsb)*Squish_4D;
+			var squishOffset = (xsb + ysb + zsb + wsb)*Squish4D;
 			var dx0 = x - (xsb + squishOffset);
 			var dy0 = y - (ysb + squishOffset);
 			var dz0 = z - (zsb + squishOffset);
@@ -532,7 +532,7 @@ namespace SharperMC.Core.Utils
 
 				c = c.Next;
 			}
-			return value*Norm_4D;
+			return value*Norm4D;
 		}
 
 		private class Contribution2
@@ -545,8 +545,8 @@ namespace SharperMC.Core.Utils
 
 			public Contribution2(double multiplier, int xsb, int ysb)
 			{
-				Dx = -xsb - multiplier*Squish_2D;
-				Dy = -ysb - multiplier*Squish_2D;
+				Dx = -xsb - multiplier*Squish2D;
+				Dy = -ysb - multiplier*Squish2D;
 				this.Xsb = xsb;
 				this.Ysb = ysb;
 			}
@@ -564,9 +564,9 @@ namespace SharperMC.Core.Utils
 
 			public Contribution3(double multiplier, int xsb, int ysb, int zsb)
 			{
-				Dx = -xsb - multiplier*Squish_3D;
-				Dy = -ysb - multiplier*Squish_3D;
-				Dz = -zsb - multiplier*Squish_3D;
+				Dx = -xsb - multiplier*Squish3D;
+				Dy = -ysb - multiplier*Squish3D;
+				Dz = -zsb - multiplier*Squish3D;
 				this.Xsb = xsb;
 				this.Ysb = ysb;
 				this.Zsb = zsb;
@@ -587,10 +587,10 @@ namespace SharperMC.Core.Utils
 
 			public Contribution4(double multiplier, int xsb, int ysb, int zsb, int wsb)
 			{
-				Dx = -xsb - multiplier*Squish_4D;
-				Dy = -ysb - multiplier*Squish_4D;
-				Dz = -zsb - multiplier*Squish_4D;
-				Dw = -wsb - multiplier*Squish_4D;
+				Dx = -xsb - multiplier*Squish4D;
+				Dy = -ysb - multiplier*Squish4D;
+				Dz = -zsb - multiplier*Squish4D;
+				Dw = -wsb - multiplier*Squish4D;
 				this.Xsb = xsb;
 				this.Ysb = ysb;
 				this.Zsb = zsb;

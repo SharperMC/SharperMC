@@ -2,13 +2,13 @@
 
 namespace SharperMC.Core
 {
-	internal class ConsoleCommandHandler
+	internal static class ConsoleCommandHandler
 	{
-		public void WaitForCommand()
+		public static void WaitForCommand()
 		{
 			while (true)
 			{
-				string input = Console.ReadLine();
+				var input = Console.ReadLine();
 				if (!String.IsNullOrEmpty(input))
 				{
 					Globals.ChatManager.HandleCommand(input, null);

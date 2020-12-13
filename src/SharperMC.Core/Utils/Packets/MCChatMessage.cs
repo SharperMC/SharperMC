@@ -2,16 +2,19 @@
 {
 	public class McChatMessage
 	{
+		/*
+		 * Todo: Make this better lol
+		 */
 		public McChatMessage(string message)
 		{
-			text = message;
+			Text = message;
 		}
 
-		public string text = string.Empty;
-		public bool bold = false;
-		public bool italic = false;
-		public bool underlined = false;
-		public bool strikethrough = false;
-		public bool obfuscated = false;
+		public readonly string Text;
+		public bool Bold = false;
+		public bool Italic = false;
+		public bool Underlined = false;
+		public bool Strikethrough = false;
+		public bool Obfuscated = false;
 	}
 }

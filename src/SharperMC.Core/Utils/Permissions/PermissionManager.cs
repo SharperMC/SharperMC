@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using SharperMC.Core.Entity;
 
 namespace SharperMC.Core.Utils
@@ -37,15 +38,8 @@ namespace SharperMC.Core.Utils
 			if (player.IsOperator) return true; //Operators (OP) have all permissions.
 			if (permission == "") return true;
 
-			foreach (var d in Permissions)
-			{
-				if (d.Item1 == player.Username)
-				{
-					if (d.Item2 == permission) return true;
-				}
-			}
-
-			return false;
+			return Permissions.Where(d => d.Item1 == player.Username)
+				.Any(d => d.Item2 == permission);
 		}
 
 		public static void AddPermission(Player player, string permission)

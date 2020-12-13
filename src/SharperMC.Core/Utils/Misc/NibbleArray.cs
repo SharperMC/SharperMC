@@ -54,10 +54,7 @@ namespace SharperMC.Core.Utils
 		///     Gets the current number of nibbles in this array.
 		/// </summary>
 		[NbtIgnore]
-		public int Length
-		{
-			get { return Data.Length*2; }
-		}
+		public int Length => Data.Length*2;
 
 		/// <summary>
 		///     Gets or sets a nibble at the given index.
@@ -65,7 +62,7 @@ namespace SharperMC.Core.Utils
 		[NbtIgnore]
 		public byte this[int index]
 		{
-			get { return (byte) (Data[index/2] >> ((index)%2*4) & 0xF); }
+			get => (byte) (Data[index/2] >> ((index)%2*4) & 0xF);
 			set
 			{
 				value &= 0xF;

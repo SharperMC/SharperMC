@@ -9,7 +9,7 @@
 		private T _mValue;
 
 		// *** Access to value ***
-		internal T Value
+		private T Value
 		{
 			get
 			{
@@ -41,9 +41,9 @@
 			Value = value;
 		}
 
-		internal Synchronized(T value, object Lock)
+		internal Synchronized(T value, object @lock)
 		{
-			_mValueLock = Lock;
+			_mValueLock = @lock;
 			Value = value;
 		}
 

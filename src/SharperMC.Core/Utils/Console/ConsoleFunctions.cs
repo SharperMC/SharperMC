@@ -26,7 +26,7 @@ using System;
 
 namespace SharperMC.Core
 {
-	internal class ConsoleFunctions
+	internal static class ConsoleFunctions
 	{
 		/*
 		 * TODO: Probably a easier way to add parameter arguments, should work for now 

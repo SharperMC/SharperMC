@@ -431,7 +431,7 @@ namespace SharperMC.Core.Entity
 		{
 			if (Wrapper.TcpClient == null)
 			{
-				ConsoleFunctions.WriteInfoLine(message.text);
+				ConsoleFunctions.WriteInfoLine(message.Text);
 				return;
 			}
 

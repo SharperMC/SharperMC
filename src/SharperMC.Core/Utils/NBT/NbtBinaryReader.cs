@@ -113,7 +113,7 @@ namespace SharperMC.Core.Utils
 		{
 			if (bytesToSkip < 0)
 			{
-				throw new ArgumentOutOfRangeException("bytesToSkip");
+				throw new ArgumentOutOfRangeException(nameof(bytesToSkip));
 			}
 			if (BaseStream.CanSeek)
 			{

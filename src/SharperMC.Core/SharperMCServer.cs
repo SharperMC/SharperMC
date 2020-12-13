@@ -48,7 +48,7 @@ namespace SharperMC.Core
 			try
 			{
 				new Thread(() => Globals.ServerListener.StartListening()).Start();
-				new Thread(() => new ConsoleCommandHandler().WaitForCommand()).Start();
+				new Thread(() => ConsoleCommandHandler.WaitForCommand()).Start();
 			}
 			catch (Exception ex)
 			{

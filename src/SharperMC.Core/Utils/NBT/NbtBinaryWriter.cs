@@ -61,14 +61,7 @@ namespace SharperMC.Core.Utils
 
 		public override void Write(short value)
 		{
-			if (BitConverter.IsLittleEndian == _bigEndian)
-			{
-				base.Write(IPAddress.HostToNetworkOrder(value));
-			}
-			else
-			{
-				base.Write(value);
-			}
+			base.Write(BitConverter.IsLittleEndian == _bigEndian ? IPAddress.HostToNetworkOrder(value) : value);
 		}
 
 		/*public override void Write(int value)
@@ -86,14 +79,7 @@ namespace SharperMC.Core.Utils
 
 		public override void Write(long value)
 		{
-			if (BitConverter.IsLittleEndian == _bigEndian)
-			{
-				base.Write(Swap(value));
-			}
-			else
-			{
-				base.Write(value);
-			}
+			base.Write(BitConverter.IsLittleEndian == _bigEndian ? Swap(value) : value);
 		}
 
 		public override void Write(float value)
@@ -127,7 +113,7 @@ namespace SharperMC.Core.Utils
 		public override void Write(string value)
 		{
 			if (value == null)
-				throw new ArgumentNullException("value");
+				throw new ArgumentNullException(nameof(value));
 			var bytes = Encoding.UTF8.GetBytes(value);
 			Write((short) bytes.Length);
 			Write(bytes);

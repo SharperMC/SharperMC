@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using SharperMC.Core.Blocks;
 using SharperMC.Core.Entity;
@@ -67,17 +68,12 @@ namespace SharperMC.Core.Utils
 
 		public bool Explode()
 		{
-			if (PrimaryExplosion())
-			{
-				return SecondaryExplosion();
-			}
-
-			return false;
+			return PrimaryExplosion() && SecondaryExplosion();
 		}
 
 		private bool PrimaryExplosion()
 		{
-			if (!_coordsSet) throw new Exception("Please intiate using Explosion(Level, coordinates, size)");
+			if (!_coordsSet) throw new Exception("Please initiate using Explosion(Level, coordinates, size)");
 			if (_size < 0.1) return false;
 
 			for (var i = 0; i < Ray; i++)
@@ -135,10 +131,7 @@ namespace SharperMC.Core.Utils
 		private bool SecondaryExplosion()
 		{
 			var records = new Records();
-			foreach (var block in _afectedBlocks.Values)
-			{
-				records.Add(block.Coordinates - _centerCoordinates);
-			}
+			records.AddRange(_afectedBlocks.Values.Select(block => block.Coordinates - _centerCoordinates));
 
 
 			foreach (var block in _afectedBlocks.Values)
@@ -153,27 +146,24 @@ namespace SharperMC.Core.Utils
 			}
 
 			// Set stuff on fire
-			if (_fire)
+			if (!_fire) return true;
+			
+			var random = new Random();
+			foreach (var coord in _afectedBlocks.Keys)
 			{
-				var random = new Random();
-				foreach (var coord in _afectedBlocks.Keys)
+				var block = _world.GetBlock(new Vector3(coord.X, coord.Y, coord.Z));
+				if (!(block is BlockAir)) continue;
+				var blockDown = _world.GetBlock(new Vector3(coord.X, coord.Y - 1, coord.Z));
+				if (!(blockDown is BlockAir) && random.Next(3) == 0)
 				{
-					var block = _world.GetBlock(new Vector3(coord.X, coord.Y, coord.Z));
-					if (block is BlockAir)
-					{
-						var blockDown = _world.GetBlock(new Vector3(coord.X, coord.Y - 1, coord.Z));
-						if (!(blockDown is BlockAir) && random.Next(3) == 0)
-						{
-							_world.SetBlock(new BlockFire {Coordinates = block.Coordinates});
-						}
-					}
+					_world.SetBlock(new BlockFire {Coordinates = block.Coordinates});
 				}
 			}
 
 			return true;
 		}
 
-		private void SpawnTnt(Vector3 blockCoordinates, Level world)
+		private static void SpawnTnt(Vector3 blockCoordinates, Level world)
 		{
 			var rand = new Random();
 			new PrimedTNTEntity(world)

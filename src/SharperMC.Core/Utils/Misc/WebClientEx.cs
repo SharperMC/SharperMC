@@ -31,15 +31,7 @@ namespace SharperMC.Core.Utils
 	{
 		private WebResponse _mResp;
 
-		public HttpStatusCode StatusCode
-		{
-			get
-			{
-				if (_mResp != null && _mResp is HttpWebResponse)
-					return (_mResp as HttpWebResponse).StatusCode;
-				return HttpStatusCode.OK;
-			}
-		}
+		public HttpStatusCode StatusCode => (_mResp as HttpWebResponse)?.StatusCode ?? HttpStatusCode.OK;
 
 		protected override WebResponse GetWebResponse(WebRequest req, IAsyncResult ar)
 		{

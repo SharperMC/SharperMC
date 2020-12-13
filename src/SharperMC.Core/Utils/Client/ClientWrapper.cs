@@ -28,138 +28,137 @@ using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
-using System.Timers;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Networking.Packets.Play.Client;
-using Timer = System.Timers.Timer;
 
 namespace SharperMC.Core.Utils
 {
-	public enum PacketMode
-	{
-		Ping,
-		Status,
-		Login,
-		Play
-	}
+    public enum PacketMode
+    {
+        Ping,
+        Status,
+        Login,
+        Play
+    }
 
-	public class ClientWrapper
-	{
-		private readonly Queue<byte[]> _commands = new Queue<byte[]>();
-		private readonly AutoResetEvent _resume = new AutoResetEvent(false);
-		internal bool EncryptionEnabled = false;
-		public PacketMode PacketMode = PacketMode.Ping;
-		public Player Player;
-		public TcpClient TcpClient;
-		public MyThreadPool ThreadPool;
-		internal int Protocol = 0;
-		internal int ClientIdentifier = -1;
-		public bool SetCompressionSend = false;
-		
-		private long lastPing = 0;
-		public bool Disconnected = false;
+    public class ClientWrapper
+    {
+        private readonly Queue<byte[]> _commands = new Queue<byte[]>();
+        private readonly AutoResetEvent _resume = new AutoResetEvent(false);
+        internal bool EncryptionEnabled = false;
+        public PacketMode PacketMode = PacketMode.Ping;
+        public Player Player;
+        public readonly TcpClient TcpClient;
+        public readonly MyThreadPool ThreadPool;
+        internal int Protocol = 0;
+        internal int ClientIdentifier = -1;
+        public bool SetCompressionSend = false;
 
-		public ClientWrapper(TcpClient client)
-		{
-			if (client != null)
-			{
-				TcpClient = client;
-				ThreadPool = new MyThreadPool();
-				ThreadPool.LaunchThread(ThreadRun);
+        private long _lastPing = 0;
+        public bool Disconnected = false;
 
-				var bytes = new byte[8];
-				Globals.Rand.NextBytes(bytes);
-				ConnectionId = Encoding.ASCII.GetString(bytes).Replace("-", "");
-			}
-		}
+        public ClientWrapper(TcpClient client)
+        {
+            if (client != null)
+            {
+                TcpClient = client;
+                ThreadPool = new MyThreadPool();
+                ThreadPool.LaunchThread(ThreadRun);
 
-		internal byte[] SharedKey { get; set; }
-		internal ICryptoTransform Encrypter { get; set; }
-		internal ICryptoTransform Decrypter { get; set; }
-		internal string ConnectionId { get; set; }
-		internal string Username { get; set; }
+                var bytes = new byte[8];
+                Globals.Rand.NextBytes(bytes);
+                ConnectionId = Encoding.ASCII.GetString(bytes).Replace("-", "");
+            }
+        }
 
-		public void AddToQuee(byte[] data, bool quee = false)
-		{
-			if (TcpClient != null)
-			{
-				if (quee)
-				{
-					lock (_commands)
-					{
-						_commands.Enqueue(data);
-					}
-					_resume.Set();
-				}
-				else
-				{
-					SendData(data);
-				}
-			}
-		}
+        internal byte[] SharedKey { get; set; }
+        internal ICryptoTransform Encryptor { get; set; }
+        internal ICryptoTransform Decryptor { get; set; }
+        internal string ConnectionId { get; set; }
+        internal string Username { get; set; }
 
-		private void ThreadRun()
-		{
-			while (_resume.WaitOne())
-			{
-				byte[] command;
-				lock (_commands)
-				{
-					command = _commands.Dequeue();
-				}
-				SendData(command);
-			}
-		}
+        public void AddToQueue(byte[] data, bool queue = false)
+        {
+            if (TcpClient == null) return;
+            if (queue)
+            {
+                lock (_commands)
+                {
+                    _commands.Enqueue(data);
+                }
 
-		public void SendData(byte[] data)
-		{
-			if (TcpClient != null)
-			{
-				try
-				{
-					if (Encrypter != null)
-					{
-						var toEncrypt = data;
-						data = new byte[toEncrypt.Length];
-						Encrypter.TransformBlock(toEncrypt, 0, toEncrypt.Length, data, 0);
+                _resume.Set();
+            }
+            else
+            {
+                SendData(data);
+            }
+        }
 
-						var a = TcpClient.GetStream();
-						a.Write(data, 0, data.Length);
-						a.Flush();
-					}
-					else
-					{
-						TcpClient.Client.Send(data);
-					}
-					Globals.ClientManager.CleanErrors(this);
-				}
-				catch(Exception ex)
-				{
-					Globals.ClientManager.PacketError(this, ex);
-				}
-			}
-		}
+        private void ThreadRun()
+        {
+            while (_resume.WaitOne())
+            {
+                byte[] command;
+                lock (_commands)
+                {
+                    command = _commands.Dequeue();
+                }
 
-		public void UpdatePing()
-		{
-			var time = UnixTimeNow();
-			var ping = time - lastPing;
-			lastPing = time;
-			Globals.ClientManager.ReportPing(this);
+                SendData(command);
+            }
+        }
 
-			var packet = new PlayerListItem(null)
-			{
-				Action = 2,
-				Latency = (int)ping,
-				Uuid = Player.Uuid
-			};
-			Globals.BroadcastPacket(packet);
-		}
+        public void SendData(byte[] data)
+        {
+            if (TcpClient != null)
+            {
+                try
+                {
+                    if (Encryptor != null)
+                    {
+                        var toEncrypt = data;
+                        data = new byte[toEncrypt.Length];
+                        Encryptor.TransformBlock(toEncrypt, 0, toEncrypt.Length, data, 0);
 
-		private long UnixTimeNow()
-		{
-			var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
-			return (long)timeSpan.TotalSeconds;
-		}
-	}
+                        var a = TcpClient.GetStream();
+                        a.Write(data, 0, data.Length);
+                        a.Flush();
+                    }
+                    else
+                    {
+                        TcpClient.Client.Send(data);
+                    }
+
+                    Globals.ClientManager.CleanErrors(this);
+                }
+                catch (Exception ex)
+                {
+                    Globals.ClientManager.PacketError(this, ex);
+                }
+            }
+        }
+
+        public void UpdatePing()
+        {
+            var time = UnixTimeNow();
+            var ping = time - _lastPing;
+            _lastPing = time;
+            Globals.ClientManager.ReportPing(this);
+
+            var packet = new PlayerListItem(null)
+            {
+                Action = 2,
+                Latency = (int) ping,
+                Uuid = Player.Uuid
+            };
+            Globals.BroadcastPacket(packet);
+        }
+
+        private static long UnixTimeNow()
+        {
+            var timeSpan = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0));
+            return (long) timeSpan.TotalSeconds;
+        }
+    }
 }

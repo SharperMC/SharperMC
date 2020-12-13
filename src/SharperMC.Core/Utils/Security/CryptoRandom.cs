@@ -52,7 +52,7 @@ namespace SharperMC.Core.Utils
 		/// <summary>
 		///     Returns a random number between 0.0 and 1.0.
 		/// </summary>
-		public double NextDouble()
+		public static double NextDouble()
 		{
 			var b = new byte[4];
 			_r.GetBytes(b);
@@ -67,17 +67,9 @@ namespace SharperMC.Core.Utils
 		///     The exclusive upper bound of the random number returned. maxValue must be greater than or equal
 		///     to minValue.
 		/// </param>
-		public int Next(int minValue, int maxValue)
+		public int Next(int minValue = 0, int maxValue = int.MaxValue)
 		{
 			return (int) Math.Round(NextDouble()*(maxValue - minValue - 1)) + minValue;
-		}
-
-		/// <summary>
-		///     Returns a nonnegative random number.
-		/// </summary>
-		public int Next()
-		{
-			return Next(0, int.MaxValue);
 		}
 
 		/// <summary>

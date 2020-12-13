@@ -52,20 +52,11 @@ namespace SharperMC.Core.Utils
 			Max = new Vector3(box.Max);
 		}
 
-		public double Height
-		{
-			get { return Max.Y - Min.Y; }
-		}
+		public double Height => Max.Y - Min.Y;
 
-		public double Width
-		{
-			get { return Max.X - Min.X; }
-		}
+		public double Width => Max.X - Min.X;
 
-		public double Depth
-		{
-			get { return Max.Z - Min.Z; }
-		}
+		public double Depth => Max.Z - Min.Z;
 
 		public bool Equals(BoundingBox other)
 		{
@@ -154,8 +145,7 @@ namespace SharperMC.Core.Utils
 
 		public bool Intersects(BoundingBox box)
 		{
-			bool result;
-			Intersects(ref box, out result);
+			Intersects(ref box, out var result);
 			return result;
 		}
 
@@ -193,7 +183,7 @@ namespace SharperMC.Core.Utils
 
 		public override string ToString()
 		{
-			return string.Format("{{Min:{0} Max:{1}}}", Min, Max);
+			return $"{{Min:{Min} Max:{Max}}}";
 		}
 	}
 }

@@ -108,9 +108,7 @@ namespace SharperMC.Core.Utils
 		public bool ReadBool()
 		{
 			var answer = ReadByte();
-			if (answer == 1)
-				return true;
-			return false;
+			return answer == 1;
 		}
 
 		public double ReadDouble()
@@ -129,7 +127,7 @@ namespace SharperMC.Core.Utils
 				value |= (b & 0x7F) << (size++*7);
 				if (size > 5)
 				{
-					throw new IOException("VarInt too long. Hehe that's punny.");
+					throw new IOException("VarInt too long. Hehe, that's funny.");
 				}
 			}
 			return value | ((b & 0x7F) << (size*7));
@@ -261,10 +259,7 @@ namespace SharperMC.Core.Utils
 
 		#region Writer
 
-		public byte[] ExportWriter
-		{
-			get { return _bffr.ToArray(); }
-		}
+		public byte[] ExportWriter => _bffr.ToArray();
 
 		private readonly List<byte> _bffr = new List<byte>();
 
@@ -375,9 +370,9 @@ namespace SharperMC.Core.Utils
 			Write(long2);
 		}
 
-		private byte[] GetVarIntBytes(int integer)
+		private static byte[] GetVarIntBytes(int integer)
 		{
-			List<Byte> bytes = new List<byte>();
+			var bytes = new List<byte>();
 			while ((integer & -128) != 0)
 			{
 				bytes.Add((byte)(integer & 127 | 128));
@@ -393,7 +388,7 @@ namespace SharperMC.Core.Utils
 		/// <summary>
 		///     Flush all data to the TCPClient NetworkStream.
 		/// </summary>
-		public void FlushData(bool quee = false)
+		public void FlushData(bool queue = false)
 		{
 			try
 			{
@@ -402,19 +397,19 @@ namespace SharperMC.Core.Utils
 
 				if (ServerSettings.UseCompression && _client.PacketMode == PacketMode.Play && _client.SetCompressionSend)
 				{
-					bool isOver = (allData.Length >= ServerSettings.CompressionThreshold);
-					int dataLength = isOver ? allData.Length : 0;
+					var isOver = (allData.Length >= ServerSettings.CompressionThreshold);
+					var dataLength = isOver ? allData.Length : 0;
 
 					//Calculate length of 'Data Length'
-					byte[] dLength = GetVarIntBytes(dataLength);
+					var dLength = GetVarIntBytes(dataLength);
 
 					//Create all data
 					var compressedBytes = ZlibStream.CompressBuffer(allData);
-					int packetlength = compressedBytes.Length + dLength.Length;
+					var packetLength = compressedBytes.Length + dLength.Length;
 					var dataToSend = isOver ? compressedBytes : allData;
 
 					var compressed = new DataBuffer(_client);
-					compressed.WriteVarInt(packetlength);
+					compressed.WriteVarInt(packetLength);
 					compressed.WriteVarInt(dataLength);
 					compressed.Write(dataToSend);
 
@@ -423,14 +418,14 @@ namespace SharperMC.Core.Utils
 					Console.WriteLine("Packet bigger than Threshold: " + isOver);
 					Console.WriteLine("Packet info: ");
 
-					Console.WriteLine("(Header) Packet Length: " + packetlength);
+					Console.WriteLine("(Header) Packet Length: " + packetLength);
 					Console.WriteLine("(Header) Data Length: " + dataLength);
 					Console.WriteLine("Data Length " + dataToSend.Length);
-					Console.WriteLine("Length difference: " + (packetlength - dataToSend.Length));
+					Console.WriteLine("Length difference: " + (packetLength - dataToSend.Length));
 
 					Console.WriteLine();
 
-					_client.AddToQuee(compressed.ExportWriter, quee);
+					_client.AddToQueue(compressed.ExportWriter, queue);
 				}
 				else
 				{
@@ -446,7 +441,7 @@ namespace SharperMC.Core.Utils
 					{
 						data.Add(i);
 					}
-					_client.AddToQuee(data.ToArray(), quee);
+					_client.AddToQueue(data.ToArray(), queue);
 				}
 				_bffr.Clear();
 			}
@@ -456,7 +451,7 @@ namespace SharperMC.Core.Utils
 			}
 		}
 
-		private byte[] HostToNetworkOrder(double d)
+		private static byte[] HostToNetworkOrder(double d)
 		{
 			var data = BitConverter.GetBytes(d);
 
@@ -466,7 +461,7 @@ namespace SharperMC.Core.Utils
 			return data;
 		}
 
-		private byte[] HostToNetworkOrder(float host)
+		private static byte[] HostToNetworkOrder(float host)
 		{
 			var bytes = BitConverter.GetBytes(host);
 

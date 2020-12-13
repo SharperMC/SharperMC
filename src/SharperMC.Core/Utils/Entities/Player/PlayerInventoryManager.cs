@@ -105,18 +105,18 @@ namespace SharperMC.Core.Utils
 			return true;
 		}
 
-		public void SetSlot(int slot, short itemId, byte metadata, byte itemcount)
+		public void SetSlot(int slot, short itemId, byte metadata, byte itemCount)
 		{
 			if (slot <= 45 && slot >= 5)
 			{
-				_slots[slot] = new ItemStack(itemId, itemcount, metadata);
+				_slots[slot] = new ItemStack(itemId, itemCount, metadata);
 				if (_player != null && _player.IsSpawned)
 				{
 					new SetSlot(_player.Wrapper)
 					{
 						WindowId = 0,
 						ItemId = itemId,
-						ItemCount = itemcount,
+						ItemCount = itemCount,
 						MetaData = metadata,
 						ItemDamage = 0,
 						Slot = (short) slot
@@ -131,31 +131,27 @@ namespace SharperMC.Core.Utils
 			return AddItem(item.ItemId, item.MetaData, item.ItemCount);
 		}
 
-		public bool AddItem(short itemId, byte metadata, byte itemcount = 1)
+		public bool AddItem(short itemId, byte metadata, byte itemCount = 1)
 		{
 			for (var i = 9; i <= 45; i++)
 			{
-				if (_slots[i].ItemId == itemId && _slots[i].MetaData == metadata && _slots[i].ItemCount < 64)
+				if (_slots[i].ItemId != itemId || _slots[i].MetaData != metadata || _slots[i].ItemCount >= 64) continue;
+				var oldSlot = _slots[i];
+				if (oldSlot.ItemCount + itemCount <= 64)
 				{
-					var oldslot = _slots[i];
-					if (oldslot.ItemCount + itemcount <= 64)
-					{
-						SetSlot(i, itemId, metadata, (byte) (oldslot.ItemCount + itemcount));
-						return true;
-					}
-					SetSlot(i, itemId, metadata, 64);
-					var remaining = (oldslot.ItemCount + itemcount) - 64;
-					return AddItem(itemId, metadata, (byte) remaining);
+					SetSlot(i, itemId, metadata, (byte) (oldSlot.ItemCount + itemCount));
+					return true;
 				}
+				SetSlot(i, itemId, metadata, 64);
+				var remaining = (oldSlot.ItemCount + itemCount) - 64;
+				return AddItem(itemId, metadata, (byte) remaining);
 			}
 
 			for (var i = 9; i <= 45; i++)
 			{
-				if (_slots[i].ItemId == -1)
-				{
-					SetSlot(i, itemId, metadata, itemcount);
-					return true;
-				}
+				if (_slots[i].ItemId != -1) continue;
+				SetSlot(i, itemId, metadata, itemCount);
+				return true;
 			}
 			return false;
 		}
@@ -254,8 +250,8 @@ namespace SharperMC.Core.Utils
 
 		public byte[] GetBytes()
 		{
-			DataBuffer buffer = new DataBuffer(new byte[0]);
-			for (int i = 0; i <= 45; i++)
+			var buffer = new DataBuffer(new byte[0]);
+			for (var i = 0; i <= 45; i++)
 			{
 				var slot = _slots[i];
 				buffer.WriteInt(i); //Write the SlotID
@@ -268,14 +264,14 @@ namespace SharperMC.Core.Utils
 
 		public void Import(byte[] data)
 		{
-			DataBuffer buffer = new DataBuffer(data);
+			var buffer = new DataBuffer(data);
 
-			for (int i = 0; i <= 45; i++)
+			for (var i = 0; i <= 45; i++)
 			{
-				int slotId = buffer.ReadInt();
-				short itemId = buffer.ReadShort();
-				byte metaData = (byte)buffer.ReadByte();
-				byte itemCount = (byte)buffer.ReadByte();
+				var slotId = buffer.ReadInt();
+				var itemId = buffer.ReadShort();
+				var metaData = (byte)buffer.ReadByte();
+				var itemCount = (byte)buffer.ReadByte();
 
 				_slots[slotId] = new ItemStack(itemId, itemCount, metaData);
 				UpdateHandItems();

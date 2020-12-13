@@ -89,10 +89,10 @@ namespace SharperMC.Core.Networking
 			{
 				var buf = new DataBuffer(client);
 
-				if (client.Decrypter != null)
+				if (client.Decryptor != null)
 				{
 					var date = new byte[4096];
-					client.Decrypter.TransformBlock(buffie, 0, buffie.Length, date, 0);
+					client.Decryptor.TransformBlock(buffie, 0, buffie.Length, date, 0);
 					buf.BufferedData = date;
 				}
 				else
@@ -130,10 +130,10 @@ namespace SharperMC.Core.Networking
 			{
 				var buf = new DataBuffer(client);
 
-				if (client.Decrypter != null)
+				if (client.Decryptor != null)
 				{
 					var date = new byte[4096];
-					client.Decrypter.TransformBlock(buffie, 0, buffie.Length, date, 0);
+					client.Decryptor.TransformBlock(buffie, 0, buffie.Length, date, 0);
 					buf.BufferedData = date;
 				}
 				else

@@ -147,10 +147,7 @@ namespace SharperMC.Core.Utils
 				if (RegenTick >= 80)
 				{
 					Health++;
-					if (player != null)
-					{
-						player.SendHealth();
-					}
+					player?.SendHealth();
 					RegenTick = 0;
 				}
 				else RegenTick++;
@@ -166,16 +163,13 @@ namespace SharperMC.Core.Utils
 				{
 					Health--;
 				}
-				if (player != null)
-				{
-					player.SendHealth();
-				}
+				player?.SendHealth();
 				FoodTick = 0;
 			}
 			else FoodTick += 1;
 
 
-			//TODO: Add Falldamage check
+			//TODO: Add Fall damage check
 
 			if (Health <= 0)
 			{
@@ -220,18 +214,16 @@ namespace SharperMC.Core.Utils
 					IsOnFire = true;
 				}
 
-				if (IsOnFire)
+				if (!IsOnFire) return;
+				FireTick--;
+				if (FireTick <= 0)
 				{
-					FireTick--;
-					if (FireTick <= 0)
-					{
-						IsOnFire = false;
-					}
+					IsOnFire = false;
+				}
 
-					if (Math.Abs(FireTick)%20 == 0)
-					{
-						TakeHit(player, 1, DamageCause.Fire);
-					}
+				if (Math.Abs(FireTick)%20 == 0)
+				{
+					TakeHit(player, 1, DamageCause.Fire);
 				}
 			}
 		}

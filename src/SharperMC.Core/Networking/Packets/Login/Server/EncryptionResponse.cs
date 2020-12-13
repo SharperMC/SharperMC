@@ -68,8 +68,8 @@ namespace SharperMC.Core.Networking.Packets.Login.Server
 					return;
 				}
 
-				Client.Decrypter = recv.CreateDecryptor();
-				Client.Encrypter = send.CreateEncryptor();
+				Client.Decryptor = recv.CreateDecryptor();
+				Client.Encryptor = send.CreateEncryptor();
 
 				Client.EncryptionEnabled = true;
 				Client.Player = new Player(Globals.LevelManager.MainLevel)
