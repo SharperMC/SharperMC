@@ -41,9 +41,9 @@ namespace SharperMC.Core
 		private Dictionary<string, Level> SubLevels { get; set; }
 		public Level MainLevel { get; private set; }
 
-		public Level[] GetLevels()
+		public IEnumerable<Level> GetLevels()
 		{
-			return SubLevels.Values.ToArray();
+			return SubLevels.Values;
 		}
 
 		public void AddLevel(string name, Level lvl)
@@ -52,31 +52,34 @@ namespace SharperMC.Core
 			SubLevels.Add(name, lvl);
 		}
 
-		private Level GetLevel(string name)
+		public Level GetLevel(string name)
 		{
 			var d = (from lvl in SubLevels where lvl.Key == name select lvl.Value).FirstOrDefault();
-			if (d != null) return d;
-			return MainLevel;
+			return d ?? MainLevel;
 		}
 
 		public void TeleportToLevel(Player player, string level)
 		{
-			var lvl = GetLevel(level);
+			TeleportToLevel(player, GetLevel(level));
+		}
+
+		public void TeleportToLevel(Player player, Level level)
+		{
 
 			player.Level.RemovePlayer(player);
 			player.Level.BroadcastPlayerRemoval(player.Wrapper);
 
-			player.Level = lvl;
+			player.Level = level;
 
 			new Respawn(player.Wrapper)
 			{
-				Dimension = lvl.Dimension,
-				Difficulty = (byte) lvl.Difficulty,
-				GameMode = (byte) lvl.DefaultGamemode
+				Dimension = level.Dimension,
+				Difficulty = (byte) level.Difficulty,
+				GameMode = (byte) level.DefaultGamemode
 			}.Write();
 
 			player.IsSpawned = false;
-			player.KnownPosition = lvl.GetSpawnPoint();
+			player.KnownPosition = level.GetSpawnPoint();
 			player.SendChunksForKnownPosition(true);
 		}
 
@@ -101,17 +104,17 @@ namespace SharperMC.Core
 
 		public void SaveAllChunks()
 		{
-			foreach (Level lvl in GetLevels())
+			foreach (var lvl in GetLevels())
 			{
 				lvl.SaveChunks();
 			}
 			MainLevel.SaveChunks();
 		}
 
-		public Player[] GetAllPlayers()
+		public IEnumerable<Player> GetAllPlayers()
 		{
-			List<Player> players = new List<Player>();
-			foreach (Level lvl in GetLevels())
+			var players = new List<Player>();
+			foreach (var lvl in GetLevels())
 			{
 				players.AddRange(lvl.GetOnlinePlayers);
 			}

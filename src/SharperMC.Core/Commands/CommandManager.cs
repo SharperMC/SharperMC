@@ -44,6 +44,7 @@ namespace SharperMC.Core.Commands
             AddCommand(new SaveCommand());
             AddCommand(new StopCommand());
             AddCommand(new TestCommand());
+            AddCommand(new WorldCommand());
         }
 
         public static void AddCommand(Command command)
