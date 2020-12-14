@@ -22,8 +22,10 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using System;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
+using SharperMC.Core.Utils;
 
 namespace SharperMC.Core.Commands.DefaultCommands
 {
@@ -37,19 +39,40 @@ namespace SharperMC.Core.Commands.DefaultCommands
         {
             if (sender.IsPlayer())
             {
+                var player = (Player) sender;
                 if (args.Length < 3 || args.Length == 4)
                 {
                     SendUsage(sender, label);
                     return;
                 }
+
                 //player.Teleport(new PlayerLocation(player.KnownPosition.X, 80, player.KnownPosition.Z));
                 //todo: ~ is relative  then get int from arg and tell player if it's not a number
-                bool relX;
-                bool relY;
-                bool relZ;
-                int posX;
-                int posY;
-                int posZ;
+                var relX = args[0].StartsWith("~");
+                var relY = args[1].StartsWith("~");
+                var relZ = args[2].StartsWith("~");
+                double posX;
+                double posY;
+                double posZ;
+                var msg = "x";
+                try
+                {
+                    posX = Convert.ToDouble(relX ? args[0].Substring(1) : args[0]);
+                    msg = "y";
+                    posY = Convert.ToDouble(relY ? args[1].Substring(1) : args[1]);
+                    msg = "z";
+                    posZ = Convert.ToDouble(relZ ? args[2].Substring(1) : args[2]);
+                }
+                catch (FormatException e)
+                {
+                    sender.SendChat($"Not a number: {msg}");
+                    return;
+                }
+
+                player.Teleport(new PlayerLocation(posX += (relX ? player.KnownPosition.X : 0),
+                    posY += (relY ? player.KnownPosition.Y : 0),
+                    posZ += (relZ ? player.KnownPosition.Z : 0)));
+                sender.SendChat($"Teleported to: {posX}, {posY}, {posZ}");
             }
             else
             {
