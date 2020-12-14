@@ -26,98 +26,107 @@ using System;
 
 namespace SharperMC.Core
 {
-	internal static class ConsoleFunctions
-	{
-		/*
-		 * TODO: Probably a easier way to add parameter arguments, should work for now 
-		 */
-		public static void WriteLine(string text, params object[] args)
-		{
-			if(args == null)
-				Console.WriteLine(text);
-			else
-				Console.WriteLine(text, args);
-		}
+    internal static class ConsoleFunctions
+    {
+        /*
+         * TODO: Probably a easier way to add parameter arguments, should work for now 
+         */
+        public static void WriteLine(string text, params object[] args)
+        {
+            if (args == null)
+                Console.WriteLine(text);
+            else
+                Console.WriteLine(text, args);
+        }
 
-		public static void WriteLine(string text, ConsoleColor foreGroundColor, params object[] args)
-		{
-			Console.ForegroundColor = foreGroundColor;
-			if(args == null)
-				Console.WriteLine(text);
-			else
-				Console.WriteLine(text, args);
-			Console.ResetColor();
-		}
+        public static void WriteLine(string text, ConsoleColor foreGroundColor, params object[] args)
+        {
+            Console.ForegroundColor = foreGroundColor;
+            if (args == null)
+                Console.WriteLine(text);
+            else
+                Console.WriteLine(text, args);
+            Console.ResetColor();
+        }
 
-		public static void WriteLine(string text, ConsoleColor foreGroundColor, ConsoleColor backGroundColor, params object[] args)
-		{
-			Console.ForegroundColor = foreGroundColor;
-			Console.BackgroundColor = backGroundColor;
-			if(args == null)
-				Console.WriteLine(text);
-			else
-				Console.WriteLine(text, args);
-			Console.ResetColor();
-		}
+        public static void WriteLine(string text, ConsoleColor foreGroundColor, ConsoleColor backGroundColor,
+            params object[] args)
+        {
+            Console.ForegroundColor = foreGroundColor;
+            Console.BackgroundColor = backGroundColor;
+            if (args == null)
+                Console.WriteLine(text);
+            else
+                Console.WriteLine(text, args);
+            Console.ResetColor();
+        }
 
-		public static void WriteInfoLine(string text, params object[] args)
-		{
-			Console.ForegroundColor = ConsoleColor.Green;
-			Console.Write("[INFO] ");
-			Console.ResetColor();
-			if(args == null)
-				Console.Write(text + "\n");
-			else
-				Console.Write(text + "\n", args);
-		}
+        public static void WriteInfoLine(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("[INFO] ");
+            Console.ResetColor();
+            Console.Write(text + "\n");
+        }
 
-		public static void WriteFatalErrorLine(string text, params object[] args)
-		{
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.Write("[FATAL ERROR] ");
-			Console.ResetColor();
-			if(args == null)
-				Console.Write(text + "\n");
-			else
-				Console.Write(text + "\n", args);
-		}
-		
-		public static void WriteErrorLine(string text, params object[] args)
-		{
-			Console.ForegroundColor = ConsoleColor.Red;
-			Console.Write("[ERROR] ");
-			Console.ResetColor();
-			if(args == null)
-				Console.Write(text + "\n");
-			else
-				Console.Write(text + "\n", args);
-		}
+        public static void WriteInfoLine(string text, params object[] args)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("[INFO] ");
+            Console.ResetColor();
+            if (args == null)
+                Console.Write(text + "\n");
+            else
+                Console.Write(text + "\n", args);
+        }
 
-		public static void WriteWarningLine(string text, params object[] args)
-		{
-			Console.ForegroundColor = ConsoleColor.DarkRed;
-			Console.Write("[WARNING] ");
-			Console.ResetColor();
-			if(args == null)
-				Console.Write(text + "\n");
-			else
-				Console.Write(text + "\n", args);
-		}
+        public static void WriteFatalErrorLine(string text, params object[] args)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("[FATAL ERROR] ");
+            Console.ResetColor();
+            if (args == null)
+                Console.Write(text + "\n");
+            else
+                Console.Write(text + "\n", args);
+        }
 
-		public static void WriteServerLine(string text, params object[] args)
-		{
-			WriteInfoLine(text, args);
-		}
+        public static void WriteErrorLine(string text, params object[] args)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("[ERROR] ");
+            Console.ResetColor();
+            if (args == null)
+                Console.Write(text + "\n");
+            else
+                Console.Write(text + "\n", args);
+        }
 
-		public static void WriteDebugLine(string text, params object[] args)
-		{
-				Console.ForegroundColor = ConsoleColor.Yellow;
-				Console.Write("[DEBUG] ");
-				Console.ResetColor();
-				if(args == null)
-					Console.Write(text + "\n");
-				else
-					Console.Write(text + "\n", args);
-		}
-	}
+        public static void WriteWarningLine(string text, params object[] args)
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("[WARNING] ");
+            Console.ResetColor();
+            if (args == null)
+                Console.Write(text + "\n");
+            else
+                Console.Write(text + "\n", args);
+        }
+
+        public static void WriteServerLine(string text, params object[] args)
+        {
+            WriteInfoLine(text, args);
+        }
+
+        public static void WriteDebugLine(string text, params object[] args)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("[DEBUG] ");
+            Console.ResetColor();
+            if (args == null)
+                Console.Write(text + "\n");
+            else
+                Console.Write(text + "\n", args);
+        }
+    }
 }

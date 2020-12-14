@@ -22,37 +22,30 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using System;
-using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Entity;
 
-namespace SharperMC.Core.Commands
+namespace SharperMC.Core.Commands.DefaultCommands
 {
-    public class ConsoleSender : ICommandSender
-    { //todo: Move this in a better location & add color support
-        public string GetName()
+    public class SaveCommand : Command
+    {
+
+        public SaveCommand() : base("save", "/save", "Saves the world.")
         {
-            return "CONSOLE";
+        }
+        
+        public override void Execute(ICommandSender sender, string label, string[] args)
+        {
+            foreach (Player allPlayer in Globals.LevelManager.GetAllPlayers())
+            {
+                allPlayer.SavePlayer();
+            }
+            Globals.LevelManager.SaveAllChunks();
+            ConsoleFunctions.WriteInfoLine("World & Player data saved.");
         }
 
-        public bool IsPlayer()
+        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
         {
-            return false;
-        }
-
-        public void SendChat(string message)
-        {
-            ConsoleFunctions.WriteInfoLine(message);
-        }
-
-        public void SendChat(McChatMessage message)
-        {
-            ConsoleFunctions.WriteInfoLine(message.Text);
-        }
-
-        public void SendChat(string message, ChatColor color)
-        {
-            ConsoleFunctions.WriteInfoLine(message);
+            return new string[0];
         }
     }
 }

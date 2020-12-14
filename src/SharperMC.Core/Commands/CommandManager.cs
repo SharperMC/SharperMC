@@ -37,6 +37,11 @@ namespace SharperMC.Core.Commands
 
         static CommandManager()
         {
+            // todo: teleport command
+            // player.Teleport(new PlayerLocation(player.KnownPosition.X, 80, player.KnownPosition.Z));
+            AddCommand(new GamemodeCommand());
+            AddCommand(new HelpCommand());
+            AddCommand(new SaveCommand());
             AddCommand(new StopCommand());
             AddCommand(new TestCommand());
         }
@@ -56,10 +61,10 @@ namespace SharperMC.Core.Commands
             return command.StartsWith(CommandStart);
         }
 
-        public static Command GetCommand(string start)
+        public static Command GetCommand(string label)
         {
-            start = start.ToLower();
-            return CommandMap.FirstOrDefault((s) => s.Key.Contains(start)).Value;
+            label = label.ToLower();
+            return CommandMap.FirstOrDefault((s) => s.Key.Contains(label)).Value;
         }
 
         public static void ParseCommand(ICommandSender sender, string message)

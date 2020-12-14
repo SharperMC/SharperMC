@@ -118,8 +118,12 @@
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandManager.cs" />
     <Compile Include="Commands\ConsoleSender.cs" />
+    <Compile Include="Commands\DefaultCommands\GamemodeCommand.cs" />
+    <Compile Include="Commands\DefaultCommands\HelpCommand.cs" />
+    <Compile Include="Commands\DefaultCommands\SaveCommand.cs" />
     <Compile Include="Commands\DefaultCommands\StopCommand.cs" />
     <Compile Include="Commands\DefaultCommands\TestCommand.cs" />
+    <Compile Include="Commands\DefaultCommands\TPCommand.cs" />
     <Compile Include="Commands\ICommandSender.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ServerSettings.cs" />

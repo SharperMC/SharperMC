@@ -45,5 +45,15 @@ namespace SharperMC.Core.Commands
 
         public abstract void Execute(ICommandSender sender, string label, string[] args);
         public abstract string[] TabComplete(ICommandSender sender, string label, string[] args);
+
+        public string GetUsage(string label)
+        {
+            return Usage.Replace("%label%", label);
+        }
+
+        public void SendUsage(ICommandSender sender, string label)
+        {
+            sender.SendChat(GetUsage(label));
+        }
     }
 }

@@ -22,37 +22,44 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using System;
+using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
 
-namespace SharperMC.Core.Commands
+namespace SharperMC.Core.Commands.DefaultCommands
 {
-    public class ConsoleSender : ICommandSender
-    { //todo: Move this in a better location & add color support
-        public string GetName()
+    public class TPCommand : Command
+    {
+        public TPCommand() : base("tp", new[] {"teleport"}, "/tp <x> <y> <z>", "Teleports you.")
         {
-            return "CONSOLE";
         }
 
-        public bool IsPlayer()
+        public override void Execute(ICommandSender sender, string label, string[] args)
         {
-            return false;
+            if (sender.IsPlayer())
+            {
+                if (args.Length < 3 || args.Length == 4)
+                {
+                    SendUsage(sender, label);
+                    return;
+                }
+                //player.Teleport(new PlayerLocation(player.KnownPosition.X, 80, player.KnownPosition.Z));
+                //todo: ~ is relative  then get int from arg and tell player if it's not a number
+                bool relX;
+                bool relY;
+                bool relZ;
+                int posX;
+                int posY;
+                int posZ;
+            }
+            else
+            {
+                ConsoleFunctions.WriteInfoLine("Cannot teleport console.");
+            }
         }
 
-        public void SendChat(string message)
+        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
         {
-            ConsoleFunctions.WriteInfoLine(message);
-        }
-
-        public void SendChat(McChatMessage message)
-        {
-            ConsoleFunctions.WriteInfoLine(message.Text);
-        }
-
-        public void SendChat(string message, ChatColor color)
-        {
-            ConsoleFunctions.WriteInfoLine(message);
+            return new string[0];
         }
     }
 }
