@@ -33,8 +33,10 @@ namespace SharperMC.Core.Utils
         /// </summary>
         public static void WriteLine(string text, bool newline = true, params object[] args)
         {
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         /// <summary>
@@ -44,8 +46,10 @@ namespace SharperMC.Core.Utils
             params object[] args)
         {
             Console.ForegroundColor = foreGroundColor;
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
             Console.ResetColor();
         }
 
@@ -57,8 +61,10 @@ namespace SharperMC.Core.Utils
         {
             Console.ForegroundColor = foreGroundColor;
             Console.BackgroundColor = backGroundColor;
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
             Console.ResetColor();
         }
 
@@ -67,8 +73,10 @@ namespace SharperMC.Core.Utils
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("[INFO] ");
             Console.ResetColor();
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         public static void WriteFatalErrorLine(string text, bool newline = true, params object[] args)
@@ -76,8 +84,10 @@ namespace SharperMC.Core.Utils
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("[FATAL ERROR] ");
             Console.ResetColor();
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         public static void WriteErrorLine(string text, bool newline = true, params object[] args)
@@ -85,8 +95,10 @@ namespace SharperMC.Core.Utils
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("[ERROR] ");
             Console.ResetColor();
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         public static void WriteWarningLine(string text, bool newline = true, params object[] args)
@@ -94,8 +106,10 @@ namespace SharperMC.Core.Utils
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("[WARNING] ");
             Console.ResetColor();
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0)
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         public static void WriteDebugLine(string text, bool newline = true, params object[] args)
@@ -103,8 +117,10 @@ namespace SharperMC.Core.Utils
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("[DEBUG] ");
             Console.ResetColor();
-            if (args == null || args.Length == 0) Console.Write(text + (newline ? "\n" : ""));
-            else Console.Write(text + (newline ? "\n" : ""), args);
+            if (args == null || args.Length == 0) 
+                Console.Write(text + (newline ? "\n" : ""));
+            else 
+                Console.Write(text + (newline ? "\n" : ""), args);
         }
     }
 }
