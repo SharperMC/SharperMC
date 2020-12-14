@@ -31,6 +31,7 @@ using System.Text;
 using System.Threading;
 using SharperMC.Core.Chat;
 using SharperMC.Core.Commands;
+using SharperMC.Core.Config;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking;
@@ -134,7 +135,7 @@ namespace SharperMC.Core
 		        player.SavePlayer();
 	        }
 			ConsoleFunctions.WriteInfoLine("Saving config file...");
-			Config.SaveConfig();
+			ConfigManager.SaveConfig();
             ConsoleFunctions.WriteInfoLine("Saving chunks...");
 	        LevelManager.SaveAllChunks();
 	        ServerListener.StopListenening();
@@ -160,7 +161,7 @@ namespace SharperMC.Core
 				if(reason == null)
 					ConsoleFunctions.WriteInfoLine(client.Player.Username + " disconnected.");
 				else
-					ConsoleFunctions.WriteInfoLine(client.Player.Username + " disconnected (Reason: {0}).", reason);
+					ConsoleFunctions.WriteInfoLine(client.Player.Username + " disconnected (Reason: {0}).", true, reason);
 				client.ThreadPool.KillAllThreads();
 				if (client.Player != null)
 				{

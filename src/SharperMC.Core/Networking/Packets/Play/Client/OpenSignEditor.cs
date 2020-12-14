@@ -2,15 +2,15 @@
 
 namespace SharperMC.Core.Networking.Packets.Play.Client
 {
-	public class SignEditorOpen : Package<SignEditorOpen>
+	public class OpenSignEditor : Package<OpenSignEditor>
 	{
 		public Vector3 Coordinates;
-		public SignEditorOpen(ClientWrapper client) : base(client)
+		public OpenSignEditor(ClientWrapper client) : base(client)
 		{
 			SendId = 0x36;
 		}
 
-		public SignEditorOpen(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
+		public OpenSignEditor(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
 		{
 			SendId = 0x36;
 		}

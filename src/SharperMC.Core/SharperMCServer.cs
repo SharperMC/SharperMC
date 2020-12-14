@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using SharperMC.Core.Chat;
+using SharperMC.Core.Config;
 using SharperMC.Core.Networking;
 using SharperMC.Core.PluginChannel;
 using SharperMC.Core.Utils;
@@ -19,32 +20,34 @@ namespace SharperMC.Core
 	public class SharperMCServer
 	{
 		private bool _initiated = false;
+		public string CurrentDirectory;
+		
 		public SharperMCServer()
 		{
-			ConsoleFunctions.WriteInfoLine(string.Format("Initiating {0}", Globals.ProtocolName));
-
-			ConsoleFunctions.WriteInfoLine("Enabling global error handling...");
+			ConsoleFunctions.WriteInfoLine("Initiating server on {0}", true, Globals.ProtocolName);
+			CurrentDirectory = Directory.GetCurrentDirectory();
 			var currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += UnhandledException;
-
-			ConsoleFunctions.WriteInfoLine("Loading settings...");
-			LoadSettings();
-
-			ConsoleFunctions.WriteInfoLine("Loading variables...");
+			ConsoleFunctions.WriteInfoLine("Enabling global error handling... ", false);
+			ConsoleFunctions.WriteLine("Enabled.", ConsoleColor.Green);
+			ConsoleFunctions.WriteInfoLine("Checking if server properties exist... ", false);
+			ConsoleFunctions.WriteLine(LoadSettings() ? "Loading." : "Created.", ConsoleColor.Green);
+			ConsoleFunctions.WriteInfoLine("Loading server variables... ", false);
+			ConsoleFunctions.WriteLine("Loaded.", ConsoleColor.Green);
 			InitiateVariables();
-
-			ConsoleFunctions.WriteInfoLine("Checking files and directories...");
+			
+			ConsoleFunctions.WriteInfoLine("Checking files and directories... ", false);
 			CheckDirectoriesAndFiles();
-
+			ConsoleFunctions.WriteLine("Files are good :)", ConsoleColor.Green);
 			_initiated = true;
 		}
 
+		
 		public void StartServer()
 		{
-			if (!_initiated) throw new Exception("Server not initated!");
-
+			if (!_initiated) throw new Exception("Server not initiated!");
 			Console.CancelKeyPress += ConsoleOnCancelKeyPress;
-
+		
 			try
 			{
 				new Thread(() => Globals.ServerListener.StartListening()).Start();
@@ -55,14 +58,11 @@ namespace SharperMC.Core
 				UnhandledException(this, new UnhandledExceptionEventArgs(ex, false));
 			}
 		}
-
-		/*
-		 * TODO: Change entirely
-		 */
-		private void LoadSettings()
+		
+		private bool LoadSettings()
 		{
-			Config.ConfigFile = "server.properties";
-			Config.InitialValue = new[]
+			ConfigManager.ConfigFile = "server.properties";
+			ConfigManager.InitialValue = new[]
 			{
 				"#DO NOT REMOVE THIS LINE - SharpMC Config",
 				"Port=25515",
@@ -73,68 +73,67 @@ namespace SharperMC.Core
 				"Seed=SharpMC",
 				"Motd=A SharpMC Powered Server"
 			};
-			Config.Check();
+			if (ConfigManager.Check())
+				return true;
+			return false;
 		}
-
+		
+		
 		private void InitiateVariables()
 		{
 			Globals.Rand = new Random();
 			Console.Title = Globals.ProtocolName;
-			ServerSettings.Debug = Config.GetProperty("debug", false);
-			ServerSettings.DisplayPacketErrors = Config.GetProperty("ShowNetworkErrors", false);
-			ServerSettings.MaxPlayers = Config.GetProperty("MaxPlayers", 10);
-			ServerSettings.Seed = Config.GetProperty("Seed", "SharpMC");
-			ServerSettings.Motd = Config.GetProperty("motd", "A SharpMC Powered Server");
-
+			ServerSettings.Debug = ConfigManager.GetProperty("debug", false);
+			ServerSettings.DisplayPacketErrors = ConfigManager.GetProperty("ShowNetworkErrors", false);
+			ServerSettings.MaxPlayers = ConfigManager.GetProperty("MaxPlayers", 10);
+			ServerSettings.Seed = ConfigManager.GetProperty("Seed", "SharpMC");
+			ServerSettings.Motd = ConfigManager.GetProperty("motd", "A SharpMC Powered Server");
+		
 			Globals.LevelManager = new LevelManager(LoadLevel());
 			Globals.LevelManager.AddLevel("nether", new NetherLevel("nether"));
-			ServerSettings.OnlineMode = Config.GetProperty("Online-mode", false);
-
+			ServerSettings.OnlineMode = ConfigManager.GetProperty("Online-mode", false);
+		
 			Globals.ChatManager = new ChatManager();
-			
 			Globals.ServerKey = PacketCryptography.GenerateKeyPair();
-
 			Globals.ClientManager = new ClientManager();
-
 			Globals.MessageFactory = new MessageFactory();
-
 			Globals.ServerListener = new BasicListener();
 		}
-
+		
 		private Level LoadLevel()
 		{
-			var lvltype = Config.GetProperty("LevelType", "standard");
+			var lvltype = ConfigManager.GetProperty("LevelType", "standard");
 			Level lvl;
 			switch (lvltype.ToLower())
 			{
 				case "flatland":
-					lvl = new FlatLandLevel(Config.GetProperty("WorldName", "world"));
+					lvl = new FlatLandLevel(ConfigManager.GetProperty("WorldName", "world"));
 					break;
 				case "anvil":
-					lvl = new AnvilLevel(Config.GetProperty("WorldName", "world"));
+					lvl = new AnvilLevel(ConfigManager.GetProperty("WorldName", "world"));
 					break;
 				default:
-					lvl = new StandardLevel(Config.GetProperty("WorldName", "world"));
+					lvl = new StandardLevel(ConfigManager.GetProperty("WorldName", "world"));
 					break;
 			}
 			return lvl;
 		}
-
+		
 		private void CheckDirectoriesAndFiles()
 		{
+			if (!Directory.Exists("Logs"))
+				Directory.CreateDirectory("Logs");
 			if (!Directory.Exists(Globals.LevelManager.MainLevel.LvlName))
 				Directory.CreateDirectory(Globals.LevelManager.MainLevel.LvlName);
-			
 			if (!Directory.Exists("Players"))
 				Directory.CreateDirectory("Players");
 		}
-
+		
 		private static void UnhandledException(object sender, UnhandledExceptionEventArgs args)
 		{
 			var e = (Exception)args.ExceptionObject;
 			ConsoleFunctions.WriteErrorLine("An unhandled exception occured! Error message: " + e.Message);
 		}
-
 		private void ConsoleOnCancelKeyPress(object sender, ConsoleCancelEventArgs consoleCancelEventArgs)
 		{
 			Globals.StopServer();

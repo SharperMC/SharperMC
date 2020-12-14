@@ -30,6 +30,7 @@ using System.IO;
 using System.Linq;
 using fNbt;
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Config;
 using SharperMC.Core.TileEntities;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Worlds.Standard;
@@ -65,7 +66,7 @@ namespace SharperMC.Core.Worlds.Anvil
 
 		public void Init()
 		{
-			_basePath = _basePath ?? Config.GetProperty("PCWorldFolder", "World").Trim();
+			_basePath = _basePath ?? ConfigManager.GetProperty("PCWorldFolder", "World").Trim();
 
 			var file = new NbtFile();
 			if (File.Exists(Path.Combine(_basePath, "level.dat")))
@@ -79,7 +80,7 @@ namespace SharperMC.Core.Worlds.Anvil
 				throw new Exception(@"Could not load Anvil world!");
 			}
 
-			_waterOffsetY = (byte)Config.GetProperty("PCWaterOffset", 0);
+			_waterOffsetY = (byte)ConfigManager.GetProperty("PCWaterOffset", 0);
 		}
 
 		private byte Nibble4(byte[] arr, int index)

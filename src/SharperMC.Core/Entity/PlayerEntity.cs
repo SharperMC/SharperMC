@@ -107,7 +107,7 @@ namespace SharperMC.Core.Entity
 				}
 				catch (Exception e)
 				{
-					ConsoleFunctions.WriteWarningLine("Caught Exception in PlayerEntity.cs IsAuth function... {0}, {1}", e.StackTrace, e.Message);
+					ConsoleFunctions.WriteWarningLine("Caught Exception in PlayerEntity.cs IsAuth function... {0}, {1}", true, e.StackTrace, e.Message);
 					return false;
 				}
 			}

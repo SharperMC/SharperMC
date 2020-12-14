@@ -51,7 +51,7 @@ namespace SharperMC.Core.Items
 				}
 				bss.Metadata = ConvertToByte(rawbytes);
 				world.SetBlock(bss);
-				new SignEditorOpen(player.Wrapper)
+				new OpenSignEditor(player.Wrapper)
 				{
 					Coordinates = blockCoordinates
 				}.Write();

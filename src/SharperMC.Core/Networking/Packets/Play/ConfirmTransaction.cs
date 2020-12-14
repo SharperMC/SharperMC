@@ -22,20 +22,25 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 
-namespace SharperMC.Core.Worlds.Anvil
+namespace SharperMC.Core.Networking.Packets.Play
 {
-	internal class AnvilLevel : Level
-	{
-		public AnvilLevel(string worldname)
-		{
-			Difficulty = 0;
-			LvlName = worldname;
-			LevelType = LvlType.Default;
-			Generator = new AnvilWorldProvider(worldname);
-			ConsoleFunctions.WriteInfoLine("Level Type: Anvil");
-		}
-	}
+    public class ConfirmTransaction : Package<ConfirmTransaction>
+    {
+        public ConfirmTransaction(ClientWrapper client) : base(client)
+        {
+            ReadId = 0x0F;
+            SendId = 0x32;
+        }
+
+        public ConfirmTransaction(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
+        {
+            ReadId = 0x0F;
+            SendId = 0x32;
+        }
+        /*
+         * TODO: Add internals https://wiki.vg/index.php?title=Protocol&oldid=7368#Confirm_Transaction & https://wiki.vg/index.php?title=Protocol&oldid=7368#Confirm_Transaction_2
+         */
+    }
 }

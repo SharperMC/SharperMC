@@ -30,6 +30,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Config;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking;
@@ -47,7 +48,7 @@ namespace SharperMC.Core.Worlds
 			CurrentWorldTime = 1200;
 			Day = 1;
 			OnlinePlayers = new Dictionary<int, Player>();
-			DefaultGamemode = Config.GetProperty("Gamemode", Gamemode.Survival);
+			DefaultGamemode = ConfigManager.GetProperty("Gamemode", Gamemode.Survival);
 			BlockWithTicks = new Dictionary<Vector3, int>();
 			StartTimeOfDayTimer();
 			Entities = new List<Entity.Entity>();

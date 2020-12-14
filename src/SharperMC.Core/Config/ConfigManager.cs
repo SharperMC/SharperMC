@@ -23,12 +23,16 @@
 // ©Copyright SharperMC - 2020
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 using SharperMC.Core.Enums;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Config
 {
-	public class Config
+	public class ConfigManager
 	{
 		public static string ConfigFile = string.Empty;
 		private static string _fileContents = string.Empty;

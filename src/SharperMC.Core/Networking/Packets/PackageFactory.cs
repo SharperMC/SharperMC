@@ -24,8 +24,10 @@
 
 using System.Collections.Generic;
 using SharperMC.Core.Networking.Packets.Handshaking.Server;
+using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Networking.Packets.Login.Server;
 using SharperMC.Core.Networking.Packets.Play;
+using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Networking.Packets.Play.Server;
 using SharperMC.Core.Networking.Packets.Status;
 using SharperMC.Core.Utils;
@@ -43,49 +45,83 @@ namespace SharperMC.Core.Networking.Packets
  
 		public PackageFactory(ClientWrapper client, DataBuffer buffer)
 		{
-			#region Ping
+			#region Handshaking
 
 			PingPackages.Add(new Handshake(client, buffer));
 
 			#endregion
-
+			
 			#region Login
-
+			
 			LoginPackages.Add(new LoginStart(client, buffer));
-			LoginPackages.Add(new EncryptionResponse(client, buffer)); // TODO: Shouldn't this be Encryption Request not Response?
-
+			LoginPackages.Add(new EncryptionRequest(client, buffer));
+			LoginPackages.Add(new EncryptionResponse(client, buffer));
+			LoginPackages.Add(new LoginSucces(client, buffer));
+			
+			LoginPackages.Add(new Disconnect(client, buffer));
+			LoginPackages.Add(new SetCompression(client, buffer));
+			
 			#endregion
 			
-			/*
-			 * TODO: Set Compression packet should be sent here ? As the login Process follows...
-			 */
 			#region Status
 
-			StatusPackages.Add(new Request(client, buffer));
-			StatusPackages.Add(new Ping(client, buffer));
+			StatusPackages.Add(new Request(client, buffer)); // Accounts for client Response packet
+			StatusPackages.Add(new Ping(client, buffer)); // Accounts for client Pong packet
 
 			#endregion
 			
 			#region Play
-
-			PlayPackages.Add(new ChatMessage(client, buffer));
-			PlayPackages.Add(new Animation(client, buffer));
-			PlayPackages.Add(new PlayerBlockPlacement(client, buffer));
-			PlayPackages.Add(new HeldItemChange(client, buffer));
-			PlayPackages.Add(new EntityAction(client, buffer));
-			PlayPackages.Add(new PlayerAbilities(client, buffer));
-			PlayPackages.Add(new PluginMessage(client, buffer));
-			PlayPackages.Add(new KeepAlive(client, buffer));
-			PlayPackages.Add(new PlayerPositionAndLook(client, buffer));
-			PlayPackages.Add(new PlayerPosition(client, buffer));
-			PlayPackages.Add(new PlayerLook(client, buffer));
-			PlayPackages.Add(new ClientSettings(client, buffer));
-			PlayPackages.Add(new PlayerDigging(client, buffer));
-			PlayPackages.Add(new ClientStatus(client, buffer));
+			
+			PlayPackages.Add(new BlockChange(client, buffer));
+			PlayPackages.Add(new ChangeGameState(client, buffer));
+			PlayPackages.Add(new ChunkData(client, buffer));
+			PlayPackages.Add(new CollectItem(client, buffer));
+			PlayPackages.Add(new DestroyEntities(client, buffer));
+			PlayPackages.Add(new EntityEquipment(client, buffer));
+			PlayPackages.Add(new EntityHeadLook(client, buffer));
+			PlayPackages.Add(new EntityLook(client, buffer));
+			PlayPackages.Add(new EntityMetadata(client, buffer));
+			PlayPackages.Add(new EntityRelativeMove(client, buffer));
+			PlayPackages.Add(new EntityTeleport(client, buffer));
+			PlayPackages.Add(new EntityVelocity(client, buffer));
+			PlayPackages.Add(new JoinGame(client, buffer));
+			PlayPackages.Add(new MapChunkBulk(client, buffer));
+			PlayPackages.Add(new OpenSignEditor(client, buffer));
+			PlayPackages.Add(new OpenWindow(client, buffer));
+			PlayPackages.Add(new Particle(client, buffer));
+			PlayPackages.Add(new PlayerListHeaderFooter(client, buffer));
+			PlayPackages.Add(new PlayerListItem(client, buffer));
+			PlayPackages.Add(new Respawn(client, buffer));
+			PlayPackages.Add(new SetSlot(client, buffer));
+			PlayPackages.Add(new SoundEffect(client, buffer));
+			PlayPackages.Add(new SpawnObject(client, buffer));
+			PlayPackages.Add(new SpawnPlayer(client, buffer));
+			PlayPackages.Add(new SpawnPosition(client, buffer));
+			PlayPackages.Add(new TimeUpdate(client, buffer));
+			PlayPackages.Add(new UpdateHealth(client, buffer));
+			
 			PlayPackages.Add(new ClickWindow(client, buffer));
-			PlayPackages.Add(new UseEntity(client, buffer));
-			PlayPackages.Add(new CloseWindow(client, buffer));
+			PlayPackages.Add(new ClientSettings(client, buffer));
+			PlayPackages.Add(new ClientStatus(client, buffer));
 			PlayPackages.Add(new CreativeInventoryAction(client, buffer));
+			PlayPackages.Add(new EntityAction(client, buffer));
+			PlayPackages.Add(new PlayerBlockPlacement(client, buffer));
+			PlayPackages.Add(new PlayerDigging(client, buffer));
+			PlayPackages.Add(new PlayerLook(client, buffer));
+			PlayPackages.Add(new PlayerPacket(client, buffer));
+			PlayPackages.Add(new PlayerPosition(client, buffer));
+			PlayPackages.Add(new UseEntity(client, buffer));
+			PlayPackages.Add(new WindowItems(client, buffer));
+			
+			PlayPackages.Add(new Animation(client, buffer));
+			PlayPackages.Add(new ChatMessage(client, buffer));
+			PlayPackages.Add(new CloseWindow(client, buffer));
+			PlayPackages.Add(new ConfirmTransaction(client, buffer));
+			PlayPackages.Add(new HeldItemChange(client, buffer));
+			PlayPackages.Add(new KeepAlive(client, buffer));
+			PlayPackages.Add(new PlayerAbilities(client, buffer));
+			PlayPackages.Add(new PlayerPositionAndLook(client, buffer));
+			PlayPackages.Add(new PluginMessage(client, buffer));
 			PlayPackages.Add(new UpdateSign(client, buffer));
 
 			#endregion

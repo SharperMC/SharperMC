@@ -41,16 +41,16 @@ namespace SharperMC.Core.Networking
 
 		public void StartListening()
 		{
-			var port = Config.GetProperty("port", 25565);
+			var port = 25515;//Config.GetProperty("port", 25565);
 			if (port != 25565)
 			{
 				if (!NetUtils.PortAvailability(port))
 				{
-					ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", port);
+					ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", true, port);
 					Globals.StopServer();
 					return;
 				}
-				ConsoleFunctions.WriteServerLine("Starting server on port... {0}", port);
+				ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", true, port);
 				_serverListener = new TcpListener(IPAddress.Any, port);
 			}
 			if (_serverListener == null)
@@ -59,7 +59,7 @@ namespace SharperMC.Core.Networking
 				return;
 			}
 			_serverListener.Start();
-			ConsoleFunctions.WriteServerLine("Ready & looking for client connections... ");
+			ConsoleFunctions.WriteInfoLine("Ready & looking for client connections... ");
 			ConsoleFunctions.WriteInfoLine("To shutdown the server safely press CTRL+C or use stop/shutdown!");
 			while (_serverListener.Server.IsBound)
 			{
@@ -178,7 +178,7 @@ namespace SharperMC.Core.Networking
 						int packetLength = NetUtils.ReadVarInt(clientStream);
 						int dataLength = NetUtils.ReadVarInt(clientStream);
 						int actualDataLength = packetLength - NetUtils.GetVarIntBytes(dataLength).Length;
-						ConsoleFunctions.WriteInfoLine("PacketLength: {0} \n DataLength: {1} \n ActualDataLength: {2}", packetLength, dataLength, actualDataLength);
+						ConsoleFunctions.WriteInfoLine("PacketLength: {0} \n DataLength: {1} \n ActualDataLength: {2}", true, packetLength, dataLength, actualDataLength);
 						if (dataLength == 0)
 						{
 							if (!ReadCompressed(WrappedClient, clientStream, actualDataLength))

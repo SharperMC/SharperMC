@@ -50,7 +50,7 @@ namespace SharperMC.Core.Utils.Networking
                 value |= (b & 0x7F) << (size++ * 7);
                 if (size > 5)
                 {
-                    ConsoleFunctions.WriteDebugLine("VarInt size is longer than expected. (Size: {0})", size);
+                    ConsoleFunctions.WriteDebugLine("VarInt size is longer than expected. (Size: {0})", true, size);
                     //throw new IOException("VarInt size is longer than expected. (Size: {0})", size);
                 }
             }
