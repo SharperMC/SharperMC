@@ -31,7 +31,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class TPCommand : Command
     {
-        public TPCommand() : base("tp", new[] {"teleport"}, "/tp <x> <y> <z>", "Teleports you.")
+        public TPCommand() : base("tp", new[] {"teleport"}, "/tp <x> <y> <z> [yaw] [pitch]", "Teleports you.")
         {
         }
 
@@ -40,7 +40,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             if (sender.IsPlayer())
             {
                 var player = (Player) sender;
-                if (args.Length < 3 || args.Length == 4)
+                if (args.Length < 3 || args.Length == 4 || args.Length > 5)
                 {
                     SendUsage(sender, label);
                     return;
@@ -48,12 +48,15 @@ namespace SharperMC.Core.Commands.DefaultCommands
 
                 //player.Teleport(new PlayerLocation(player.KnownPosition.X, 80, player.KnownPosition.Z));
                 //todo: ~ is relative  then get int from arg and tell player if it's not a number
+                var rotation = args.Length == 5;
                 var relX = args[0].StartsWith("~");
                 var relY = args[1].StartsWith("~");
                 var relZ = args[2].StartsWith("~");
                 double posX;
                 double posY;
                 double posZ;
+                var yaw = player.KnownPosition.Yaw;
+                var pitch = player.KnownPosition.Pitch;
                 var msg = "x";
                 try
                 {
@@ -62,6 +65,13 @@ namespace SharperMC.Core.Commands.DefaultCommands
                     posY = Convert.ToDouble(relY ? args[1].Substring(1) : args[1]);
                     msg = "z";
                     posZ = Convert.ToDouble(relZ ? args[2].Substring(1) : args[2]);
+                    if (rotation)
+                    {
+                        msg = "yaw";
+                        yaw = (float) Convert.ToDouble(args[3]);
+                        msg = "pitch";
+                        pitch = (float) Convert.ToDouble(args[4]);
+                    }
                 }
                 catch (FormatException e)
                 {
@@ -71,8 +81,8 @@ namespace SharperMC.Core.Commands.DefaultCommands
 
                 player.Teleport(new PlayerLocation(posX += (relX ? player.KnownPosition.X : 0),
                     posY += (relY ? player.KnownPosition.Y : 0),
-                    posZ += (relZ ? player.KnownPosition.Z : 0)));
-                sender.SendChat($"Teleported to: {posX}, {posY}, {posZ}");
+                    posZ += (relZ ? player.KnownPosition.Z : 0), yaw, pitch));
+                sender.SendChat($"Teleported to: {posX}, {posY}, {posZ}" + (rotation ? "" : $", {yaw}, {pitch}"));
             }
             else
             {
