@@ -96,7 +96,34 @@ namespace SharperMC.Core.Commands
             catch (Exception ex)
             {
                 ConsoleFunctions.WriteWarningLine(ex.ToString());
-                sender.SendChat("An error occured when executing command.", ChatColor.Red);
+                sender.SendChat("An error occured when executing this command.", ChatColor.Red);
+            }
+        }
+
+        public static void ParseTab(ICommandSender sender, string message)
+        {
+            try
+            {
+                message = message.Trim();
+                while (message.Contains("  ")) message = message.Replace("  ", " ");
+                var split = message.Split(' ');
+                var command = GetCommand(split[0]);
+                if (command == default(Command)) return;
+
+                string[] args;
+                if (split.Length > 1)
+                {
+                    args = new string[split.Length - 1];
+                    Array.Copy(split, 1, args, 0, split.Length - 1);
+                }
+                else args = new string[0];
+
+                command.TabComplete(sender, split[0], args);
+            }
+            catch (Exception ex)
+            {
+                ConsoleFunctions.WriteWarningLine(ex.ToString());
+                sender.SendChat("An error occured when tab-completing the command.", ChatColor.Red);
             }
         }
 

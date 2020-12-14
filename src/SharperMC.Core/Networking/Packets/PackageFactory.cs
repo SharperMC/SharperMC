@@ -122,6 +122,7 @@ namespace SharperMC.Core.Networking.Packets
 			PlayPackages.Add(new PlayerAbilities(client, buffer));
 			PlayPackages.Add(new PlayerPositionAndLook(client, buffer));
 			PlayPackages.Add(new PluginMessage(client, buffer));
+			PlayPackages.Add(new TabComplete(client, buffer));
 			PlayPackages.Add(new UpdateSign(client, buffer));
 
 			#endregion

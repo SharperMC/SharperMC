@@ -22,24 +22,48 @@
 // 
 // ©Copyright SharperMC - 2020
 
-namespace SharperMC.Core.Commands.DefaultCommands
+using Newtonsoft.Json;
+using SharperMC.Core.Commands;
+using SharperMC.Core.Utils;
+
+namespace SharperMC.Core.Networking.Packets.Play
 {
-    public class TestCommand : Command
+    public class TabComplete : Package<TabComplete>
     {
-
-        public TestCommand() : base("test", new []{"tester", "testing"}, "/test", "Test command.")
+        // private string _text;
+        // private bool _hasPosition;
+        // private PlayerPosition _lookedAtBlock;
+        public TabComplete(ClientWrapper client) : base(client)
         {
-        }
-        
-        public override void Execute(ICommandSender sender, string label, string[] args)
-        {
-            var joinedArgs = string.Join(",", args);
-            sender.SendChat($"Label: {label} Args: {{{joinedArgs}}}");
+            ReadId = 0x14;
+            SendId = 0x3A;
         }
 
-        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
+        public TabComplete(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
         {
-            return args.Length > 0 ? args : new[] {"Hey", "Hello", "Howdy"};
+            ReadId = 0x14;
+            SendId = 0x3A;
+        }
+
+        public override void Read()
+        {
+            var message = Buffer.ReadString();
+			
+            if (CommandManager.IsCommand(message))
+            {
+                CommandManager.ParseTab(Client.Player, message.Substring(1));
+                return;
+            }//else { player name list thingy UwU}
+        }
+
+        public override void Write()
+        {
+            // if (Buffer == null) return;
+            // var message = JsonConvert.SerializeObject(Message);
+            // Buffer.WriteVarInt(SendId);
+            // //Buffer.WriteString("{ \"text\": \"" + Message + "\" }");
+            // Buffer.WriteString(message);
+            // Buffer.FlushData();
         }
     }
 }

@@ -217,6 +217,7 @@
     <Compile Include="Networking\Packets\Play\Server\PlayerPosition.cs" />
     <Compile Include="Networking\Packets\Play\Server\UseEntity.cs" />
     <Compile Include="Networking\Packets\Play\Server\WindowItems.cs" />
+    <Compile Include="Networking\Packets\Play\TabComplete.cs" />
     <Compile Include="Networking\Packets\Play\UpdateSign.cs" />
     <Compile Include="Networking\Packets\Status\Ping.cs" />
     <Compile Include="Networking\Packets\Status\Request.cs" />
