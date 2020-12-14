@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using SharperMC.Core.Chat;
@@ -21,6 +22,7 @@ namespace SharperMC.Core
 	{
 		private bool _initiated = false;
 		public string CurrentDirectory;
+		public static DateTime StartTime;
 		
 		public SharperMCServer()
 		{
@@ -47,6 +49,7 @@ namespace SharperMC.Core
 		{
 			if (!_initiated) throw new Exception("Server not initiated!");
 			Console.CancelKeyPress += ConsoleOnCancelKeyPress;
+			StartTime = DateTime.UtcNow;
 		
 			try
 			{

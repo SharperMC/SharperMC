@@ -21,10 +21,9 @@ namespace SharperMC.Core.Networking.Packets.Status
 		{
 			if (Buffer != null)
 			{
-				var status = new StatusRequestMessage(Globals.ProtocolName, Globals.ProtocolVersion, ServerSettings.MaxPlayers, Globals.GetOnlinePlayerCount(), ServerSettings.Motd);
-				var statusstring = JsonConvert.SerializeObject(status);
+				string serializeObject = JsonConvert.SerializeObject(new StatusRequestMessage(Globals.ProtocolName, Globals.ProtocolVersion, ServerSettings.MaxPlayers, Globals.GetOnlinePlayerCount(), ServerSettings.Motd));
 				Buffer.WriteVarInt(SendId);
-				Buffer.WriteString(statusstring);
+				Buffer.WriteString(serializeObject);
 				Buffer.FlushData();
 			}
 		}

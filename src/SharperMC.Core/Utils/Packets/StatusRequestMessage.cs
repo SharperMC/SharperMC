@@ -4,37 +4,44 @@
 	{
 		public StatusRequestMessage(string version, int protocol, int maxPlayers, int onlinePlayers, string description)
 		{
-			Version = new StatusVersionClass(version, protocol);
-			Players = new StatusPlayersClass(maxPlayers, onlinePlayers);
-			Description = new McChatMessage(description);
+			this.version = new StatusVersionClass(version, protocol);
+			this.players = new StatusPlayersClass(maxPlayers, onlinePlayers);
+			this.description = new StatusDescriptionClass(description);
 		}
 
-		public StatusVersionClass Version;
-		public StatusPlayersClass Players;
-		public McChatMessage Description;
+		public StatusVersionClass version;
+		public StatusPlayersClass players;
+		public StatusDescriptionClass description;
 	}
 
 	public class StatusVersionClass
 	{
 		public StatusVersionClass(string name, int protocol)
 		{
-			Name = name;
-			Protocol = protocol;
+			this.name = name;
+			this.protocol = protocol;
 		}
-
-		public string Name;
-		public int Protocol = 0;
+		public string name;
+		public int protocol = 0;
 	}
 
 	public class StatusPlayersClass
 	{
 		public StatusPlayersClass(int max, int online)
 		{
-			Max = max;
-			Online = online;
+			this.max = max;
+			this.online = online;
 		}
-
-		public int Max;
-		public int Online;
+		public int max;
+		public int online;
+	}
+	
+	public class StatusDescriptionClass
+	{
+		public StatusDescriptionClass(string text)
+		{
+			this.text = text;
+		}
+		public string text;
 	}
 }

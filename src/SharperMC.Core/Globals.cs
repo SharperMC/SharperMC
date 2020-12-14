@@ -54,6 +54,8 @@ namespace SharperMC.Core
 		internal static string ProtocolName = "SharperMC 1.8.x";
 		internal static string OfficialProtocolName = "Minecraft 1.8.x";
 
+		public static bool Shuttingdown = false;
+
 		internal static BasicListener ServerListener;
 		internal static LevelManager LevelManager;
 		internal static ChatManager ChatManager;
@@ -125,6 +127,7 @@ namespace SharperMC.Core
 		 */
         public static void StopServer(string stopMsg = "Shutting down server...")
         {
+	        Shuttingdown = true;
             ConsoleFunctions.WriteInfoLine("Shutting down...");
 			Disconnect d = new Disconnect(null);
 			d.Reason = new McChatMessage("§f" + stopMsg);
