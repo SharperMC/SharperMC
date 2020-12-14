@@ -7,14 +7,15 @@
 		 */
 		public McChatMessage(string message)
 		{
-			Text = message;
+			text = message;
 		}
 
-		public readonly string Text;
-		public bool Bold = false;
-		public bool Italic = false;
-		public bool Underlined = false;
-		public bool Strikethrough = false;
-		public bool Obfuscated = false;
+		// DO NOT CHANGE NAME FOR NOW!!!!
+		public readonly string text;
+		public bool bold = false;
+		public bool italic = false;
+		public bool underlined = false;
+		public bool strikethrough = false;
+		public bool obfuscated = false;
 	}
 }

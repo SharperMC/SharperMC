@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SharperMC.Core.Utils;
 
 namespace SharperMC.Core.PluginChannel
@@ -25,6 +26,7 @@ namespace SharperMC.Core.PluginChannel
 		public bool HandleMessage(ClientWrapper client, DataBuffer buffer)
 		{
 			string raw = buffer.ReadString();
+			Console.WriteLine(raw);
 			string channel = raw.Split('|')[0];
 			string command = raw.Split('|')[1];
 

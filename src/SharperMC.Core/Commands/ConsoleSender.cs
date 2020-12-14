@@ -47,7 +47,7 @@ namespace SharperMC.Core.Commands
 
         public void SendChat(McChatMessage message)
         {
-            ConsoleFunctions.WriteInfoLine(message.Text);
+            ConsoleFunctions.WriteInfoLine(message.text);
         }
 
         public void SendChat(string message, ChatColor color)
