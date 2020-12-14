@@ -34,6 +34,15 @@ namespace SharperMC.Core.Utils
 			Y = y;
 			Z = z;
 		}
+		
+		public PlayerLocation(double x, double y, double z, float yaw, float pitch)
+		{
+			X = x;
+			Y = y;
+			Z = z;
+			Yaw = yaw;
+			Pitch = pitch;
+		}
 
 		public byte HeadYaw { get; set; }
 		public float Yaw { get; set; }

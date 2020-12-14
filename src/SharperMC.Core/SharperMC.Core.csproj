@@ -124,6 +124,7 @@
     <Compile Include="Commands\DefaultCommands\StopCommand.cs" />
     <Compile Include="Commands\DefaultCommands\TestCommand.cs" />
     <Compile Include="Commands\DefaultCommands\TPCommand.cs" />
+    <Compile Include="Commands\DefaultCommands\WorldCommand.cs" />
     <Compile Include="Commands\ICommandSender.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Config\ServerSettings.cs" />
