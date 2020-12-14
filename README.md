@@ -45,9 +45,10 @@ SharperMC is a C# 1.8.x Minecraft server running on the .NET Framework.
 - [x] Protocol 47 (1.8 - 1.8.9).
 - [x] Multiple client connections at a single time.
 - [x] Persistent Player/PlayerInventory/Chunk data.
+- [x] Chat commands (not every command in vanilla yet).
+- [ ] Tab support.
 - [ ] Full packet support.
 - [ ] Plugin support.
-- [ ] Chat commands (Only a few dev commands/testing commands supported).
 
 ## Useful resources
 - [Wiki.VG](https://wiki.vg) Helpful in understanding how Minecraft works.
