@@ -30,6 +30,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using SharperMC.Core.Chat;
+using SharperMC.Core.Commands;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking;
@@ -49,8 +50,8 @@ namespace SharperMC.Core
 		 * TODO: Update to 1.8.9 Protocol 47...
 		 */
 		internal static int ProtocolVersion = 47; //56 
-		internal static string ProtocolName = "SharpMC 15w33b";
-		internal static string OfficialProtocolName = "Minecraft 15w33b";
+		internal static string ProtocolName = "SharperMC 1.8.x";
+		internal static string OfficialProtocolName = "Minecraft 1.8.x";
 
 		internal static BasicListener ServerListener;
 		internal static LevelManager LevelManager;
@@ -62,6 +63,7 @@ namespace SharperMC.Core
 		internal static MessageFactory MessageFactory;
 		
 		internal static Random Rand;
+		public static ConsoleSender ConsoleSender = new ConsoleSender();
 
 		public static void BroadcastChat(string message, Player sender = null)
 		{

@@ -29,6 +29,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using fNbt;
+using SharperMC.Core.Commands;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Networking.Packets.Play;
@@ -41,7 +42,7 @@ using EntityAction = SharperMC.Core.Enums.EntityAction;
 
 namespace SharperMC.Core.Entity
 {
-	public class Player : Entity
+	public class Player : Entity, ICommandSender
 	{
 		private readonly List<Tuple<int, int>> _chunksUsed;
 		private readonly Vector2 _currentChunkPosition = new Vector2(0, 0);
@@ -473,9 +474,9 @@ namespace SharperMC.Core.Entity
 
 		public void SavePlayer()
 		{
-			byte[] health = HealthManager.Export();
-			byte[] inv = Inventory.GetBytes();
-			DataBuffer buffer = new DataBuffer(new byte[0]);
+			var health = HealthManager.Export();
+			var inv = Inventory.GetBytes();
+			var buffer = new DataBuffer(new byte[0]);
 			ConsoleFunctions.WriteInfoLine("Position Saving... (X: " + KnownPosition.X + " Y: " + KnownPosition.Y + " Z: " + KnownPosition.Z + " Yaw: " + KnownPosition.Yaw + " Pitch: " + KnownPosition.Pitch + " OnGround: " + KnownPosition.OnGround + ")");
 			buffer.WriteDouble(KnownPosition.X);
 			buffer.WriteDouble(KnownPosition.Y);
@@ -485,20 +486,20 @@ namespace SharperMC.Core.Entity
 			buffer.WriteBool(KnownPosition.OnGround);
 			buffer.WriteVarInt((int)Gamemode);
 			buffer.WriteVarInt(health.Length);
-			foreach (byte b in health)
+			foreach (var b in health)
 			{
 				buffer.WriteByte(b);
 			}
 			buffer.WriteVarInt(inv.Length);
-			foreach (byte b in inv)
+			foreach (var b in inv)
 			{
 				buffer.WriteByte(b);
 			}
 			buffer.WriteBool(IsOperator);
 			
-			byte[] data = buffer.ExportWriter;
+			var data = buffer.ExportWriter;
 			data = Globals.Compress(data);
-			string savename = ServerSettings.OnlineMode ? Uuid : Username;
+			var savename = ServerSettings.OnlineMode ? Uuid : Username;
 			File.WriteAllBytes("Players/" + savename + ".pdata", data);
 		}
 
@@ -532,6 +533,16 @@ namespace SharperMC.Core.Entity
 				KnownPosition = Level.GetSpawnPoint();
 			}
 			Loaded = true;
+		}
+
+		public string GetName()
+		{
+			return Username;
+		}
+
+		public bool IsPlayer()
+		{
+			return true;
 		}
 	}
 }

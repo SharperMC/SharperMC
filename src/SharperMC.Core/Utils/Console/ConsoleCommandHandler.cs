@@ -1,4 +1,5 @@
 ﻿using System;
+using SharperMC.Core.Commands;
 
 namespace SharperMC.Core
 {
@@ -9,9 +10,9 @@ namespace SharperMC.Core
 			while (true)
 			{
 				var input = Console.ReadLine();
-				if (!String.IsNullOrEmpty(input))
+				if (!string.IsNullOrEmpty(input))
 				{
-					Globals.ChatManager.HandleCommand(input, null);
+					CommandManager.ParseCommand(Globals.ConsoleSender, input);
 				}
 			}
 		}

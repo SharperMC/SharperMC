@@ -1,4 +1,4 @@
-﻿// Distrubuted under the MIT license
+// Distrubuted under the MIT license
 // ===================================================
 // SharperMC uses the permissive MIT license.
 // 
@@ -22,55 +22,37 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using Newtonsoft.Json;
-using SharperMC.Core.Commands;
+using System;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 
-namespace SharperMC.Core.Networking.Packets.Play
+namespace SharperMC.Core.Commands
 {
-	public class ChatMessage : Package<ChatMessage>
-	{
-		public McChatMessage Message;
-		public ChatMessageType MessageType = ChatMessageType.ChatBox;
+    public class ConsoleSender : ICommandSender
+    { //todo: Move this in a better location & add color support
+        public string GetName()
+        {
+            return "CONSOLE";
+        }
 
-		public ChatMessage(ClientWrapper client) : base(client)
-		{
-			ReadId = 0x01;
-			SendId = 0x02;
-		}
+        public bool IsPlayer()
+        {
+            return false;
+        }
 
-		public ChatMessage(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
-		{
-			ReadId = 0x01;
-			SendId = 0x02;
-		}
+        public void SendChat(string message)
+        {
+            Console.WriteLine(message);
+        }
 
-		public override void Read()
-		{
-			var message = Buffer.ReadString();
-			
-			if (CommandManager.IsCommand(message))
-			{
-				CommandManager.ParseCommand(Client.Player, message.Substring(1));
-				return;
-			}
-			var msg = Globals.ChatManager.FormatMessage(Client.Player, message);
+        public void SendChat(McChatMessage message)
+        {
+            Console.WriteLine(message.Text);
+        }
 
-			Globals.BroadcastChat(msg);
-			ConsoleFunctions.WriteInfoLine(msg);
-		}
-
-		public override void Write()
-		{
-			if (Buffer == null) return;
-			var message = JsonConvert.SerializeObject(Message);
-				
-			Buffer.WriteVarInt(SendId);
-			//Buffer.WriteString("{ \"text\": \"" + Message + "\" }");
-			Buffer.WriteString(message);
-			Buffer.WriteByte((byte)MessageType);
-			Buffer.FlushData();
-		}
-	}
+        public void SendChat(string message, ChatColor color)
+        {
+            Console.WriteLine(message);
+        }
+    }
 }

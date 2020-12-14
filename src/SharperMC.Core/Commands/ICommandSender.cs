@@ -1,4 +1,4 @@
-﻿// Distrubuted under the MIT license
+// Distrubuted under the MIT license
 // ===================================================
 // SharperMC uses the permissive MIT license.
 // 
@@ -22,55 +22,18 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using Newtonsoft.Json;
-using SharperMC.Core.Commands;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 
-namespace SharperMC.Core.Networking.Packets.Play
+namespace SharperMC.Core.Commands
 {
-	public class ChatMessage : Package<ChatMessage>
-	{
-		public McChatMessage Message;
-		public ChatMessageType MessageType = ChatMessageType.ChatBox;
-
-		public ChatMessage(ClientWrapper client) : base(client)
-		{
-			ReadId = 0x01;
-			SendId = 0x02;
-		}
-
-		public ChatMessage(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
-		{
-			ReadId = 0x01;
-			SendId = 0x02;
-		}
-
-		public override void Read()
-		{
-			var message = Buffer.ReadString();
-			
-			if (CommandManager.IsCommand(message))
-			{
-				CommandManager.ParseCommand(Client.Player, message.Substring(1));
-				return;
-			}
-			var msg = Globals.ChatManager.FormatMessage(Client.Player, message);
-
-			Globals.BroadcastChat(msg);
-			ConsoleFunctions.WriteInfoLine(msg);
-		}
-
-		public override void Write()
-		{
-			if (Buffer == null) return;
-			var message = JsonConvert.SerializeObject(Message);
-				
-			Buffer.WriteVarInt(SendId);
-			//Buffer.WriteString("{ \"text\": \"" + Message + "\" }");
-			Buffer.WriteString(message);
-			Buffer.WriteByte((byte)MessageType);
-			Buffer.FlushData();
-		}
-	}
+    public interface ICommandSender
+    {
+        string GetName();
+        bool IsPlayer();
+        void SendChat(string message);
+        void SendChat(McChatMessage message);
+        void SendChat(string message, ChatColor color);
+        // todo: permissions
+    }
 }

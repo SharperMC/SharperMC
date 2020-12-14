@@ -44,13 +44,13 @@ namespace SharperMC.Core.Chat
         /// <returns>Formated chat message</returns>
         public virtual string FormatMessage(Player source, string message)
         {
-            return String.Format("<{0}> {1}", source.Username, message);
+            return $"<{source.Username}> {message}";
         }
         
         /*
          * TODO: Implement permission manager
          */
-        public void HandleCommand(string message, Player player)
+        public void HandleMessage(string message, Player player)
         {
             try
             {

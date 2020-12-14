@@ -115,6 +115,12 @@
     <Compile Include="Blocks\Stairs\StairsBlock.cs" />
     <Compile Include="Blocks\Stationairy.cs" />
     <Compile Include="Chat\ChatManager.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandManager.cs" />
+    <Compile Include="Commands\ConsoleSender.cs" />
+    <Compile Include="Commands\DefaultCommands\StopCommand.cs" />
+    <Compile Include="Commands\DefaultCommands\TestCommand.cs" />
+    <Compile Include="Commands\ICommandSender.cs" />
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ServerSettings.cs" />
     <Compile Include="Entity\PrimedTNTEntity.cs" />
