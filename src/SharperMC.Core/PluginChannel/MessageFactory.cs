@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Misc;
 
 namespace SharperMC.Core.PluginChannel
 {

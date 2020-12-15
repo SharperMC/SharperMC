@@ -1,7 +1,6 @@
-﻿using System;
-using SharperMC.Core.Commands;
+﻿using SharperMC.Core.Commands;
 
-namespace SharperMC.Core
+namespace SharperMC.Core.Utils.Console
 {
 	internal static class ConsoleCommandHandler
 	{
@@ -9,7 +8,7 @@ namespace SharperMC.Core
 		{
 			while (true)
 			{
-				var input = Console.ReadLine();
+				var input = System.Console.ReadLine();
 				if (!string.IsNullOrEmpty(input))
 				{
 					CommandManager.ParseCommand(Globals.ConsoleSender, input);

@@ -23,6 +23,7 @@
 // ©Copyright SharperMC - 2020
 
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.SolidBlocks;
 using SharperMC.Core.Worlds.Standard.Structures;
 
 namespace SharperMC.Core.Worlds.Standard.BiomeSystem

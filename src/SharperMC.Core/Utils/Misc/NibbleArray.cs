@@ -25,7 +25,7 @@
 using fNbt;
 using fNbt.Serialization;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Misc
 {
 	/// <summary>
 	///     Represents an array of 4-bit values.

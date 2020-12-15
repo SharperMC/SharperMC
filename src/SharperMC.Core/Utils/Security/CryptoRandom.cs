@@ -25,7 +25,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Security
 {
 	public class CryptoRandom : RandomNumberGenerator
 	{

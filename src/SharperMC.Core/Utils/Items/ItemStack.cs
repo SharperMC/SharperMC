@@ -24,7 +24,7 @@
 
 using SharperMC.Core.Items;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Items
 {
 	public class ItemStack
 	{

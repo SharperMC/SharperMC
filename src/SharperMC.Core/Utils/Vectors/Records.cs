@@ -24,7 +24,7 @@
 
 using System.Collections.Generic;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Vectors
 {
 	public class Records : List<Vector3>
 	{

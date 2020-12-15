@@ -22,10 +22,10 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using SharperMC.Core.Items;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Items.Farming;
+using SharperMC.Core.Utils.Items;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Plants
 {
 	public class BlockTallGrass : Block
 	{

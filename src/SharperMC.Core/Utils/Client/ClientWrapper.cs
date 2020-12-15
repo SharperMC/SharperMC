@@ -30,8 +30,9 @@ using System.Text;
 using System.Threading;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Networking.Packets.Play.Client;
+using SharperMC.Core.Utils.Misc;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Client
 {
     public enum PacketMode
     {

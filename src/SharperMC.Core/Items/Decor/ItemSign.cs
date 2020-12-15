@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Decor;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking.Packets.Play.Client;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Items
+namespace SharperMC.Core.Items.Decor
 {
 	public class ItemSign : Item
 	{

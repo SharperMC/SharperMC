@@ -25,6 +25,9 @@
 using System;
 using System.Timers;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Entities;
+using SharperMC.Core.Utils.Entities.Player;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.Entity

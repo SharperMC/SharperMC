@@ -27,7 +27,7 @@ using System.IO;
 using System.Text;
 using fNbt;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.NBT
 {
 	/// <summary>
 	///     BinaryReader wrapper that takes care of reading primitives from an NBT stream,

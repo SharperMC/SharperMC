@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 // 
 // ©Copyright SharperMC - 2020
-namespace SharperMC.Core.Items
+namespace SharperMC.Core.Items.Materials
 {
 	public class ItemDiamond : Item
 	{

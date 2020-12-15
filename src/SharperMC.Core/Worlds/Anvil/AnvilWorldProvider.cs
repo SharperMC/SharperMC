@@ -35,6 +35,8 @@ using SharperMC.Core.TileEntities;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Worlds.Standard;
 using SharperMC.Core.Entity;
+using SharperMC.Core.Utils.Vectors;
+using SharperMC.Core.Utils.World;
 
 namespace SharperMC.Core.Worlds.Anvil
 {

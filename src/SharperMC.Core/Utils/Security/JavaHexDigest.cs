@@ -25,7 +25,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Security
 {
 	public class JavaHex
 	{

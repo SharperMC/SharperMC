@@ -1,6 +1,6 @@
-﻿using SharperMC.Core.Utils;
+﻿using SharperMC.Core.Utils.Items;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Slabs
 {
 	public class DoubleSlab : Block
 	{

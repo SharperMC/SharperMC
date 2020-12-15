@@ -22,7 +22,10 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using SharperMC.Core.Blocks.Liquids;
+using SharperMC.Core.Blocks.SolidBlocks;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.Blocks

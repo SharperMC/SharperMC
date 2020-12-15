@@ -21,6 +21,19 @@
 // THE SOFTWARE.
 // 
 // ©Copyright SharperMC - 2020
+
+using SharperMC.Core.Items.Armor.Diamond;
+using SharperMC.Core.Items.Armor.Iron;
+using SharperMC.Core.Items.Buckets;
+using SharperMC.Core.Items.Decor;
+using SharperMC.Core.Items.Farming;
+using SharperMC.Core.Items.Materials;
+using SharperMC.Core.Items.Protjectiles;
+using SharperMC.Core.Items.Redstone;
+using SharperMC.Core.Items.Tools.Diamond;
+using SharperMC.Core.Items.Tools.Iron;
+using SharperMC.Core.Items.Tools.Misc;
+
 namespace SharperMC.Core.Items
 {
 	internal class ItemFactory

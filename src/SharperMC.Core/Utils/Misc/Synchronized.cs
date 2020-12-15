@@ -1,4 +1,4 @@
-﻿namespace SharperMC.Core.Utils
+﻿namespace SharperMC.Core.Utils.Misc
 {
 	public class Synchronized<T>
 	{

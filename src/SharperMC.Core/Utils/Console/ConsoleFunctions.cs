@@ -23,8 +23,9 @@
 // ©Copyright SharperMC - 2020
 
 using System;
+using SharperMC.Core.Config;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Console
 {
     internal static class ConsoleFunctions
     {
@@ -34,9 +35,9 @@ namespace SharperMC.Core.Utils
         public static void WriteLine(string text, bool newline = true, params object[] args)
         {
             if (args == null || args.Length == 0) 
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
+                System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         /// <summary>
@@ -45,12 +46,12 @@ namespace SharperMC.Core.Utils
         public static void WriteLine(string text, ConsoleColor foreGroundColor, bool newline = true,
             params object[] args)
         {
-            Console.ForegroundColor = foreGroundColor;
+            System.Console.ForegroundColor = foreGroundColor;
             if (args == null || args.Length == 0) 
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
-            Console.ResetColor();
+                System.Console.Write(text + (newline ? "\n" : ""), args);
+            System.Console.ResetColor();
         }
 
         /// <summary>
@@ -59,13 +60,13 @@ namespace SharperMC.Core.Utils
         public static void WriteLine(string text, ConsoleColor foreGroundColor, ConsoleColor backGroundColor,
             bool newline = true, params object[] args)
         {
-            Console.ForegroundColor = foreGroundColor;
-            Console.BackgroundColor = backGroundColor;
+            System.Console.ForegroundColor = foreGroundColor;
+            System.Console.BackgroundColor = backGroundColor;
             if (args == null || args.Length == 0) 
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
-            Console.ResetColor();
+                System.Console.Write(text + (newline ? "\n" : ""), args);
+            System.Console.ResetColor();
         }
 
         /// <summary>
@@ -73,13 +74,13 @@ namespace SharperMC.Core.Utils
         /// </summary>
         public static void WriteInfoLine(string text, bool newline = true, params object[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("[INFO] ");
-            Console.ResetColor();
+            System.Console.ForegroundColor = ConsoleColor.Green;
+            System.Console.Write("[INFO] ");
+            System.Console.ResetColor();
             if (args == null || args.Length == 0) 
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
+                System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         /// <summary>
@@ -87,13 +88,13 @@ namespace SharperMC.Core.Utils
         /// </summary>
         public static void WriteFatalErrorLine(string text, bool newline = true, params object[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("[FATAL ERROR] ");
-            Console.ResetColor();
+            System.Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.Write("[FATAL ERROR] ");
+            System.Console.ResetColor();
             if (args == null || args.Length == 0) 
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
+                System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         /// <summary>
@@ -101,13 +102,13 @@ namespace SharperMC.Core.Utils
         /// </summary>
         public static void WriteErrorLine(string text, bool newline = true, params object[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("[ERROR] ");
-            Console.ResetColor();
+            System.Console.ForegroundColor = ConsoleColor.Red;
+            System.Console.Write("[ERROR] ");
+            System.Console.ResetColor();
             if (args == null || args.Length == 0) 
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
+                System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         /// <summary>
@@ -115,13 +116,13 @@ namespace SharperMC.Core.Utils
         /// </summary>
         public static void WriteWarningLine(string text, bool newline = true, params object[] args)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("[WARNING] ");
-            Console.ResetColor();
+            System.Console.ForegroundColor = ConsoleColor.DarkRed;
+            System.Console.Write("[WARNING] ");
+            System.Console.ResetColor();
             if (args == null || args.Length == 0)
-                Console.Write(text + (newline ? "\n" : ""));
+                System.Console.Write(text + (newline ? "\n" : ""));
             else 
-                Console.Write(text + (newline ? "\n" : ""), args);
+                System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
         /// <summary>
@@ -131,13 +132,13 @@ namespace SharperMC.Core.Utils
         {
             if (ServerSettings.Debug)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write("[DEBUG] ");
-                Console.ResetColor();
+                System.Console.ForegroundColor = ConsoleColor.Yellow;
+                System.Console.Write("[DEBUG] ");
+                System.Console.ResetColor();
                 if (args == null || args.Length == 0) 
-                    Console.Write(text + (newline ? "\n" : ""));
+                    System.Console.Write(text + (newline ? "\n" : ""));
                 else 
-                    Console.Write(text + (newline ? "\n" : ""), args);
+                    System.Console.Write(text + (newline ? "\n" : ""), args);
             }
         }
     }

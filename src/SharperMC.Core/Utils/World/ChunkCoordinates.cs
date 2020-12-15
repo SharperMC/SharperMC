@@ -21,7 +21,10 @@
 // THE SOFTWARE.
 // 
 // ©Copyright SharperMC - 2020
-namespace SharperMC.Core.Utils
+
+using SharperMC.Core.Utils.Vectors;
+
+namespace SharperMC.Core.Utils.World
 {
 	public class ChunkCoordinates
 	{

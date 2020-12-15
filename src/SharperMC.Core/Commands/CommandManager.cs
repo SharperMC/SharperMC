@@ -28,6 +28,7 @@ using System.Linq;
 using SharperMC.Core.Commands.DefaultCommands;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Console;
 
 namespace SharperMC.Core.Commands
 {

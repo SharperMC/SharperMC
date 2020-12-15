@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SharperMC.Core.Entity;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Permissions
 {
 	public class PermissionManager
 	{

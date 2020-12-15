@@ -30,6 +30,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Misc;
 using SharperMC.Core.Config;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
@@ -37,6 +38,10 @@ using SharperMC.Core.Networking;
 using SharperMC.Core.Networking.Packets.Play;
 using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Entities.Player;
+using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Vectors;
 using Ent = SharperMC.Core.Entity.Entity;
 
 namespace SharperMC.Core.Worlds

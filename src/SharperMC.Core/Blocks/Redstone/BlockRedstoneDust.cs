@@ -2,7 +2,7 @@
 using System.Collections;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Redstone
 {
 	public class BlockRedstoneDust : RedstoneDevice
 	{

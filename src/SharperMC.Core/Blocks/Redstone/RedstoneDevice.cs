@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
-using SharperMC.Core.Worlds;
+﻿using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Redstone
 {
 	public class RedstoneDevice : Block
 	{

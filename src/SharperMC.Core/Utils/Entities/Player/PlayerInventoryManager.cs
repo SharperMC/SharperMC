@@ -28,15 +28,17 @@ using SharperMC.Core.Blocks;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Items;
 using SharperMC.Core.Networking.Packets.Play.Client;
+using SharperMC.Core.Utils.Items;
+using SharperMC.Core.Utils.Misc;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Entities.Player
 {
 	public class PlayerInventoryManager
 	{
-		private readonly Player _player;
+		private readonly Entity.Player _player;
 		private readonly ItemStack[] _slots = new ItemStack[46];
 
-		public PlayerInventoryManager(Player player)
+		public PlayerInventoryManager(Entity.Player player)
 		{
 			_player = player;
 			for (var i = 0; i <= 45; i++)

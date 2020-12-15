@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SharperMC.Core.Items
+﻿namespace SharperMC.Core.Items.Farming
 {
 	public class ItemWheatSeeds : Seed
 	{

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SharperMC.Core.Blocks;
+﻿using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Redstone;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Items
+namespace SharperMC.Core.Items.Redstone
 {
 	public class ItemRedstone : Item
 	{

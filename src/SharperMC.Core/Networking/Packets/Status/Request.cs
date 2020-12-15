@@ -1,5 +1,9 @@
 ﻿using Newtonsoft.Json;
+using SharperMC.Core.Config;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Misc;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Networking.Packets.Status
 {

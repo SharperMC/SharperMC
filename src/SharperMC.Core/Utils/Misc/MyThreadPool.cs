@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Misc
 {
 	public class MyThreadPool
 	{

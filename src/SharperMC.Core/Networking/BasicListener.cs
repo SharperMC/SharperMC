@@ -28,10 +28,15 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Ionic.Zlib;
+using SharperMC.Core.Config;
 using SharperMC.Core.Networking.Packets;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Networking;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Networking
 {

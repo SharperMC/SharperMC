@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 // 
 // ©Copyright SharperMC - 2020
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Decor
 {
 	public class BlockOakDoor : Door
 	{

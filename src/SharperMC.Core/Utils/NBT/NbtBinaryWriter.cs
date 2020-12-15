@@ -28,7 +28,7 @@ using System.Net;
 using System.Text;
 using fNbt;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.NBT
 {
 	/// <summary>
 	///     BinaryWriter wrapper that takes care of writing primitives to an NBT stream,

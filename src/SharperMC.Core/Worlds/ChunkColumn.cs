@@ -29,6 +29,9 @@ using System.Net;
 using fNbt;
 using SharperMC.Core.Blocks;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Misc;
+using SharperMC.Core.Utils.NBT;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds.Standard.BiomeSystem;
 
 namespace SharperMC.Core.Worlds

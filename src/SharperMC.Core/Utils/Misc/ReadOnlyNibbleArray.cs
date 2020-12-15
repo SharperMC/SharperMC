@@ -25,7 +25,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Misc
 {
 	public class ReadOnlyNibbleArray
 	{

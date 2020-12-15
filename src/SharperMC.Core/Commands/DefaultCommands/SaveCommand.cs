@@ -24,6 +24,7 @@
 
 using SharperMC.Core.Entity;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Console;
 
 namespace SharperMC.Core.Commands.DefaultCommands
 {

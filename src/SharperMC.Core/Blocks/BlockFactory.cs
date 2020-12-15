@@ -21,6 +21,17 @@
 // THE SOFTWARE.
 // 
 // ©Copyright SharperMC - 2020
+
+using SharperMC.Core.Blocks.Decor;
+using SharperMC.Core.Blocks.Liquids;
+using SharperMC.Core.Blocks.Misc;
+using SharperMC.Core.Blocks.Ore;
+using SharperMC.Core.Blocks.Plants;
+using SharperMC.Core.Blocks.Redstone;
+using SharperMC.Core.Blocks.Slabs;
+using SharperMC.Core.Blocks.SolidBlocks;
+using SharperMC.Core.Blocks.Stairs;
+
 namespace SharperMC.Core.Blocks
 {
 	internal class BlockFactory

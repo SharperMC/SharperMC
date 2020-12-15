@@ -24,7 +24,7 @@
 
 using System;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.NBT
 {
 	/// <summary>
 	///     Exception thrown when a format violation is detected while

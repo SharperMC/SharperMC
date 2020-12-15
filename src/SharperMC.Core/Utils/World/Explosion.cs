@@ -27,10 +27,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Misc;
+using SharperMC.Core.Blocks.Redstone;
 using SharperMC.Core.Entity;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.World
 {
 	public class Explosion
 	{

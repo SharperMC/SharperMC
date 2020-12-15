@@ -28,9 +28,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using Ionic.Zlib;
-using SharperMC.Core.Networking;
+using SharperMC.Core.Config;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Vectors;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Misc
 {
 	public class LocalDataBuffer : DataBuffer
 	{
@@ -413,17 +415,17 @@ namespace SharperMC.Core.Utils
 					compressed.WriteVarInt(dataLength);
 					compressed.Write(dataToSend);
 
-					Console.WriteLine();
+					System.Console.WriteLine();
 
-					Console.WriteLine("Packet bigger than Threshold: " + isOver);
-					Console.WriteLine("Packet info: ");
+					System.Console.WriteLine("Packet bigger than Threshold: " + isOver);
+					System.Console.WriteLine("Packet info: ");
 
-					Console.WriteLine("(Header) Packet Length: " + packetLength);
-					Console.WriteLine("(Header) Data Length: " + dataLength);
-					Console.WriteLine("Data Length " + dataToSend.Length);
-					Console.WriteLine("Length difference: " + (packetLength - dataToSend.Length));
+					System.Console.WriteLine("(Header) Packet Length: " + packetLength);
+					System.Console.WriteLine("(Header) Data Length: " + dataLength);
+					System.Console.WriteLine("Data Length " + dataToSend.Length);
+					System.Console.WriteLine("Length difference: " + (packetLength - dataToSend.Length));
 
-					Console.WriteLine();
+					System.Console.WriteLine();
 
 					_client.AddToQueue(compressed.ExportWriter, queue);
 				}

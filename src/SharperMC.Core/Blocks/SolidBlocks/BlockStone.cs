@@ -22,9 +22,9 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Items;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.SolidBlocks
 {
 	internal class BlockStone : Block
 	{

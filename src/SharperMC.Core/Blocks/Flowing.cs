@@ -23,9 +23,13 @@
 // ©Copyright SharperMC - 2020
 
 using System;
+using SharperMC.Core.Blocks.Liquids;
+using SharperMC.Core.Blocks.Misc;
+using SharperMC.Core.Blocks.SolidBlocks;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.Blocks

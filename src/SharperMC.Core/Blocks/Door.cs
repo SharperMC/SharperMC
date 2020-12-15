@@ -25,6 +25,7 @@
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.Blocks

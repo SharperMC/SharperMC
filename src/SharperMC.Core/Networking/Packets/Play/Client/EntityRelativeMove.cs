@@ -24,6 +24,9 @@
 
 using SharperMC.Core.Entity;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Misc;
+using SharperMC.Core.Utils.Vectors;
 
 namespace SharperMC.Core.Networking.Packets.Play.Client
 {

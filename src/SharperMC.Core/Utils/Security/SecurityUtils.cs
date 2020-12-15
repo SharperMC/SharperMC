@@ -25,7 +25,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Security
 {
 	public class SecurityUtils
 	{
@@ -35,7 +35,7 @@ namespace SharperMC.Core.Utils
 		public string GeneratePublicKey(bool privateparameters)
 		{
 			var publicKeyXml = _rsa.ToXmlString(false);
-			Console.WriteLine(publicKeyXml);
+			System.Console.WriteLine(publicKeyXml);
 
 			return publicKeyXml;
 		}

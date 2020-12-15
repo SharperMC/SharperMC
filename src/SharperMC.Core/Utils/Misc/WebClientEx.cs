@@ -25,7 +25,7 @@
 using System;
 using System.Net;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Misc
 {
 	public class WebClientEx : WebClient
 	{

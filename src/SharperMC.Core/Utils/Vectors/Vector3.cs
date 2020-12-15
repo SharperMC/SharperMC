@@ -23,8 +23,9 @@
 // ©Copyright SharperMC - 2020
 
 using System;
+using SharperMC.Core.Utils.Entities.Player;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Vectors
 {
 	public struct Vector3 : IEquatable<Vector3>
 	{

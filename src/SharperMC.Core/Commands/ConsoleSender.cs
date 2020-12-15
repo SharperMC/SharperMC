@@ -25,6 +25,8 @@
 using System;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Commands
 {

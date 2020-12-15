@@ -23,12 +23,14 @@
 // ©Copyright SharperMC - 2020
 
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Misc;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Items
+namespace SharperMC.Core.Items.Tools.Misc
 {
 	internal class ItemFlintAndSteel : Item
 	{

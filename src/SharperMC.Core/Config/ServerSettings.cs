@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SharperMC.Core
+﻿namespace SharperMC.Core.Config
 {
 	/// <summary>
 	/// Server settings

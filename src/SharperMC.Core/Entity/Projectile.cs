@@ -29,6 +29,9 @@ using SharperMC.Core.Blocks;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Entities;
+using SharperMC.Core.Utils.Entities.Player;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.Entity

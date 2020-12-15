@@ -23,12 +23,13 @@
 // ©Copyright SharperMC - 2020
 
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Liquids;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Items
+namespace SharperMC.Core.Items.Buckets
 {
 	public class ItemLavaBucket : Item
 	{

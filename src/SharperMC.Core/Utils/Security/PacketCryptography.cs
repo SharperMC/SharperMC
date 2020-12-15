@@ -25,7 +25,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Security
 {
 	//Code taken from C-Raft. (https://github.com/chraft/c-raft)
 	public static class PacketCryptography

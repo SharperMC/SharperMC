@@ -1,4 +1,4 @@
-﻿namespace SharperMC.Core.Utils
+﻿namespace SharperMC.Core.Utils.Packets
 {
 	public class McChatMessage
 	{

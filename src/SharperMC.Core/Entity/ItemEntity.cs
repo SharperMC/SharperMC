@@ -25,6 +25,7 @@
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Items;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.Entity

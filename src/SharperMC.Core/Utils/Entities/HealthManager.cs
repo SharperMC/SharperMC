@@ -25,11 +25,11 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Items;
+using SharperMC.Core.Utils.NBT;
+using SharperMC.Core.Utils.Vectors;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Entities
 {
 	public class HealthManager
 	{
@@ -49,7 +49,7 @@ namespace SharperMC.Core.Utils
 		public int FireTick { get; set; }
 		public bool IsOnFire { get; set; }
 		public DamageCause LastDamageCause { get; set; }
-		public Player LastDamageSource { get; set; }
+		public Entity.Player LastDamageSource { get; set; }
 		private int FallDamage { get; set; }
 		private int FallTick { get; set; }
 		private int RegenTick { get; set; }
@@ -82,7 +82,7 @@ namespace SharperMC.Core.Utils
 			}
 		}
 
-		public void TakeHit(Player source, int damage = 1, DamageCause cause = DamageCause.Unknown)
+		public void TakeHit(Entity.Player source, int damage = 1, DamageCause cause = DamageCause.Unknown)
 		{
 			if (LastDamageCause == DamageCause.Unknown) LastDamageCause = cause;
 
@@ -92,7 +92,7 @@ namespace SharperMC.Core.Utils
 
 			if (Entity == null) return;
 
-			var player = Entity as Player;
+			var player = Entity as Entity.Player;
 			if (player != null)
 			{
 				player.SendHealth();
@@ -122,7 +122,7 @@ namespace SharperMC.Core.Utils
 
 		public void OnTick()
 		{
-			var player = Entity as Player;
+			var player = Entity as Entity.Player;
 			if (IsDead) return;
 
 			if (IsInvulnerable) Health = 200;

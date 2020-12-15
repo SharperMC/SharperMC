@@ -2,10 +2,10 @@
 using System.Collections;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Redstone
 {
 	public class BlockLever : RedstonePowerSource
 	{

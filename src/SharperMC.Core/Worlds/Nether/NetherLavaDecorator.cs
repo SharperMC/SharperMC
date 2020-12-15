@@ -23,6 +23,7 @@
 // ©Copyright SharperMC - 2020
 
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Liquids;
 using SharperMC.Core.Worlds.Standard.BiomeSystem;
 using SharperMC.Core.Worlds.Standard.Decorators;
 

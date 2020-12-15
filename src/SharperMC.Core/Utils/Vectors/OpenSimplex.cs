@@ -25,7 +25,7 @@
 using System;
 using System.Runtime.CompilerServices;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Vectors
 {
 	public class OpenSimplexNoise
 	{

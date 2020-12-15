@@ -38,6 +38,9 @@ using SharperMC.Core.Networking;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.PluginChannel;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core
 {

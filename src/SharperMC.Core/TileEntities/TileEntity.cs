@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using fNbt;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Items;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core.TileEntities

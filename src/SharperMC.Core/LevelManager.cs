@@ -27,6 +27,7 @@ using System.Linq;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core

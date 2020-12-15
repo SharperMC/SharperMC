@@ -1,4 +1,4 @@
-﻿namespace SharperMC.Core.Blocks
+﻿namespace SharperMC.Core.Blocks.Redstone
 {
 	public class RedstonePowerSource : RedstoneDevice
 	{

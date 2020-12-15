@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 // 
 // ©Copyright SharperMC - 2020
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Misc
 {
 	public static class ArrayOf<T> where T : new()
 	{

@@ -26,6 +26,10 @@ using Newtonsoft.Json;
 using SharperMC.Core.Commands;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Misc;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Networking.Packets.Play
 {

@@ -22,12 +22,13 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using SharperMC.Core.Blocks.Misc;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core.Blocks
+namespace SharperMC.Core.Blocks.Redstone
 {
 	internal class BlockTnt : RedstoneDevice
 	{

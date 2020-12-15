@@ -26,6 +26,8 @@ using System;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Entities.Player;
 
 namespace SharperMC.Core.Commands.DefaultCommands
 {

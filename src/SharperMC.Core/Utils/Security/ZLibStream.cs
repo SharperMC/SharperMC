@@ -25,7 +25,7 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Security
 {
 	/// <summary>
 	///     DeflateStream wrapper that calculates Adler32 checksum of the written data,

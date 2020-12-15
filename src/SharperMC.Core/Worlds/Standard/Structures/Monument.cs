@@ -24,6 +24,7 @@
 
 using SharperMC.Core.Blocks;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Vectors;
 
 namespace SharperMC.Core.Worlds.Standard.Structures
 {

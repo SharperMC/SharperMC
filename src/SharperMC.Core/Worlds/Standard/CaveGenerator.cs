@@ -23,6 +23,7 @@
 // ©Copyright SharperMC - 2020
 
 using SharperMC.Core.Blocks;
+using SharperMC.Core.Blocks.Misc;
 
 namespace SharperMC.Core.Worlds.Standard
 {

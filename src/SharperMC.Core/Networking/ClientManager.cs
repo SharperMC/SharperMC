@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
+using SharperMC.Core.Config;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Networking.Packets.Play;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Networking
 {

@@ -24,8 +24,9 @@
 
 using System;
 using System.Collections.Generic;
+using SharperMC.Core.Utils.Vectors;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Entities
 {
 	public enum ContainmentType
 	{
