@@ -28,6 +28,7 @@ namespace SharperMC.Core
 		
 		public SharperMCServer()
 		{
+			ConsoleFunctions.ClearConsole();
 			ConsoleFunctions.WriteInfoLine("Initiating server on {0}", true, Globals.ProtocolName);
 			CurrentDirectory = Directory.GetCurrentDirectory();
 			var currentDomain = AppDomain.CurrentDomain;

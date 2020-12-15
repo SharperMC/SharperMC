@@ -101,7 +101,7 @@ namespace SharperMC.Core.Commands
             }
         }
 
-        public static void ParseTab(ICommandSender sender, string message)
+        public static List<string> ParseTab(ICommandSender sender, string message)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace SharperMC.Core.Commands
                 while (message.Contains("  ")) message = message.Replace("  ", " ");
                 var split = message.Split(' ');
                 var command = GetCommand(split[0]);
-                if (command == default(Command)) return;
+                if (command == default(Command)) return new List<string>();
 
                 string[] args;
                 if (split.Length > 1)
@@ -119,13 +119,14 @@ namespace SharperMC.Core.Commands
                 }
                 else args = new string[0];
 
-                command.TabComplete(sender, split[0], args);
+                return command.TabComplete(sender, split[0], args).ToList();
             }
             catch (Exception ex)
             {
                 ConsoleFunctions.WriteWarningLine(ex.ToString());
                 sender.SendChat("An error occured when tab-completing the command.", ChatColor.Red);
             }
+            return new List<string>();
         }
 
         public static void UnknownCommand(ICommandSender sender, string command)

@@ -8,7 +8,8 @@ namespace SharperMC.Core.Utils.Console
 		{
 			while (true)
 			{
-				var input = System.Console.ReadLine();
+				var input = Globals.ColoredConsole.GetNextString();
+				ConsoleFunctions.WriteInfoLine("Input: " + input);
 				if (!string.IsNullOrEmpty(input))
 				{
 					CommandManager.ParseCommand(Globals.ConsoleSender, input);

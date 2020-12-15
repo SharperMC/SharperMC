@@ -34,9 +34,9 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteLine(string text, bool newline = true, params object[] args)
         {
-            if (args == null || args.Length == 0) 
+            if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
@@ -47,9 +47,9 @@ namespace SharperMC.Core.Utils.Console
             params object[] args)
         {
             System.Console.ForegroundColor = foreGroundColor;
-            if (args == null || args.Length == 0) 
+            if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
             System.Console.ResetColor();
         }
@@ -62,9 +62,9 @@ namespace SharperMC.Core.Utils.Console
         {
             System.Console.ForegroundColor = foreGroundColor;
             System.Console.BackgroundColor = backGroundColor;
-            if (args == null || args.Length == 0) 
+            if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
             System.Console.ResetColor();
         }
@@ -77,9 +77,9 @@ namespace SharperMC.Core.Utils.Console
             System.Console.ForegroundColor = ConsoleColor.Green;
             System.Console.Write("[INFO] ");
             System.Console.ResetColor();
-            if (args == null || args.Length == 0) 
+            if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
@@ -91,9 +91,9 @@ namespace SharperMC.Core.Utils.Console
             System.Console.ForegroundColor = ConsoleColor.Red;
             System.Console.Write("[FATAL ERROR] ");
             System.Console.ResetColor();
-            if (args == null || args.Length == 0) 
+            if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
@@ -105,9 +105,9 @@ namespace SharperMC.Core.Utils.Console
             System.Console.ForegroundColor = ConsoleColor.Red;
             System.Console.Write("[ERROR] ");
             System.Console.ResetColor();
-            if (args == null || args.Length == 0) 
+            if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
@@ -121,7 +121,7 @@ namespace SharperMC.Core.Utils.Console
             System.Console.ResetColor();
             if (args == null || args.Length == 0)
                 System.Console.Write(text + (newline ? "\n" : ""));
-            else 
+            else
                 System.Console.Write(text + (newline ? "\n" : ""), args);
         }
 
@@ -135,11 +135,24 @@ namespace SharperMC.Core.Utils.Console
                 System.Console.ForegroundColor = ConsoleColor.Yellow;
                 System.Console.Write("[DEBUG] ");
                 System.Console.ResetColor();
-                if (args == null || args.Length == 0) 
+                if (args == null || args.Length == 0)
                     System.Console.Write(text + (newline ? "\n" : ""));
-                else 
+                else
                     System.Console.Write(text + (newline ? "\n" : ""), args);
             }
+        }
+
+        public static void ClearConsole()
+        {
+            System.Console.Clear();
+        }
+
+        public static void ClearCurrentConsoleLine()
+        {
+            var currentLineCursor = System.Console.CursorTop;
+            System.Console.SetCursorPosition(0, System.Console.CursorTop);
+            System.Console.Write(new string(' ', System.Console.WindowWidth));
+            System.Console.SetCursorPosition(0, currentLineCursor);
         }
     }
 }

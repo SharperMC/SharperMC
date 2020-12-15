@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -69,7 +70,8 @@ namespace SharperMC.Core
 		internal static MessageFactory MessageFactory;
 		
 		internal static Random Rand;
-		public static ConsoleSender ConsoleSender = new ConsoleSender();
+		public static readonly ConsoleSender ConsoleSender = new ConsoleSender();
+		public static readonly ColoredConsole ColoredConsole = new ColoredConsole();
 
 		public static void BroadcastChat(string message, Player sender = null)
 		{
@@ -86,11 +88,7 @@ namespace SharperMC.Core
 
 		public static int GetOnlinePlayerCount()
 		{
-			var count = 0;
-			foreach (var lvl in LevelManager.GetLevels())
-			{
-				count += lvl.OnlinePlayers.Count;
-			}
+			var count = LevelManager.GetLevels().Sum(lvl => lvl.OnlinePlayers.Count);
 			count += LevelManager.MainLevel.OnlinePlayers.Count;
 			return count;
 		}
