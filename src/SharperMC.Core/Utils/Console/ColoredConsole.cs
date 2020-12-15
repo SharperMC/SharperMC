@@ -63,7 +63,7 @@ namespace SharperMC.Core.Utils.Console
                         if (_gotHints)
                         {
                             if (_hints.Count == 0) break;
-                            // TODO: Better this stuff
+                            if (_hints.Count == 1) goto ENTERED;
                             _hintsIndex++;
                             if (_hintsIndex >= _hints.Count) _hintsIndex = 0;
                             _hintedArg = _hints[_hintsIndex];
@@ -73,6 +73,7 @@ namespace SharperMC.Core.Utils.Console
                             _hints = _rawHints = CommandManager.ParseTab(Globals.ConsoleSender, _currentInputStrip);
                             _gotHints = true;
                             _hintsIndex = 0;
+                            UpdateHints();
                             if (_hints.Count == 1) _hintedArg = _hints[0];
                         }
 
@@ -85,6 +86,7 @@ namespace SharperMC.Core.Utils.Console
                         }
 
                         System.Console.CursorTop--;
+                        ENTERED:
                         var addTo = _hintedArg.Substring(_currentArg.Length) + " ";
                         _leftInput += addTo;
                         SetInput();
@@ -186,7 +188,7 @@ namespace SharperMC.Core.Utils.Console
         {
             _currentInput = input;
             var cisS = input.LastIndexOf(' ');
-            _currentInputStrip = input.Substring(0, cisS == -1 ? input.Length : cisS).Trim();
+            _currentInputStrip = input.Substring(0, cisS == -1 ? 0 : cisS).Trim();
             var leftLio = _leftInput.LastIndexOf(' ');
             // var rightLio = _rightInput.LastIndexOf(' ');
             _currentArg = _leftInput.Substring(leftLio + 1, _leftInput.Length - leftLio - 1)/* +

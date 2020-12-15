@@ -73,7 +73,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 
         public override string[] TabComplete(ICommandSender sender, string label, string[] args)
         {
-            return new string[0];
+            return args.Length == 0 ? new[] {"survival", "spectator", "adventure", "creative"} : new string[0];
         }
     }
 }

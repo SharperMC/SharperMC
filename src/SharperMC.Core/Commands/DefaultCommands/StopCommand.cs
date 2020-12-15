@@ -27,7 +27,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
     public class StopCommand : Command
     {
 
-        public StopCommand() : base("stop", new []{"shutdown"}, "/stop", "Stops the server.")
+        public StopCommand() : base("stop", new []{"shutdown", "exit"}, "/stop", "Stops the server.")
         {
         }
         

@@ -46,6 +46,7 @@ namespace SharperMC.Core.Commands
             AddCommand(new SaveCommand());
             AddCommand(new StopCommand());
             AddCommand(new TestCommand());
+            AddCommand(new TPCommand());
             AddCommand(new WorldCommand());
         }
 
@@ -103,6 +104,15 @@ namespace SharperMC.Core.Commands
 
         public static List<string> ParseTab(ICommandSender sender, string message)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                var strings = new List<string>();
+                foreach (var keyValuePair in CommandMap)
+                {
+                    strings.AddRange(keyValuePair.Key);
+                }
+                return strings;
+            }
             try
             {
                 message = message.Trim();
