@@ -60,31 +60,32 @@ namespace SharperMC.Core.Commands.DefaultCommands
                 var yaw = player.KnownPosition.Yaw;
                 var pitch = player.KnownPosition.Pitch;
                 var msg = "x";
+                var attemptConversion = "";
                 try
                 {
-                    posX = Convert.ToDouble(relX ? args[0].Substring(1) : args[0]);
+                    posX = Convert.ToDouble(attemptConversion = relX ? args[0].Substring(1) : args[0]);
                     msg = "y";
-                    posY = Convert.ToDouble(relY ? args[1].Substring(1) : args[1]);
+                    posY = Convert.ToDouble(attemptConversion = relY ? args[1].Substring(1) : args[1]);
                     msg = "z";
-                    posZ = Convert.ToDouble(relZ ? args[2].Substring(1) : args[2]);
+                    posZ = Convert.ToDouble(attemptConversion = relZ ? args[2].Substring(1) : args[2]);
                     if (rotation)
                     {
                         msg = "yaw";
-                        yaw = (float) Convert.ToDouble(args[3]);
+                        yaw = (float) Convert.ToDouble(attemptConversion = args[3]);
                         msg = "pitch";
-                        pitch = (float) Convert.ToDouble(args[4]);
+                        pitch = (float) Convert.ToDouble(attemptConversion = args[4]);
                     }
                 }
                 catch (FormatException e)
                 {
-                    sender.SendChat($"Not a number: {msg}");
+                    sender.SendChat($"Not a number argument {msg}: {attemptConversion}");
                     return;
                 }
 
                 player.Teleport(new PlayerLocation(posX += (relX ? player.KnownPosition.X : 0),
                     posY += (relY ? player.KnownPosition.Y : 0),
                     posZ += (relZ ? player.KnownPosition.Z : 0), yaw, pitch));
-                sender.SendChat($"Teleported to: {posX}, {posY}, {posZ}" + (rotation ? "" : $", {yaw}, {pitch}"));
+                sender.SendChat($"Teleported to: {posX}, {posY}, {posZ}" + (rotation ? $", {yaw}, {pitch}" : ""));
             }
             else
             {
