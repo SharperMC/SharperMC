@@ -63,7 +63,7 @@ namespace SharperMC.Core.Utils.Console
                         if (_gotHints)
                         {
                             if (_hints.Count == 0) break;
-                            if (_hints.Count == 1) goto ENTERED;
+                            if (_hints.Count == 1) SetHint();
                             _hintsIndex++;
                             if (_hintsIndex >= _hints.Count) _hintsIndex = 0;
                             _hintedArg = _hints[_hintsIndex];
@@ -86,14 +86,7 @@ namespace SharperMC.Core.Utils.Console
                         }
 
                         System.Console.CursorTop--;
-                        ENTERED:
-                        var addTo = _hintedArg.Substring(_currentArg.Length) + " ";
-                        _leftInput += addTo;
-                        SetInput();
-                        OffsetCursor(addTo.Length);
-
-                        ResetHints();
-                        
+                        SetHint();
                         break;
                     case ConsoleKey.Backspace:
                         if (_currentInput.Length > 0 && _cursor > 0)
@@ -113,6 +106,9 @@ namespace SharperMC.Core.Utils.Console
                             OffsetCursor(0);
                         }
                         break;
+                    case ConsoleKey.Escape:
+                        ResetHints();
+                        break;
                     case ConsoleKey.LeftArrow:
                         OffsetCursor(-1);
                         break;
@@ -124,8 +120,6 @@ namespace SharperMC.Core.Utils.Console
                         break;
                     case ConsoleKey.DownArrow:
                         SetHistory(-1);
-                        break;
-                    case ConsoleKey.Escape:
                         break;
                     case ConsoleKey.Spacebar:
                         ResetHints();
@@ -217,6 +211,16 @@ namespace SharperMC.Core.Utils.Console
             _hints = new List<string>();
             _rawHints = new List<string>();
             _hintedArg = "";
+        }
+
+        private void SetHint()
+        {
+            var addTo = _hintedArg.Substring(_currentArg.Length) + " ";
+            _leftInput += addTo;
+            SetInput();
+            OffsetCursor(addTo.Length);
+
+            ResetHints();
         }
 
         private void OffsetCursor(int offset)
