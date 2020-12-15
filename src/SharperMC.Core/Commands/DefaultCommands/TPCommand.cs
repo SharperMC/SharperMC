@@ -42,7 +42,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             if (sender.IsPlayer())
             {
                 var player = (Player) sender;
-                if (args.Length < 3 || args.Length == 4 || args.Length > 5)
+                if (args.Length != 3 && args.Length != 5)
                 {
                     SendUsage(sender, label);
                     return;
@@ -54,20 +54,23 @@ namespace SharperMC.Core.Commands.DefaultCommands
                 var relX = args[0].StartsWith("~");
                 var relY = args[1].StartsWith("~");
                 var relZ = args[2].StartsWith("~");
-                double posX;
-                double posY;
-                double posZ;
+                double posX = 0;
+                double posY = 0;
+                double posZ = 0;
                 var yaw = player.KnownPosition.Yaw;
                 var pitch = player.KnownPosition.Pitch;
                 var msg = "x";
                 var attemptConversion = "";
                 try
                 {
-                    posX = Convert.ToDouble(attemptConversion = relX ? args[0].Substring(1) : args[0]);
+                    if (!relX || args[0].Length > 1)
+                        posX = Convert.ToDouble(attemptConversion = relX ? args[0].Substring(1) : args[0]);
                     msg = "y";
-                    posY = Convert.ToDouble(attemptConversion = relY ? args[1].Substring(1) : args[1]);
+                    if (!relY || args[1].Length > 1)
+                        posY = Convert.ToDouble(attemptConversion = relY ? args[1].Substring(1) : args[1]);
                     msg = "z";
-                    posZ = Convert.ToDouble(attemptConversion = relZ ? args[2].Substring(1) : args[2]);
+                    if (!relZ || args[2].Length > 1)
+                        posZ = Convert.ToDouble(attemptConversion = relZ ? args[2].Substring(1) : args[2]);
                     if (rotation)
                     {
                         msg = "yaw";
