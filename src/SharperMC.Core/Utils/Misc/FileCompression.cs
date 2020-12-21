@@ -22,42 +22,42 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using SharperMC.Core.Config;
-using SharperMC.Core.Entity;
-using SharperMC.Core.Utils;
-using SharperMC.Core.Utils.Client;
-using SharperMC.Core.Utils.Misc;
+using System.Collections.Generic;
+using System.IO;
+using Ionic.Zlib;
 
-namespace SharperMC.Core.Networking.Packets.Play.Client
+namespace SharperMC.Core.Utils.Misc
 {
-	internal class JoinGame : Package<JoinGame>
-	{
-		public Player Player;
+    public class FileCompression
+    {
+        public static byte[] Compress(byte[] input)
+        {
+            using (var output = new MemoryStream())
+            {
+                using (var zip = new GZipStream(output, CompressionMode.Compress))
+                {
+                    zip.Write(input, 0, input.Length);
+                }
+                return output.ToArray();
+            }
+        }
 
-		public JoinGame(ClientWrapper client) : base(client)
-		{
-			SendId = 0x01;
-		}
-
-		public JoinGame(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
-		{
-			SendId = 0x01;
-		}
-
-		public override void Write()
-		{
-			if (Buffer != null)
-			{
-				Buffer.WriteVarInt(SendId);
-				Buffer.WriteInt(Player.EntityId);
-				Buffer.WriteByte((byte) Player.Gamemode);
-				Buffer.WriteByte(Player.Dimension);
-				Buffer.WriteByte((byte) Client.Player.Level.Difficulty);
-				Buffer.WriteByte((byte) Core.Server.ServerSettings.MaxPlayers);
-				Buffer.WriteString(Client.Player.Level.LevelType.ToString());
-				Buffer.WriteBool(true);
-				Buffer.FlushData();
-			}
-		}
-	}
+        public static byte[] Decompress(byte[] input)
+        {
+            using (var output = new MemoryStream(input))
+            {
+                using (var zip = new GZipStream(output, CompressionMode.Decompress))
+                {
+                    var bytes = new List<byte>();
+                    var b = zip.ReadByte();
+                    while (b != -1)
+                    {
+                        bytes.Add((byte) b);
+                        b = zip.ReadByte();
+                    }
+                    return bytes.ToArray();
+                }
+            }
+        }
+    }
 }

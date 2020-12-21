@@ -36,7 +36,7 @@ namespace SharperMC.Core.Worlds.Anvil
 			LvlName = worldname;
 			LevelType = LvlType.Default;
 			Generator = new AnvilWorldProvider(worldname);
-			ConsoleFunctions.WriteInfoLine("Level Type: Anvil");
+			ConsoleFunctions.WriteDebugLine("Level Type: Anvil");
 		}
 	}
 }

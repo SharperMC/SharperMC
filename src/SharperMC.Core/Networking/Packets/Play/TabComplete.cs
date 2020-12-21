@@ -26,6 +26,7 @@ using Newtonsoft.Json;
 using SharperMC.Core.Commands;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
+using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Misc;
 
 namespace SharperMC.Core.Networking.Packets.Play
@@ -47,10 +48,15 @@ namespace SharperMC.Core.Networking.Packets.Play
             SendId = 0x3A;
         }
 
+        /*
+         * TODO: Tab completion but this is not very important at the moment
+         */
         public override void Read()
         {
             var message = Buffer.ReadString();
-			
+            var hasPosition = Buffer.ReadBool();    
+            // ConsoleFunctions.WriteInfoLine(""+message + " " + hasPosition);
+            
             if (CommandManager.IsCommand(message))
             {
                 CommandManager.ParseTab(Client.Player, message.Substring(1));
@@ -60,12 +66,12 @@ namespace SharperMC.Core.Networking.Packets.Play
 
         public override void Write()
         {
-            // if (Buffer == null) return;
-            // var message = JsonConvert.SerializeObject(Message);
-            // Buffer.WriteVarInt(SendId);
-            // //Buffer.WriteString("{ \"text\": \"" + Message + "\" }");
-            // Buffer.WriteString(message);
-            // Buffer.FlushData();
+            // ConsoleFunctions.WriteInfoLine("a");
+            //var message = JsonConvert.SerializeObject();
+            Buffer.WriteVarInt(SendId);
+            Buffer.WriteString("test");
+            //Buffer.WriteString(message);
+            Buffer.FlushData();
         }
     }
 }

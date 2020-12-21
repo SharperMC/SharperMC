@@ -57,7 +57,7 @@ namespace SharperMC.Core.Worlds.Nether
 		private static readonly Random Getrandom = new Random();
 		private static readonly object SyncLock = new object();
 		public static int WaterLevel = 82;
-		private readonly CaveGenerator _cavegen = new CaveGenerator(ServerSettings.Seed.GetHashCode());
+		private readonly CaveGenerator _cavegen = new CaveGenerator(Server.ServerSettings.Seed.GetHashCode());
 		private readonly string _folder;
 		public Dictionary<Tuple<int, int>, ChunkColumn> ChunkCache = new Dictionary<Tuple<int, int>, ChunkColumn>();
 
@@ -73,7 +73,7 @@ namespace SharperMC.Core.Worlds.Nether
 
 		public override ChunkColumn LoadChunk(int x, int z)
 		{
-			var u = Globals.Decompress(File.ReadAllBytes(_folder + "/" + x + "." + z + ".cfile"));
+			var u = FileCompression.Decompress(File.ReadAllBytes(_folder + "/" + x + "." + z + ".cfile"));
 			var reader = new DataBuffer(u);
 
 			var blockLength = reader.ReadInt();
@@ -111,7 +111,7 @@ namespace SharperMC.Core.Worlds.Nether
 			{
 				foreach (var i in ChunkCache.Values.ToArray())
 				{
-					File.WriteAllBytes(_folder + "/" + i.X + "." + i.Z + ".cfile", Globals.Compress(i.Export()));
+					File.WriteAllBytes(_folder + "/" + i.X + "." + i.Z + ".cfile", FileCompression.Compress(i.Export()));
 				}
 			}
 		}
@@ -151,8 +151,8 @@ namespace SharperMC.Core.Worlds.Nether
 
 		private void PopulateChunk(ChunkColumn chunk)
 		{
-			var bottom = new SimplexOctaveGenerator(ServerSettings.Seed.GetHashCode(), 8);
-			var top = new SimplexOctaveGenerator(ServerSettings.Seed.GetHashCode(), 8);
+			var bottom = new SimplexOctaveGenerator(Server.ServerSettings.Seed.GetHashCode(), 8);
+			var top = new SimplexOctaveGenerator(Server.ServerSettings.Seed.GetHashCode(), 8);
 			bottom.SetScale(1/Groundscale);
 			top.SetScale(1/Topscale);
 

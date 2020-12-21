@@ -86,7 +86,7 @@ namespace SharperMC.Core.Networking
 				int errors = PacketErrors[client.ClientIdentifier];
 				PacketErrors[client.ClientIdentifier] = errors + 1;
 		
-				if (ServerSettings.DisplayPacketErrors)
+				if (Server.ServerSettings.DisplayPacketErrors)
 				{
 					ConsoleFunctions.WriteWarningLine("Packet error for player: \"" + client.Player.Username + "\" Packet errors: " +
 					                                  PacketErrors[client.ClientIdentifier] + "\nError:\n" + exception.Message);
@@ -94,7 +94,7 @@ namespace SharperMC.Core.Networking
 		
 				if (PacketErrors[client.ClientIdentifier] >= 3)
 				{
-					if (ServerSettings.ReportExceptionsToClient)
+					if (Server.ServerSettings.ReportExceptionsToClient)
 					{
 						new Disconnect(client) {Reason = new McChatMessage("You were kicked from the server!\n" + exception.Message)}.Write();
 					}

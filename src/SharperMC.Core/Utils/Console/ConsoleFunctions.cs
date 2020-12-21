@@ -137,7 +137,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteDebugLine(string text, bool newline = true, params object[] args)
         {
-            if (!ServerSettings.Debug) return;
+            if (!Server.ServerSettings.Debug) return;
             Globals.ColoredConsole.Printed = true;
             System.Console.ForegroundColor = ConsoleColor.Yellow;
             System.Console.Write("[DEBUG] ");

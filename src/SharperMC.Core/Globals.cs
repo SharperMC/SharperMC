@@ -42,49 +42,29 @@ using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Worlds;
 
 namespace SharperMC.Core
 {
-	/* Notes:
-	 * Currently online-mode and compression are not working yet.
-	 * Will look into it soon.
-	*/
 	public class Globals
 	{
-		/*
-		 * TODO: Update to 1.8.9 Protocol 47...
-		 */
-		internal static int ProtocolVersion = 47; //56 
-		internal static string ProtocolName = "SharperMC 1.8.x";
-		internal static string OfficialProtocolName = "Minecraft 1.8.x";
-
-		public static bool Shuttingdown = false;
-
-		internal static BasicListener ServerListener;
+		public static readonly int ProtocolVersion = 47;
+		public static readonly string ProtocolName = "SharperMC 1.8.x";
+		public static readonly string OfficialProtocolName = "Minecraft 1.8.x";
+		
+		internal static ClientListener ServerListener;
 		internal static LevelManager LevelManager;
 		internal static ChatManager ChatManager;
-
+		
 		internal static RSAParameters ServerKey;
-
+		
 		internal static ClientManager ClientManager;
 		internal static MessageFactory MessageFactory;
 		
-		internal static Random Rand;
 		public static readonly ConsoleSender ConsoleSender = new ConsoleSender();
 		public static readonly ColoredConsole ColoredConsole = new ColoredConsole();
 
-		public static void BroadcastChat(string message, Player sender = null)
-		{
-			BroadcastChat(new McChatMessage(message), ChatMessageType.ChatBox, sender);
-		}
-		public static void BroadcastChat(McChatMessage message, ChatMessageType chattype, Player sender)
-		{
-			foreach (var lvl in LevelManager.GetLevels())
-			{
-				lvl.BroadcastChat(message, chattype, sender);
-			}
-			LevelManager.MainLevel.BroadcastChat(message, chattype, sender);
-		}
+		public static readonly Random Random = new Random(Environment.TickCount);
 
 		public static int GetOnlinePlayerCount()
 		{
@@ -92,60 +72,7 @@ namespace SharperMC.Core
 			count += LevelManager.MainLevel.OnlinePlayers.Count;
 			return count;
 		}
-
-		public static byte[] Compress(byte[] input)
-		{
-			using (var output = new MemoryStream())
-			{
-				using (var zip = new GZipStream(output, CompressionMode.Compress))
-				{
-					zip.Write(input, 0, input.Length);
-				}
-				return output.ToArray();
-			}
-		}
-
-		public static byte[] Decompress(byte[] input)
-		{
-			using (var output = new MemoryStream(input))
-			{
-				using (var zip = new GZipStream(output, CompressionMode.Decompress))
-				{
-					var bytes = new List<byte>();
-					var b = zip.ReadByte();
-					while (b != -1)
-					{
-						bytes.Add((byte) b);
-						b = zip.ReadByte();
-					}
-					return bytes.ToArray();
-				}
-			}
-		}
-
-		/*
-		 * TODO: Implement actual fix for double Player saving when shutting the server down.
-		 */
-        public static void StopServer(string stopMsg = "Shutting down server...")
-        {
-	        Shuttingdown = true;
-            ConsoleFunctions.WriteInfoLine("Shutting down...");
-			Disconnect d = new Disconnect(null);
-			d.Reason = new McChatMessage("§f" + stopMsg);
-			BroadcastPacket(d);
-	        ConsoleFunctions.WriteInfoLine("Saving all player data...");
-	        foreach (var player in LevelManager.GetAllPlayers())
-	        {
-		        player.SavePlayer();
-	        }
-			ConsoleFunctions.WriteInfoLine("Saving config file...");
-			ConfigManager.SaveConfig();
-            ConsoleFunctions.WriteInfoLine("Saving chunks...");
-	        LevelManager.SaveAllChunks();
-	        ServerListener.StopListenening();
-	        Environment.Exit(0);
-        }
-
+		
 		public static void BroadcastPacket(Package packet)
 		{
 			foreach (var lvl in LevelManager.GetLevels())
@@ -154,7 +81,7 @@ namespace SharperMC.Core
 			}
 			LevelManager.MainLevel.BroadcastPacket(packet);
 		}
-
+		
 		public static void DisconnectClient(ClientWrapper client, string reason = null)
 		{
 			if (client != null)

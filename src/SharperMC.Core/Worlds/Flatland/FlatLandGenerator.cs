@@ -155,14 +155,14 @@ namespace SharperMC.Core.Worlds.Flatland
 			{
 				foreach (var i in ChunkCache.Values.ToArray())
 				{
-					File.WriteAllBytes(_folder + "/" + i.X + "." + i.Z + ".cfile", Globals.Compress(i.Export()));
+					File.WriteAllBytes(_folder + "/" + i.X + "." + i.Z + ".cfile", FileCompression.Compress(i.Export()));
 				}
 			}
 		}
 
 		public override ChunkColumn LoadChunk(int x, int z)
 		{
-			var u = Globals.Decompress(File.ReadAllBytes(_folder + "/" + x + "." + z + ".cfile"));
+			var u = FileCompression.Decompress(File.ReadAllBytes(_folder + "/" + x + "." + z + ".cfile"));
 			var reader = new DataBuffer(u);
 
 			var blockLength = reader.ReadInt();

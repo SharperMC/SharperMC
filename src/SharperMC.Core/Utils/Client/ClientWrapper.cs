@@ -67,7 +67,7 @@ namespace SharperMC.Core.Utils.Client
                 ThreadPool.LaunchThread(ThreadRun);
 
                 var bytes = new byte[8];
-                Globals.Rand.NextBytes(bytes);
+                Globals.Random.NextBytes(bytes);
                 ConnectionId = Encoding.ASCII.GetString(bytes).Replace("-", "");
             }
         }

@@ -53,12 +53,12 @@ namespace SharperMC.Core.Worlds
 			CurrentWorldTime = 1200;
 			Day = 1;
 			OnlinePlayers = new Dictionary<int, Player>();
-			DefaultGamemode = ConfigManager.GetProperty("Gamemode", Gamemode.Survival);
+			DefaultGamemode = Server.ServerSettings.Gamemode;
 			BlockWithTicks = new Dictionary<Vector3, int>();
 			StartTimeOfDayTimer();
 			Entities = new List<Entity.Entity>();
 			Dimension = 0;
-            Timetorain = Globals.Rand.Next(24000, 96000);
+            Timetorain = Globals.Random.Next(24000, 96000);
 		}
 
 		internal int Dimension { get; set; }
@@ -410,7 +410,7 @@ namespace SharperMC.Core.Worlds
 				};
 				BroadcastPacket(packet);
 
-                Timetorain = Globals.Rand.Next(12000, 36000);
+                Timetorain = Globals.Random.Next(12000, 36000);
             }
             else if(!Raining)
             {
@@ -427,7 +427,7 @@ namespace SharperMC.Core.Worlds
 	            };
                 BroadcastPacket(packet);
 
-                Timetorain = Globals.Rand.Next(24000, 96000);
+                Timetorain = Globals.Random.Next(24000, 96000);
             }
             else if(Raining)
             {

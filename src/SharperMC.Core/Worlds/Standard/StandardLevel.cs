@@ -36,7 +36,7 @@ namespace SharperMC.Core.Worlds.Standard
 			LvlName = worldname;
 			LevelType = LvlType.Default;
 			Generator = new StandardWorldProvider(worldname);
-			ConsoleFunctions.WriteInfoLine("Level Type: Standard");
+			ConsoleFunctions.WriteDebugLine("Level Type: Standard");
 			DefaultGamemode = Gamemode.Creative;
 		}
 	}

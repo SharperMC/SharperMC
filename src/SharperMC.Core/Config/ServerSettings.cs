@@ -1,23 +1,31 @@
-﻿namespace SharperMC.Core.Config
+﻿using SharperMC.Core.Enums;
+
+namespace SharperMC.Core.Config
 {
 	/// <summary>
 	/// Server settings
 	/// </summary>
 	public class ServerSettings
 	{
-		internal static string Seed = "default";
+		public int Port = 25565;
 		
-		internal static bool UseCompression = false;
-		internal static int CompressionThreshold = 64; // [Default Int: 999999999 ORIGINAL SHARPMC VALUE] (This should not be 999... causes extreme issues should be 512, 128, 64, -1
+		public bool UseCompression = false;
+		public int CompressionThreshold = 64;
 		
-		internal static bool OnlineMode = true;
+		public string Seed = "SharpMC";
+		public string WorldType = "standard";
+		public string WorldName = "world";
 		
-		internal static bool EncryptionEnabled = true; //Should be enabled & unchangeable!
-		internal static int MaxPlayers = 10;
+		public string Motd = "A Minecraft server!";
+		public bool OnlineMode = false;
+		public bool EncryptionEnabled = true;
+		public int MaxPlayers = 10;
+
+		public Gamemode Gamemode = Gamemode.Survival;
 		
-		public static bool DisplayPacketErrors = true;
-		public static bool Debug = true;
-		public static string Motd = "";
-		public static bool ReportExceptionsToClient = true;
+		public bool DisplayPacketErrors = false;
+		public bool Debug = false;
+		
+		internal bool ReportExceptionsToClient = true;
 	}
 }

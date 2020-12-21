@@ -92,7 +92,7 @@ namespace SharperMC.Core.Entity
 		public bool IsCrouching { get; set; }
 		public bool IsAuthenticated()
 		{
-			if (ServerSettings.OnlineMode)
+			if (Server.ServerSettings.OnlineMode)
 			{
 				try
 				{
@@ -332,7 +332,15 @@ namespace SharperMC.Core.Entity
 			var chunks = Level.Generator.GenerateChunks((ViewDistance * 21), _chunksUsed, this);
 			new MapChunkBulk(Wrapper) {Chunks = chunks.ToArray()}.Write();
 
-			new PlayerPositionAndLook(Wrapper) {X = KnownPosition.X, Y = KnownPosition.Y, Z = KnownPosition.Z, Yaw = KnownPosition.Yaw, Pitch = KnownPosition.Pitch}.Write();
+			new PlayerPositionAndLook(Wrapper)
+			{
+				X = KnownPosition.X,
+				Y = KnownPosition.Y,
+				Z = KnownPosition.Z,
+				Yaw = KnownPosition.Yaw,
+				Pitch = KnownPosition.Pitch,
+				OnGround = KnownPosition.OnGround
+			}.Write();
 
 			IsSpawned = true;
 			Level.AddPlayer(this);
@@ -506,18 +514,18 @@ namespace SharperMC.Core.Entity
 			buffer.WriteBool(IsOperator);
 			
 			var data = buffer.ExportWriter;
-			data = Globals.Compress(data);
-			var savename = ServerSettings.OnlineMode ? Uuid : Username;
+			data = FileCompression.Compress(data);
+			var savename = Server.ServerSettings.OnlineMode ? Uuid : Username;
 			File.WriteAllBytes("Players/" + savename + ".pdata", data);
 		}
 
 		public void LoadPlayer()
 		{
-			string savename = ServerSettings.OnlineMode ? Uuid : Username;
+			string savename = Server.ServerSettings.OnlineMode ? Uuid : Username;
 			if (File.Exists("Players/" + savename + ".pdata"))
 			{
 				byte[] data = File.ReadAllBytes("Players/" + savename + ".pdata");
-				data = Globals.Decompress(data);
+				data = FileCompression.Decompress(data);
 				DataBuffer reader = new DataBuffer(data);
 				double x = reader.ReadDouble();
 				double y = reader.ReadDouble();

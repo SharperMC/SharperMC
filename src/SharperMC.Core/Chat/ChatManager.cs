@@ -26,6 +26,7 @@ using System;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Chat
 {
@@ -47,5 +48,18 @@ namespace SharperMC.Core.Chat
             return $"<{source.Username}> {message}";
         }
         
+        public void BroadcastChat(string message, Player sender = null)
+        {
+            BroadcastChat(new McChatMessage(message), ChatMessageType.ChatBox, sender);
+        }
+
+        public void BroadcastChat(McChatMessage message, ChatMessageType type, Player sender)
+        {
+            foreach (var lvl in Globals.LevelManager.GetLevels())
+            {
+                lvl.BroadcastChat(message, type, sender);
+            }
+            Globals.LevelManager.MainLevel.BroadcastChat(message, type, sender);
+        }
     }
 }

@@ -40,24 +40,21 @@ using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Networking
 {
-	public class BasicListener
+	public class ClientListener
 	{
 		private TcpListener _serverListener;
 
 		public void StartListening()
 		{
-			var port = 25515;//Config.GetProperty("port", 25565);
-			if (port != 25565)
+			int port = Server.ServerSettings.Port;
+			if (!NetUtils.PortAvailability(port))
 			{
-				if (!NetUtils.PortAvailability(port))
-				{
-					ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", true, port);
-					Globals.StopServer();
-					return;
-				}
-				ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", true, port);
-				_serverListener = new TcpListener(IPAddress.Any, port);
+				ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", true, port);
+				Server.StopServer();
+				return;
 			}
+			ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", true, port);
+			_serverListener = new TcpListener(IPAddress.Any, port);
 			if (_serverListener == null)
 			{
 				ConsoleFunctions.WriteErrorLine("An error occured when starting the client listener.. Null TCPListener..");
@@ -178,7 +175,7 @@ namespace SharperMC.Core.Networking
 			{
 				try
 				{
-					if (ServerSettings.UseCompression && WrappedClient.PacketMode == PacketMode.Play)
+					if (Server.ServerSettings.UseCompression && WrappedClient.PacketMode == PacketMode.Play)
 					{
 						int packetLength = NetUtils.ReadVarInt(clientStream);
 						int dataLength = NetUtils.ReadVarInt(clientStream);
@@ -204,7 +201,7 @@ namespace SharperMC.Core.Networking
 				catch (Exception ex)
 				{
 					ConsoleFunctions.WriteDebugLine("Error: \n" + ex);
-					if (ServerSettings.ReportExceptionsToClient)
+					if (Server.ServerSettings.ReportExceptionsToClient)
 					{
 						new Disconnect(WrappedClient)
 						{
