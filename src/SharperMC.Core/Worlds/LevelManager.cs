@@ -26,11 +26,9 @@ using System.Collections.Generic;
 using System.Linq;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Networking.Packets.Play.Client;
-using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
-using SharperMC.Core.Worlds;
 
-namespace SharperMC.Core
+namespace SharperMC.Core.Worlds
 {
 	public class LevelManager
 	{
@@ -50,7 +48,7 @@ namespace SharperMC.Core
 
 		public void AddLevel(string name, Level lvl)
 		{
-			ConsoleFunctions.WriteInfoLine("Initiating level: " + name);
+			ConsoleFunctions.WriteDebugLine("Initiating level: " + name);
 			SubLevels.Add(name, lvl);
 		}
 

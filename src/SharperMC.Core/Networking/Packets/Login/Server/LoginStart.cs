@@ -35,9 +35,9 @@ namespace SharperMC.Core.Networking.Packets.Login.Server
 					new string(usernameRaw.Where(c => char.IsLetter(c) || char.IsPunctuation(c) || char.IsDigit(c)).ToArray());
 				
 				var uuid = GetUuid(username);
-				if (ServerSettings.OnlineMode)
+				if (Core.Server.ServerSettings.OnlineMode)
 				{
-					if (ServerSettings.EncryptionEnabled)
+					if (Core.Server.ServerSettings.EncryptionEnabled)
 					{
 						Client.PacketMode = PacketMode.Login;
 						Client.Username = username;
@@ -93,7 +93,7 @@ namespace SharperMC.Core.Networking.Packets.Login.Server
 
 				new SetCompression(Client)
 				{
-					CompressionLevel = ServerSettings.UseCompression ? ServerSettings.CompressionThreshold : -1
+					CompressionLevel = Core.Server.ServerSettings.UseCompression ? Core.Server.ServerSettings.CompressionThreshold : -1
 				}.Write();
 
 				new JoinGame(Client) { Player = Client.Player }.Write();

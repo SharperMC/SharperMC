@@ -36,7 +36,7 @@ namespace SharperMC.Core.Worlds.Nether
 			LvlName = worldname;
 			LevelType = LvlType.Default;
 			Generator = new NetherWorldProvider(worldname);
-			ConsoleFunctions.WriteInfoLine("Level Type: Nether");
+			ConsoleFunctions.WriteDebugLine("Level Type: Nether");
 			Dimension = -1;
 		}
 	}

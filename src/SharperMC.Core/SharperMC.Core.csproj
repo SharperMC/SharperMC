@@ -65,6 +65,7 @@
     <Reference Include="LibNoise">
       <HintPath>..\packages\LibNoise.0.2\lib\NET45\LibNoise.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -160,7 +161,6 @@
     <Compile Include="Items\Tools\Diamond\ItemDiamondSword.cs" />
     <Compile Include="Items\Tools\Iron\ItemIronSword.cs" />
     <Compile Include="Items\Tools\Misc\ItemFlintAndSteel.cs" />
-    <Compile Include="LevelManager.cs" />
     <Compile Include="Networking\ClientManager.cs" />
     <Compile Include="Networking\Packets\Handshaking\Server\Handshake.cs" />
     <Compile Include="Networking\Packets\Login\Client\Disconnect.cs" />
@@ -224,7 +224,7 @@
     <Compile Include="PluginChannel\BrandMessage.cs" />
     <Compile Include="PluginChannel\MessageFactory.cs" />
     <Compile Include="PluginChannel\PluginMessage.cs" />
-    <Compile Include="SharperMCServer.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="TileEntities\SignTileEntity.cs" />
     <Compile Include="TileEntities\TileEntity.cs" />
     <Compile Include="TileEntities\TileEntityFactory.cs" />
@@ -244,6 +244,7 @@
     <Compile Include="Utils\Items\ItemStack.cs" />
     <Compile Include="Utils\Misc\ArrayOf.cs" />
     <Compile Include="Utils\Misc\DataBuffer.cs" />
+    <Compile Include="Utils\Misc\FileCompression.cs" />
     <Compile Include="Utils\Misc\MyThreadPool.cs" />
     <Compile Include="Utils\Misc\NibbleArray.cs" />
     <Compile Include="Utils\Misc\ReadOnlyNibbleArray.cs" />
@@ -269,7 +270,7 @@
     <Compile Include="Items\ItemFactory.cs" />
     <Compile Include="Items\ItemMaterial.cs" />
     <Compile Include="Items\ItemType.cs" />
-    <Compile Include="Networking\BasicListener.cs" />
+    <Compile Include="Networking\ClientListenerer.cs" />
     <Compile Include="Networking\Packets\PackageFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Globals.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="Worlds\Better\biomes\basic\BaseBiomes.cs" />
     <None Include="Worlds\Better\biomes\BiomeDictionary.cs.hellono" />
     <None Include="Worlds\Better\biomes\BiomeGenBase.cs.hellno" />
+    <Compile Include="Worlds\LevelManager.cs" />
     <Compile Include="Worlds\Nether\NetherLevel.cs" />
     <Compile Include="Worlds\Nether\NetherWorldProvider.cs" />
     <Compile Include="Worlds\Standard\Biome.cs" />

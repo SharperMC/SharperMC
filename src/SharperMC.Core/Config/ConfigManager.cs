@@ -24,155 +24,94 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using SharperMC.Core.Enums;
+using SharperMC.Core.Utils.Console;
 
 namespace SharperMC.Core.Config
 {
 	public class ConfigManager
 	{
-		public static string ConfigFile = string.Empty;
-		private static string _fileContents = string.Empty;
-		public static string[] InitialValue;
-		private static bool ConfigChanged = false;
-
-		public static bool Check()
+		public string ConfigName { get; }
+		private string[] Config { get; set; }
+		
+		public ConfigManager(string name)
 		{
-			if (!File.Exists(ConfigFile))
+			ConfigName = name;
+			if (!ConfigExists())
+				WriteDefault();
+			else
+				Config = ReadConfig();
+		}
+
+		private void WriteDefault()
+		{
+			if(File.Exists(ConfigName))
+				File.WriteAllText(ConfigName, String.Empty);
+			foreach (FieldInfo field in Server.ServerSettings.GetType().GetFields())
 			{
-				File.WriteAllLines(ConfigFile, InitialValue);
-				return Check();
+				File.AppendAllText(ConfigName, field.Name + "=" + field.GetValue(Server.ServerSettings) + Environment.NewLine);
 			}
-			_fileContents = File.ReadAllText(ConfigFile);
+		}
+
+		private bool CheckAuthenticity()
+		{
+			foreach (FieldInfo field in Server.ServerSettings.GetType().GetFields())
+			{
+				if (File.ReadAllText(ConfigName).Contains(field.Name))
+					continue;
+				ConsoleFunctions.WriteInfoLine(field.Name + " " + field.GetValue(Server.ServerSettings));
+				WriteDefault();
+				return false;
+			}
 			return true;
 		}
 
-		public static Gamemode GetProperty(string property, Gamemode defaultValue)
+		public bool ConfigExists()
 		{
-			return ReadGamemode(property, defaultValue);
+			if (!String.IsNullOrEmpty(ConfigName) && File.Exists(ConfigName))
+				return true;
+			return false;
 		}
 
-		public static bool GetProperty(string property, bool defaultValue)
+		public dynamic GetProperty(string property, dynamic defaultValue)
 		{
-			return ReadBoolean(property, defaultValue);
-		}
-
-		public static int GetProperty(string property, int defaultValue)
-		{
-			return ReadInt(property, defaultValue);
-		}
-
-		public static string GetProperty(string property, string defaultValue)
-		{
-			try
+			foreach (string line in File.ReadAllLines(ConfigName))
 			{
-				return ReadString(property);
-			}
-			catch
-			{
-				return defaultValue;
-			}
-		}
-
-		private static string ReadString(string rule)
-		{
-			foreach (var line in _fileContents.Split(new[] {"\r\n", "\n", Environment.NewLine}, StringSplitOptions.None))
-			{
-				if (line.ToLower().StartsWith(rule.ToLower() + "="))
+				string[] split = line.Split('=');
+				if (split.Length >= 2)
 				{
-					var value = line.Split('=')[1];
-
-					if (rule.ToLower() == "motd") return value; //Do not lower
-
-					return value.ToLower();
+					if (!String.IsNullOrEmpty(split[0]) && split[0].Equals(property, StringComparison.InvariantCultureIgnoreCase))
+					{
+						return TypeDescriptor.GetConverter(defaultValue.GetType()).ConvertFromString(split[1]);
+					}
 				}
 			}
-			throw new EntryPointNotFoundException("The specified property was not found.");
+			ConsoleFunctions.WriteDebugLine("Property value couldn't be found (Property: {0}, Value: {1})", true, property, defaultValue);
+			return defaultValue;
 		}
 
-		private static int ReadInt(string rule, int Default)
+		private string[] ReadConfig()
 		{
-			try
-			{
-				return Convert.ToInt32(ReadString(rule));
-			}
-			catch
-			{
-				return Default;
-			}
+			CheckAuthenticity();
+			if (ConfigExists())
+				return File.ReadAllLines(ConfigName);
+			return null;
 		}
 
-		private static bool ReadBoolean(string rule, bool Default)
+		public void ReloadConfig()
 		{
-			try
-			{
-				var d = ReadString(rule);
-				return Convert.ToBoolean(d);
-			}
-			catch
-			{
-				return Default;
-			}
+			Server.LoadServerSettingsFromFile();
 		}
 
-		private static Gamemode ReadGamemode(string rule, Gamemode Default)
+		public void SaveConfig()
 		{
-			try
-			{
-				var gm = ReadString(rule);
-				switch (gm)
-				{
-					case "1":
-					case "creative":
-						return Gamemode.Creative;
-					case "0":
-					case "survival":
-						return Gamemode.Survival;
-					case "2":
-					case "adventure":
-						return Gamemode.Adventure;
-					default:
-						return Default;
-				}
-			}
-			catch
-			{
-				return Default;
-			}
-		}
-
-		public static void SetProperty(string property, string value)
-		{
-			string lined = "";
-			foreach (var line in _fileContents.Split(new[] {"\r\n", "\n", Environment.NewLine}, StringSplitOptions.None))
-			{
-				if (line.ToLower().StartsWith(property.ToLower() + "="))
-				{
-					lined = line;
-					break; //Correct line is found
-				}
-			}
-
-			if (lined != "")
-			{
-				_fileContents.Replace(lined, string.Format("{0}={1}", lined.Split('=')[0], value));
-			}
-			else
-			{
-				_fileContents += string.Format("{0}={1}\r\n", property, value);
-			}
-			ConfigChanged = true;
-		}
-
-		public static void SaveConfig()
-		{
-			if (ConfigChanged)
-			{
-				File.WriteAllText(ConfigFile, _fileContents);
-			}
+			Config = ReadConfig();
 		}
 	}
 }

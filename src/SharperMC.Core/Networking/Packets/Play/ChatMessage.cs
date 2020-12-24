@@ -61,7 +61,7 @@ namespace SharperMC.Core.Networking.Packets.Play
 			}
 			var msg = Globals.ChatManager.FormatMessage(Client.Player, message);
 
-			Globals.BroadcastChat(msg);
+			Globals.ChatManager.BroadcastChat(msg);
 			ConsoleFunctions.WriteInfoLine(msg);
 		}
 

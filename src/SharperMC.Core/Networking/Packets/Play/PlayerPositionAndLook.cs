@@ -36,6 +36,7 @@ namespace SharperMC.Core.Networking.Packets.Play
 		public double Z = Globals.LevelManager.MainLevel.Generator.GetSpawnPoint().Z;
 		public float Yaw = 0f;
 		public float Pitch = 0f;
+		public bool OnGround = false;
 
 		public PlayerPositionAndLook(ClientWrapper client) : base(client)
 		{
@@ -56,10 +57,11 @@ namespace SharperMC.Core.Networking.Packets.Play
 				Buffer.WriteVarInt(SendId);
 				Buffer.WriteDouble(X);
 				Buffer.WriteDouble(Y);
-				Buffer.WriteDouble(Z);
+				Buffer.WriteDouble(Z); 
 				Buffer.WriteFloat(Yaw);
 				Buffer.WriteFloat(Pitch);
-				Buffer.WriteByte(111);
+				Buffer.WriteBool(OnGround);
+				// Buffer.WriteByte(111);
 				Buffer.FlushData();
 			}
 		}

@@ -59,7 +59,7 @@ namespace SharperMC.Core.Worlds.Standard
 		private static readonly object SyncLock = new object();
 		public static int WaterLevel = 72;
 		private readonly BiomeManager _biomeManager;
-		private readonly CaveGenerator _cavegen = new CaveGenerator(ServerSettings.Seed.GetHashCode());
+		private readonly CaveGenerator _cavegen = new CaveGenerator(Server.ServerSettings.Seed.GetHashCode());
 		private readonly string _folder;
 		public Dictionary<Tuple<int, int>, ChunkColumn> ChunkCache = new Dictionary<Tuple<int, int>, ChunkColumn>();
 
@@ -67,7 +67,7 @@ namespace SharperMC.Core.Worlds.Standard
 		{
 			_folder = folder;
 			IsCaching = true;
-			_biomeManager = new BiomeManager(ServerSettings.Seed.GetHashCode());
+			_biomeManager = new BiomeManager(Server.ServerSettings.Seed.GetHashCode());
 			//	_biomeManager.AddBiomeType(new OceanBiome()); //Not adding until we fixed the transitions :(
 			_biomeManager.AddBiomeType(new FlowerForestBiome());
 			_biomeManager.AddBiomeType(new ForestBiome());
@@ -81,7 +81,7 @@ namespace SharperMC.Core.Worlds.Standard
 
 		public override ChunkColumn LoadChunk(int x, int z)
 		{
-			var u = Globals.Decompress(File.ReadAllBytes(_folder + "/" + x + "." + z + ".cfile"));
+			var u = FileCompression.Decompress(File.ReadAllBytes(_folder + "/" + x + "." + z + ".cfile"));
 			var reader = new DataBuffer(u);
 
 			var blockLength = reader.ReadInt();
@@ -129,7 +129,7 @@ namespace SharperMC.Core.Worlds.Standard
 
 		private bool SaveChunk(ChunkColumn chunk)
 		{
-			File.WriteAllBytes(_folder + "/" + chunk.X + "." + chunk.Z + ".cfile", Globals.Compress(chunk.Export()));
+			File.WriteAllBytes(_folder + "/" + chunk.X + "." + chunk.Z + ".cfile", FileCompression.Compress(chunk.Export()));
 			return true;
 		}
 
@@ -168,8 +168,8 @@ namespace SharperMC.Core.Worlds.Standard
 
 		private void PopulateChunk(ChunkColumn chunk)
 		{
-			var bottom = new SimplexOctaveGenerator(ServerSettings.Seed.GetHashCode(), 8);
-			var overhang = new SimplexOctaveGenerator(ServerSettings.Seed.GetHashCode(), 8);
+			var bottom = new SimplexOctaveGenerator(Server.ServerSettings.Seed.GetHashCode(), 8);
+			var overhang = new SimplexOctaveGenerator(Server.ServerSettings.Seed.GetHashCode(), 8);
 			overhang.SetScale(1/OverhangScale);
 			bottom.SetScale(1/Groundscale);
 

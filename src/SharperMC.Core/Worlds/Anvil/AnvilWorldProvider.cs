@@ -68,7 +68,7 @@ namespace SharperMC.Core.Worlds.Anvil
 
 		public void Init()
 		{
-			_basePath = _basePath ?? ConfigManager.GetProperty("PCWorldFolder", "World").Trim();
+			_basePath = _basePath ?? Server.ConfigManager.GetProperty("PCWorldFolder", "World");
 
 			var file = new NbtFile();
 			if (File.Exists(Path.Combine(_basePath, "level.dat")))
@@ -82,7 +82,7 @@ namespace SharperMC.Core.Worlds.Anvil
 				throw new Exception(@"Could not load Anvil world!");
 			}
 
-			_waterOffsetY = (byte)ConfigManager.GetProperty("PCWaterOffset", 0);
+			_waterOffsetY = (byte)Server.ConfigManager.GetProperty("PCWaterOffset", 0);
 		}
 
 		private byte Nibble4(byte[] arr, int index)

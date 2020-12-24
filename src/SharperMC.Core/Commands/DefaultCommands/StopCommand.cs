@@ -33,8 +33,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
         
         public override void Execute(ICommandSender sender, string label, string[] args)
         {
-            //todo: permissions
-            Globals.StopServer();
+            Server.StopServer();
         }
 
         public override string[] TabComplete(ICommandSender sender, string label, string[] args)

@@ -40,24 +40,21 @@ using SharperMC.Core.Utils.Packets;
 
 namespace SharperMC.Core.Networking
 {
-	public class BasicListener
+	public class ClientListener
 	{
 		private TcpListener _serverListener;
 
 		public void StartListening()
 		{
-			var port = 25515;//Config.GetProperty("port", 25565);
-			if (port != 25565)
+			int port = Server.ServerSettings.Port;
+			if (!NetUtils.PortAvailability(port))
 			{
-				if (!NetUtils.PortAvailability(port))
-				{
-					ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", port);
-					Globals.StopServer();
-					return;
-				}
-				ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", port);
-				_serverListener = new TcpListener(IPAddress.Any, port);
+				ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", true, port);
+				Server.StopServer();
+				return;
 			}
+			ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", true, port);
+			_serverListener = new TcpListener(IPAddress.Any, port);
 			if (_serverListener == null)
 			{
 				ConsoleFunctions.WriteErrorLine("An error occured when starting the client listener.. Null TCPListener..");
@@ -90,32 +87,35 @@ namespace SharperMC.Core.Networking
 			var buffie = new byte[dlength];
 			int receivedData;
 			receivedData = clientStream.Read(buffie, 0, buffie.Length);
-			if (receivedData <= 0) return false;
-			var buf = new DataBuffer(client);
+			if (receivedData > 0)
+			{
+				var buf = new DataBuffer(client);
 
-			if (client.Decryptor != null)
-			{
-				var date = new byte[4096];
-				client.Decryptor.TransformBlock(buffie, 0, buffie.Length, date, 0);
-				buf.BufferedData = date;
-			}
-			else
-			{
+				if (client.Decryptor != null)
+				{
+					var date = new byte[4096];
+					client.Decryptor.TransformBlock(buffie, 0, buffie.Length, date, 0);
+					buf.BufferedData = date;
+				}
+				else
+				{
+					buf.BufferedData = buffie;
+				}
+
 				buf.BufferedData = buffie;
+
+				buf.Size = dlength;
+				var packid = buf.ReadVarInt();
+
+				if (!new PackageFactory(client, buf).Handle(packid))
+				{
+					ConsoleFunctions.WriteWarningLine("Unknown packet received! \"0x" + packid.ToString("X2") + "\"");
+				}
+
+				buf.Dispose();
+				return true;
 			}
-
-			buf.BufferedData = buffie;
-
-			buf.Size = dlength;
-			var packid = buf.ReadVarInt();
-
-			if (!new PackageFactory(client, buf).Handle(packid))
-			{
-				ConsoleFunctions.WriteWarningLine("Unknown packet received! \"0x" + packid.ToString("X2") + "\"");
-			}
-
-			buf.Dispose();
-			return true;
+			return false;
 		}
 		
 		#endregion
@@ -175,7 +175,7 @@ namespace SharperMC.Core.Networking
 			{
 				try
 				{
-					if (ServerSettings.UseCompression && WrappedClient.PacketMode == PacketMode.Play)
+					if (Server.ServerSettings.UseCompression && WrappedClient.PacketMode == PacketMode.Play)
 					{
 						int packetLength = NetUtils.ReadVarInt(clientStream);
 						int dataLength = NetUtils.ReadVarInt(clientStream);
@@ -201,7 +201,7 @@ namespace SharperMC.Core.Networking
 				catch (Exception ex)
 				{
 					ConsoleFunctions.WriteDebugLine("Error: \n" + ex);
-					if (ServerSettings.ReportExceptionsToClient)
+					if (Server.ServerSettings.ReportExceptionsToClient)
 					{
 						new Disconnect(WrappedClient)
 						{

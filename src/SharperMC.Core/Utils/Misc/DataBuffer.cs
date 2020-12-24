@@ -397,9 +397,9 @@ namespace SharperMC.Core.Utils.Misc
 				var allData = _bffr.ToArray();
 				_bffr.Clear();
 
-				if (ServerSettings.UseCompression && _client.PacketMode == PacketMode.Play && _client.SetCompressionSend)
+				if (Server.ServerSettings.UseCompression && _client.PacketMode == PacketMode.Play && _client.SetCompressionSend)
 				{
-					var isOver = (allData.Length >= ServerSettings.CompressionThreshold);
+					var isOver = (allData.Length >= Server.ServerSettings.CompressionThreshold);
 					var dataLength = isOver ? allData.Length : 0;
 
 					//Calculate length of 'Data Length'
