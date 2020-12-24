@@ -229,9 +229,13 @@
     <Compile Include="TileEntities\TileEntity.cs" />
     <Compile Include="TileEntities\TileEntityFactory.cs" />
     <Compile Include="Utils\Client\ClientWrapper.cs" />
-    <Compile Include="Utils\Console\ColoredConsole.cs" />
-    <Compile Include="Utils\Console\ConsoleCommandHandler.cs" />
     <Compile Include="Utils\Console\ConsoleFunctions.cs" />
+    <Compile Include="Utils\Console\GuiApp.cs" />
+    <Compile Include="Utils\Console\Minimal\BasicConsole.cs" />
+    <Compile Include="Utils\Console\Tabbing\TabConsole.cs" />
+    <Compile Include="Utils\Console\Utils\ConsoleUtils.cs" />
+    <Compile Include="Utils\Console\Utils\FancyColor.cs" />
+    <Compile Include="Utils\Console\Utils\FancyText.cs" />
     <Compile Include="Utils\Entities\BoundingBox.cs" />
     <Compile Include="Utils\Entities\HealthManager.cs" />
     <Compile Include="Utils\Entities\Player\PlayerInventoryManager.cs" />

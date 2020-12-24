@@ -1,4 +1,4 @@
-﻿// Distrubuted under the MIT license
+// Distrubuted under the MIT license
 // ===================================================
 // SharperMC uses the permissive MIT license.
 // 
@@ -22,130 +22,83 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using System;
 using SharperMC.Core.Config;
+using SharperMC.Core.Utils.Console.Utils;
 
 namespace SharperMC.Core.Utils.Console
 {
-    internal static class ConsoleFunctions
+    public static class ConsoleFunctions
     {
         /// <summary>
-        /// Writes to console but also contains a way to disable new line 
+        /// Writes to console
         /// </summary>
-        public static void WriteLine(string text, bool newline = true, params object[] args)
+        public static void WriteLine(string text, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
+            Write(new FancyText(Format(text, args), FancyColor.Reset));
         }
 
         /// <summary>
-        /// Writes to console with custom foreGround option but also includes a way to disable new line
+        /// Writes to console with custom foreGround option
         /// </summary>
-        public static void WriteLine(string text, ConsoleColor foreGroundColor, bool newline = true,
-            params object[] args)
+        public static void WriteLine(string text, FancyColor color, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = foreGroundColor;
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
-            System.Console.ResetColor();
+            Write(new FancyText(Format(text, args), color));
         }
 
         /// <summary>
-        /// Writes to console with custom foreGround and backGround options but also includes a way to disable new line
+        /// Writes information to console with a neat color
         /// </summary>
-        public static void WriteLine(string text, ConsoleColor foreGroundColor, ConsoleColor backGroundColor,
-            bool newline = true, params object[] args)
+        public static void WriteInfoLine(string text, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = foreGroundColor;
-            System.Console.BackgroundColor = backGroundColor;
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
-            System.Console.ResetColor();
+            Write(NewFancyText("[Info] ", FancyColor.Green, Format(text, args)));
         }
 
         /// <summary>
-        /// Writes information to console with a neat color but you can also disable the new line feature
+        /// Writes information to console with using a FancyText
         /// </summary>
-        public static void WriteInfoLine(string text, bool newline = true, params object[] args)
+        public static void WriteInfoLine(FancyText text, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = ConsoleColor.Green;
-            System.Console.Write("[INFO] ");
-            System.Console.ResetColor();
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
+            text.Text = Format(text.Text, args);
+            Write(NewFancyText("[Info] ", FancyColor.Green, text));
         }
 
         /// <summary>
-        /// Writes information to console with a neat color but you can also disable the new line feature
+        /// Writes information to console with a neat color
         /// </summary>
-        public static void WriteFatalErrorLine(string text, bool newline = true, params object[] args)
+        public static void WriteFatalErrorLine(string text, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.Write("[FATAL ERROR] ");
-            System.Console.ResetColor();
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
+            Write(new FancyText("[FatalError] ", FancyColor.Red, FancyColor.Bold)
+                {Next = new FancyText(Format(text, args), FancyColor.Reset)});
         }
 
         /// <summary>
-        /// Writes information to console with a neat color but you can also disable the new line feature
+        /// Writes information to console with a neat color
         /// </summary>
-        public static void WriteErrorLine(string text, bool newline = true, params object[] args)
+        public static void WriteErrorLine(string text, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.Write("[ERROR] ");
-            System.Console.ResetColor();
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
+            Write(NewFancyText("[Error] ", FancyColor.DarkRed, Format(text, args)));
         }
 
         /// <summary>
-        /// Writes information to console with a neat color but you can also disable the new line feature
+        /// Writes information to console with a neat color
         /// </summary>
-        public static void WriteWarningLine(string text, bool newline = true, params object[] args)
+        public static void WriteWarningLine(string text, params object[] args)
         {
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = ConsoleColor.DarkRed;
-            System.Console.Write("[WARNING] ");
-            System.Console.ResetColor();
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
+            Write(NewFancyText("[Warning] ", FancyColor.Yellow, Format(text, args)));
         }
 
         /// <summary>
         /// Writes debug info to the console but can also be disables from ServerSettings.
         /// </summary>
-        public static void WriteDebugLine(string text, bool newline = true, params object[] args)
+        public static void WriteDebugLine(string text, params object[] args)
         {
             if (!ServerSettings.Debug) return;
-            Globals.ColoredConsole.Printed = true;
-            System.Console.ForegroundColor = ConsoleColor.Yellow;
-            System.Console.Write("[DEBUG] ");
-            System.Console.ResetColor();
-            if (args == null || args.Length == 0)
-                System.Console.Write(text + (newline ? "\n" : ""));
-            else
-                System.Console.Write(text + (newline ? "\n" : ""), args);
+            Write(NewFancyText("[Debug] ", FancyColor.Gray, Format(text, args)));
+        }
+
+        public static void Write(FancyText text)
+        {
+            GuiApp.Log(text);
         }
 
         public static void ClearConsole()
@@ -153,12 +106,31 @@ namespace SharperMC.Core.Utils.Console
             System.Console.Clear();
         }
 
-        public static void ClearCurrentConsoleLine()
+        public static string Format(string text, params object[] args)
         {
-            var currentLineCursor = System.Console.CursorTop;
-            System.Console.SetCursorPosition(0, System.Console.CursorTop);
-            System.Console.Write(new string(' ', System.Console.WindowWidth));
-            System.Console.SetCursorPosition(0, currentLineCursor);
+            return (args == null || args.Length == 0) ? text : string.Format(text, args);
+        }
+
+        public static FancyText NewFancyText(string prefix, FancyColor color, string text)
+        {
+            return NewFancyText(prefix, color, new FancyText(text, FancyColor.Reset));
+        }
+
+        public static FancyText NewFancyText(string prefix, FancyColor color, FancyText text)
+        {
+            return new FancyText(prefix, color) {Next = text};
+        }
+
+        // Pauses 
+        public static void Pause()
+        {
+            GuiApp.Pause = true;
+        }
+
+        public static void Continue()
+        {
+            Write(new FancyText("\n", FancyColor.Reset));
+            GuiApp.Pause = false;
         }
     }
 }

@@ -51,11 +51,11 @@ namespace SharperMC.Core.Networking
 			{
 				if (!NetUtils.PortAvailability(port))
 				{
-					ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", true, port);
+					ConsoleFunctions.WriteErrorLine("Port already in use... Shutting down server... [{0}]", port);
 					Globals.StopServer();
 					return;
 				}
-				ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", true, port);
+				ConsoleFunctions.WriteInfoLine("Starting server on port... {0}", port);
 				_serverListener = new TcpListener(IPAddress.Any, port);
 			}
 			if (_serverListener == null)
@@ -90,35 +90,32 @@ namespace SharperMC.Core.Networking
 			var buffie = new byte[dlength];
 			int receivedData;
 			receivedData = clientStream.Read(buffie, 0, buffie.Length);
-			if (receivedData > 0)
+			if (receivedData <= 0) return false;
+			var buf = new DataBuffer(client);
+
+			if (client.Decryptor != null)
 			{
-				var buf = new DataBuffer(client);
-
-				if (client.Decryptor != null)
-				{
-					var date = new byte[4096];
-					client.Decryptor.TransformBlock(buffie, 0, buffie.Length, date, 0);
-					buf.BufferedData = date;
-				}
-				else
-				{
-					buf.BufferedData = buffie;
-				}
-
-				buf.BufferedData = buffie;
-
-				buf.Size = dlength;
-				var packid = buf.ReadVarInt();
-
-				if (!new PackageFactory(client, buf).Handle(packid))
-				{
-					ConsoleFunctions.WriteWarningLine("Unknown packet received! \"0x" + packid.ToString("X2") + "\"");
-				}
-
-				buf.Dispose();
-				return true;
+				var date = new byte[4096];
+				client.Decryptor.TransformBlock(buffie, 0, buffie.Length, date, 0);
+				buf.BufferedData = date;
 			}
-			return false;
+			else
+			{
+				buf.BufferedData = buffie;
+			}
+
+			buf.BufferedData = buffie;
+
+			buf.Size = dlength;
+			var packid = buf.ReadVarInt();
+
+			if (!new PackageFactory(client, buf).Handle(packid))
+			{
+				ConsoleFunctions.WriteWarningLine("Unknown packet received! \"0x" + packid.ToString("X2") + "\"");
+			}
+
+			buf.Dispose();
+			return true;
 		}
 		
 		#endregion

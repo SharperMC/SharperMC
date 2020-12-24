@@ -71,7 +71,6 @@ namespace SharperMC.Core
 		
 		internal static Random Rand;
 		public static readonly ConsoleSender ConsoleSender = new ConsoleSender();
-		public static readonly ColoredConsole ColoredConsole = new ColoredConsole();
 
 		public static void BroadcastChat(string message, Player sender = null)
 		{

@@ -2,13 +2,14 @@
 
 namespace SharperMC
 {
-	class Program
+	internal static class Program
 	{
 		private static SharperMCServer _server;
-		static void Main(string[] args)
+
+		private static void Main(string[] args)
 		{
-			_server= new SharperMCServer();
-			_server.StartServer();
+			_server = new SharperMCServer();
+			_server.StartServer(args);
 		}
 	}
 }
