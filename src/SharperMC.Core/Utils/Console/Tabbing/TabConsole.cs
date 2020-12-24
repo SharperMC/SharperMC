@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SharperMC.Core.Commands;
-using SharperMC.Core.Utils.Console.Utils;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Utils.Console.Tabbing
 {
@@ -46,9 +46,6 @@ namespace SharperMC.Core.Utils.Console.Tabbing
         {
             switch (key.Key)
             {
-                case ConsoleKey.End:
-                    GuiApp.Log(new FancyText($"UwU{new Random().Next()}", FancyColor.Aqua));
-                    break;
                 case ConsoleKey.Tab:
                     int rem;
                     if (_hinting)
@@ -204,7 +201,7 @@ namespace SharperMC.Core.Utils.Console.Tabbing
             _cursor = _line.Length;
         }
 
-        public void Log(FancyText text)
+        public void Log(ChatText text)
         {
             System.Console.CursorVisible = false;
             var top = Math.Max(0, System.Console.CursorTop);
@@ -213,7 +210,7 @@ namespace SharperMC.Core.Utils.Console.Tabbing
                 System.Console.SetCursorPosition(0, top);
                 System.Console.Write(new string(' ', ConsoleUtils.Width - 1));
                 System.Console.SetCursorPosition(0, top);
-                text.SetNext(new FancyText("\n", FancyColor.Reset));
+                text.SetNext(new ChatText("\n", TextColor.Reset));
             }
             text.PrintNext(GuiApp.ConsoleColors);
 

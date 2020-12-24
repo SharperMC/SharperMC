@@ -22,8 +22,7 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using SharperMC.Core.Config;
-using SharperMC.Core.Utils.Console.Utils;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Utils.Console
 {
@@ -34,15 +33,15 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteLine(string text, params object[] args)
         {
-            Write(new FancyText(Format(text, args), FancyColor.Reset));
+            Write(new ChatText(Format(text, args), TextColor.Reset));
         }
 
         /// <summary>
         /// Writes to console with custom foreGround option
         /// </summary>
-        public static void WriteLine(string text, FancyColor color, params object[] args)
+        public static void WriteLine(string text, TextAttribute color, params object[] args)
         {
-            Write(new FancyText(Format(text, args), color));
+            Write(new ChatText(Format(text, args), color));
         }
 
         /// <summary>
@@ -50,16 +49,16 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteInfoLine(string text, params object[] args)
         {
-            Write(NewFancyText("[Info] ", FancyColor.Green, Format(text, args)));
+            Write(NewFancyText("[Info] ", TextColor.Green, Format(text, args)));
         }
 
         /// <summary>
         /// Writes information to console with using a FancyText
         /// </summary>
-        public static void WriteInfoLine(FancyText text, params object[] args)
+        public static void WriteInfoLine(ChatText text, params object[] args)
         {
             text.Text = Format(text.Text, args);
-            Write(NewFancyText("[Info] ", FancyColor.Green, text));
+            Write(NewFancyText("[Info] ", TextColor.Green, text));
         }
 
         /// <summary>
@@ -67,8 +66,8 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteFatalErrorLine(string text, params object[] args)
         {
-            Write(new FancyText("[FatalError] ", FancyColor.Red, FancyColor.Bold)
-                {Next = new FancyText(Format(text, args), FancyColor.Reset)});
+            Write(new ChatText("[FatalError] ", TextColor.Red, TextColor.Bold)
+                {Next = new ChatText(Format(text, args), TextColor.Reset)});
         }
 
         /// <summary>
@@ -76,7 +75,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteErrorLine(string text, params object[] args)
         {
-            Write(NewFancyText("[Error] ", FancyColor.DarkRed, Format(text, args)));
+            Write(NewFancyText("[Error] ", TextColor.DarkRed, Format(text, args)));
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteWarningLine(string text, params object[] args)
         {
-            Write(NewFancyText("[Warning] ", FancyColor.Yellow, Format(text, args)));
+            Write(NewFancyText("[Warning] ", TextColor.Yellow, Format(text, args)));
         }
 
         /// <summary>
@@ -93,10 +92,10 @@ namespace SharperMC.Core.Utils.Console
         public static void WriteDebugLine(string text, params object[] args)
         {
             if (!Server.ServerSettings.Debug) return;
-            Write(NewFancyText("[Debug] ", FancyColor.Gray, Format(text, args)));
+            Write(NewFancyText("[Debug] ", TextColor.Gray, Format(text, args)));
         }
 
-        public static void Write(FancyText text)
+        public static void Write(ChatText text)
         {
             GuiApp.Log(text);
         }
@@ -111,14 +110,14 @@ namespace SharperMC.Core.Utils.Console
             return (args == null || args.Length == 0) ? text : string.Format(text, args);
         }
 
-        public static FancyText NewFancyText(string prefix, FancyColor color, string text)
+        public static ChatText NewFancyText(string prefix, TextAttribute color, string text)
         {
-            return NewFancyText(prefix, color, new FancyText(text, FancyColor.Reset));
+            return NewFancyText(prefix, color, new ChatText(text, TextColor.Reset));
         }
 
-        public static FancyText NewFancyText(string prefix, FancyColor color, FancyText text)
+        public static ChatText NewFancyText(string prefix, TextAttribute color, ChatText text)
         {
-            return new FancyText(prefix, color) {Next = text};
+            return new ChatText(prefix, color) {Next = text};
         }
 
         // Pauses 
@@ -129,7 +128,7 @@ namespace SharperMC.Core.Utils.Console
 
         public static void Continue()
         {
-            Write(new FancyText("\n", FancyColor.Reset));
+            Write(new ChatText("\n", TextColor.Reset));
             GuiApp.Pause = false;
         }
     }

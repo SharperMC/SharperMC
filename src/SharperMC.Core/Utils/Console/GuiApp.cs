@@ -3,7 +3,7 @@ using System.Linq;
 using SharperMC.Core.Commands;
 using SharperMC.Core.Utils.Console.Minimal;
 using SharperMC.Core.Utils.Console.Tabbing;
-using SharperMC.Core.Utils.Console.Utils;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Utils.Console
 {
@@ -24,10 +24,7 @@ namespace SharperMC.Core.Utils.Console
             ConsoleColors = args.Contains("--console-colors");
             if (ConsoleColors)
             {
-                Log(new FancyText("[Log] ", FancyColor.Blue)
-                {
-                    Next = new FancyText("ConsoleColors enabled.", FancyColor.Reset)
-                });
+                ConsoleFunctions.WriteInfoLine("ConsoleColors enabled.");
             }
             // ReSharper disable once AssignmentInConditionalExpression
             if (Minimal = args.Contains("--minimal"))
@@ -46,7 +43,7 @@ namespace SharperMC.Core.Utils.Console
             LineRead?.Invoke(s);
         }
 
-        public static void Log(FancyText text)
+        public static void Log(ChatText text)
         {
             if (Minimal) BasicConsole.Instance.Log(text);
             else TabConsole.Instance.Log(text);

@@ -1,20 +1,34 @@
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
-namespace SharperMC.Core.Utils.Console.Utils
+namespace SharperMC.Core.Utils.Text
 {
-    public class FancyText //TODO: Add minecraft components like hover, click action, etc...
+    public class ChatText //TODO: Add minecraft components like hover, click action, etc...
     {
         public string Text;
 
-        public FancyColor[] Colors;
+        public TextAttribute[] Colors;
 
-        public FancyText Next;
+        public ChatText Next;
 
-        public FancyText(string text, params FancyColor[] colors)
+        public ChatText(string text, params TextAttribute[] colors)
         {
             Text = text;
             Colors = colors;
+        }
+
+        public Dictionary<string, object> DictSerialize()
+        {
+            var data = Colors.ToDictionary(attr => attr.JsonKey, attr => attr.JsonValue);
+            if (!string.IsNullOrEmpty(Text)) data.Add("text", Text);
+            if (Next != null) data.Add("extra", Next.DictSerialize());
+            return data;
+        }
+
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(DictSerialize());
         }
 
         public void SetConsoleColor()
@@ -25,16 +39,16 @@ namespace SharperMC.Core.Utils.Console.Utils
                     System.Console.ForegroundColor = color.ConsoleColor;
         }
 
-        public List<FancyText> Split(int width, int len = 0)
+        public List<ChatText> Split(int width, int len = 0)
         {
-            var list = new List<FancyText>();
+            var list = new List<ChatText>();
             var str = "";
             foreach (var c in Text)
             {
                 if (c == '\n')
                 {
                     len = 0;
-                    list.Add(new FancyText(str, Colors));
+                    list.Add(new ChatText(str, Colors));
                     str = "";
                 }
                 else
@@ -43,21 +57,21 @@ namespace SharperMC.Core.Utils.Console.Utils
                     if (len > width)
                     {
                         len = 0;
-                        list.Add(new FancyText(str, Colors));
+                        list.Add(new ChatText(str, Colors));
                         str = c.ToString();
                     }
                     else str += c;
                 }
             }
 
-            if (!string.IsNullOrEmpty(str)) list.Add(new FancyText(str, Colors));
+            if (!string.IsNullOrEmpty(str)) list.Add(new ChatText(str, Colors));
 
             return list;
         }
 
-        public List<FancyText> GetLines(int width)
+        public List<ChatText> GetLines(int width)
         {
-            var lines = new List<FancyText>();
+            var lines = new List<ChatText>();
             var text = this;
             do
             {
@@ -77,7 +91,7 @@ namespace SharperMC.Core.Utils.Console.Utils
             return lines;
         }
 
-        public void SetNext(FancyText next)
+        public void SetNext(ChatText next)
         {
             var t = this;
             while (t.Next != null) t = t.Next;
@@ -116,7 +130,7 @@ namespace SharperMC.Core.Utils.Console.Utils
 
         public string GetConsoleStringRaw()
         {
-            return Colors.Aggregate("", (current, item) => current + item.PrintFunc) + Text;
+            return Colors.Aggregate("", (current, item) => current + item.AnsiCode) + Text;
         }
 
         public string GetConsoleString()

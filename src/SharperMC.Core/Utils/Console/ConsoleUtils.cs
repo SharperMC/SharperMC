@@ -1,4 +1,4 @@
-﻿namespace SharperMC.Core.Utils.Console.Utils
+﻿namespace SharperMC.Core.Utils.Console
 {
     public static class ConsoleUtils
     {

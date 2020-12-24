@@ -230,12 +230,10 @@
     <Compile Include="TileEntities\TileEntityFactory.cs" />
     <Compile Include="Utils\Client\ClientWrapper.cs" />
     <Compile Include="Utils\Console\ConsoleFunctions.cs" />
+    <Compile Include="Utils\Console\ConsoleUtils.cs" />
     <Compile Include="Utils\Console\GuiApp.cs" />
     <Compile Include="Utils\Console\Minimal\BasicConsole.cs" />
     <Compile Include="Utils\Console\Tabbing\TabConsole.cs" />
-    <Compile Include="Utils\Console\Utils\ConsoleUtils.cs" />
-    <Compile Include="Utils\Console\Utils\FancyColor.cs" />
-    <Compile Include="Utils\Console\Utils\FancyText.cs" />
     <Compile Include="Utils\Entities\BoundingBox.cs" />
     <Compile Include="Utils\Entities\HealthManager.cs" />
     <Compile Include="Utils\Entities\Player\PlayerInventoryManager.cs" />
@@ -281,6 +279,8 @@
     <Compile Include="Utils\Security\PacketCryptography.cs" />
     <Compile Include="Utils\Security\SecurityUtils.cs" />
     <Compile Include="Utils\Security\ZLibStream.cs" />
+    <Compile Include="Utils\Text\TextAttribute.cs" />
+    <Compile Include="Utils\Text\ChatText.cs" />
     <Compile Include="Utils\Vectors\OpenSimplex.cs" />
     <Compile Include="Utils\Vectors\Ray.cs" />
     <Compile Include="Utils\Vectors\Ray2.cs" />
@@ -351,6 +351,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Utils\Console\Utils" />
     <Folder Include="Worlds\Better\biomes\realistic\" />
   </ItemGroup>
   <ItemGroup>

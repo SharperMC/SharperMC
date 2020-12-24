@@ -1,4 +1,4 @@
-﻿using SharperMC.Core.Utils.Console.Utils;
+﻿using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Utils.Console.Minimal
 {
@@ -11,7 +11,7 @@ namespace SharperMC.Core.Utils.Console.Minimal
             while (true) GuiApp.LineRed(System.Console.ReadLine());
         }
 
-        public void Log(FancyText text)
+        public void Log(ChatText text)
         {
             text.PrintNext(GuiApp.ConsoleColors);
             if (!GuiApp.Pause) System.Console.Write("\n");
