@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using SharperMC.Core.Chat;
@@ -9,7 +8,6 @@ using SharperMC.Core.Enums;
 using SharperMC.Core.Networking;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.PluginChannel;
-using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Security;
@@ -36,21 +34,33 @@ namespace SharperMC.Core
 			CurrentDirectory = Directory.GetCurrentDirectory();
 			var currentDomain = AppDomain.CurrentDomain;
 			currentDomain.UnhandledException += UnhandledException;
+			
+			ConsoleFunctions.Pause();
 			ConsoleFunctions.WriteInfoLine("Enabling global error handling... ", false);
 			ConsoleFunctions.WriteLine("Enabled.", ConsoleColor.Green);
+			ConsoleFunctions.Continue();
+			
+			ConsoleFunctions.Pause();
 			ConsoleFunctions.WriteInfoLine("Checking if server properties exist... ", false);
 			ConsoleFunctions.WriteLine(LoadSettings() ? "Loading." : "Created.", ConsoleColor.Green);
+			ConsoleFunctions.Continue();
+			
+			ConsoleFunctions.Pause();
 			ConsoleFunctions.WriteInfoLine("Loading server variables... ", false);
 			ConsoleFunctions.WriteLine("Loaded.", ConsoleColor.Green);
+			ConsoleFunctions.Continue();
 			
+			ConsoleFunctions.Pause();
 			ConsoleFunctions.WriteInfoLine("Checking files and directories... ", false);
 			CheckDirectoriesAndFiles();
 			ConsoleFunctions.WriteLine("Files are good hopefully.", ConsoleColor.Green);
+			ConsoleFunctions.Continue();
+			
 			_initiated = true;
 		}
 
 		
-		public void StartServer()
+		public void StartServer(string[] args)
 		{
 			if (!_initiated) throw new Exception("Server not initiated!");
 			Console.CancelKeyPress += ConsoleOnCancelKeyPress;
@@ -59,7 +69,7 @@ namespace SharperMC.Core
 			try
 			{
 				new Thread(Globals.ServerListener.StartListening).Start();
-				new Thread(ConsoleCommandHandler.WaitForCommand).Start();
+				new Thread(() => GuiApp.Start(args)).Start();
 			}
 			catch (Exception ex)
 			{
@@ -88,9 +98,7 @@ namespace SharperMC.Core
 			ConfigManager = new ConfigManager("server.properties");
 			LoadServerSettingsFromFile();
 			InitiateVariables();
-			if (ConfigManager.ConfigExists())
-				return true;
-			return false;
+			return ConfigManager.ConfigExists();
 		}
 
 		public static void LoadServerSettingsFromFile()

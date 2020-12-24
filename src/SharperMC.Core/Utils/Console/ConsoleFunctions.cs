@@ -92,7 +92,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteDebugLine(string text, params object[] args)
         {
-            if (!ServerSettings.Debug) return;
+            if (!Server.ServerSettings.Debug) return;
             Write(NewFancyText("[Debug] ", FancyColor.Gray, Format(text, args)));
         }
 

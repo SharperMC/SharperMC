@@ -74,9 +74,7 @@ namespace SharperMC.Core.Config
 
 		public bool ConfigExists()
 		{
-			if (!String.IsNullOrEmpty(ConfigName) && File.Exists(ConfigName))
-				return true;
-			return false;
+			return !string.IsNullOrEmpty(ConfigName) && File.Exists(ConfigName);
 		}
 
 		public dynamic GetProperty(string property, dynamic defaultValue)

@@ -6,7 +6,7 @@ namespace SharperMC
 	{
 		static void Main(string[] args)
 		{
-			new Server().StartServer();
+			new Server().StartServer(args);
 		}
 	}
 }
