@@ -27,6 +27,7 @@ using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands
 {
@@ -44,17 +45,17 @@ namespace SharperMC.Core.Commands
 
         public void SendChat(string message)
         {
-            ConsoleFunctions.WriteInfoLine(message);
+            ConsoleFunctions.WriteLine(message);
         }
 
-        public void SendChat(McChatMessage message)
+        public void SendChat(ChatText message)
         {
-            ConsoleFunctions.WriteInfoLine(message.text);
+            ConsoleFunctions.Write(message);
         }
 
-        public void SendChat(string message, ChatColor color)
+        public void SendChat(string message, TextAttribute color)
         {
-            ConsoleFunctions.WriteInfoLine(message);
+            ConsoleFunctions.WriteLine(message, color);
         }
     }
 }

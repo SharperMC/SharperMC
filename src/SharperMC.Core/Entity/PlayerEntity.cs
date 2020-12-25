@@ -43,6 +43,7 @@ using SharperMC.Core.Utils.Entities.Player;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Security;
+using SharperMC.Core.Utils.Text;
 using SharperMC.Core.Utils.Vectors;
 using SharperMC.Core.Worlds;
 using Animation = SharperMC.Core.Networking.Packets.Play.Animation;
@@ -285,7 +286,7 @@ namespace SharperMC.Core.Entity
 			if (!silent)
 			{
 				ConsoleFunctions.WriteInfoLine(Username + "'s gamemode was changed to " + target.ToString("D"));
-				SendChat("Your gamemode was changed to " + target.ToString(), ChatColor.Yellow);
+				SendChat("Your gamemode was changed to " + target.ToString(), TextColor.Yellow);
 			}
 		}
 
@@ -444,11 +445,11 @@ namespace SharperMC.Core.Entity
 			}.Write();
 		}
 
-		public void SendChat(McChatMessage message)
+		public void SendChat(ChatText message)
 		{
 			if (Wrapper.TcpClient == null)
 			{
-				ConsoleFunctions.WriteInfoLine(message.text);
+				ConsoleFunctions.WriteInfoLine(message);
 				return;
 			}
 
@@ -457,15 +458,15 @@ namespace SharperMC.Core.Entity
 
 		public void SendChat(string message)
 		{
-			SendChat(new McChatMessage(message));
+			SendChat(new ChatText(message));
 		}
 
-		public void SendChat(string message, ChatColor color)
+		public void SendChat(string message, TextAttribute color)
 		{
-			SendChat("§" + color.Value + message);
+			SendChat(new ChatText(message, color));
 		}
 
-		public void Kick(McChatMessage reason)
+		public void Kick(ChatText reason)
 		{
 			new Disconnect(Wrapper) {Reason = reason}.Write();
 			SavePlayer();
@@ -473,7 +474,7 @@ namespace SharperMC.Core.Entity
 
 		public void Kick()
 		{
-			Kick(new McChatMessage("Unknown reason."));
+			Kick(new ChatText("Unknown reason."));
 		}
 
 		/// <summary>

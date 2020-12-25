@@ -2,6 +2,7 @@
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.API
 {
@@ -12,7 +13,7 @@ namespace SharperMC.API
 			player.SendChat(message);
 		}
 
-		public static void SendChatMessage(Player player, string message, ChatColor color)
+		public static void SendChatMessage(Player player, string message, TextAttribute color)
 		{
 			player.SendChat(message, color);
 		}
@@ -20,16 +21,16 @@ namespace SharperMC.API
 		public static void KickPlayer(Player player, string reason)
 		{
 			//player.Kick(reason);
-			KickPlayer(player, new McChatMessage(reason));
+			KickPlayer(player, new ChatText(reason));
 		}
 
 		public static void KickPlayer(Player player)
 		{
 			//player.Kick("You were kicked from the server.");
-			KickPlayer(player, new McChatMessage("You were kicked from the server."));
+			KickPlayer(player, new ChatText("You were kicked from the server."));
 		}
 
-		public static void KickPlayer(Player player, McChatMessage message)
+		public static void KickPlayer(Player player, ChatText message)
 		{
 			player.Kick(message);
 		}

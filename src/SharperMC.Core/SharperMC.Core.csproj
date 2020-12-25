@@ -132,7 +132,6 @@
     <Compile Include="Entity\PrimedTNTEntity.cs" />
     <Compile Include="Entity\SnowballEntity.cs" />
     <Compile Include="Entity\Projectile.cs" />
-    <Compile Include="Enums\ChatColors.cs" />
     <Compile Include="Enums\ChatMessagePosition.cs" />
     <Compile Include="Enums\DamageCause.cs" />
     <Compile Include="Enums\EntityAction.cs" />
@@ -255,7 +254,6 @@
     <Compile Include="Utils\NBT\NbtBinaryWriter.cs" />
     <Compile Include="Utils\NBT\NbtFormatException.cs" />
     <Compile Include="Utils\Networking\NetUtils.cs" />
-    <Compile Include="Utils\Packets\MCChatMessage.cs" />
     <Compile Include="Utils\Packets\StatusRequestMessage.cs" />
     <Compile Include="Utils\Permissions\PermissionManager.cs" />
     <Compile Include="Entity\Entity.cs" />

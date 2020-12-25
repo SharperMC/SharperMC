@@ -22,7 +22,7 @@ namespace SharperMC.Core.Utils.Text
         {
             var data = Colors.ToDictionary(attr => attr.JsonKey, attr => attr.JsonValue);
             if (!string.IsNullOrEmpty(Text)) data.Add("text", Text);
-            if (Next != null) data.Add("extra", Next.DictSerialize());
+            if (Next != null) data.Add("extra", new Dictionary<string, object>[] {Next.DictSerialize()});
             return data;
         }
 

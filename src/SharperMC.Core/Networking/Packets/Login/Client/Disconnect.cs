@@ -27,12 +27,13 @@ using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking.Packets.Login.Client
 {
 	internal class Disconnect : Package<Disconnect>
 	{
-		public McChatMessage Reason;
+		public ChatText Reason;
 
 		public Disconnect(ClientWrapper client) : base(client)
 		{
@@ -46,13 +47,11 @@ namespace SharperMC.Core.Networking.Packets.Login.Client
 
 		public override void Write()
 		{
-			if (Buffer != null)
-			{
-				var msg = JsonConvert.SerializeObject(Reason);
-				Buffer.WriteVarInt(Client.PacketMode == PacketMode.Login ? 0x00 : SendId);
-				Buffer.WriteString(msg);
-				Buffer.FlushData();
-			}
+			if (Buffer == null) return;
+			var msg = Reason.Serialize();
+			Buffer.WriteVarInt(Client.PacketMode == PacketMode.Login ? 0x00 : SendId);
+			Buffer.WriteString(msg);
+			Buffer.FlushData();
 		}
 	}
 }

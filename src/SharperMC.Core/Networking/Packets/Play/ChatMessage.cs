@@ -30,12 +30,13 @@ using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking.Packets.Play
 {
 	public class ChatMessage : Package<ChatMessage>
 	{
-		public McChatMessage Message;
+		public ChatText Message;
 		public ChatMessageType MessageType = ChatMessageType.ChatBox;
 
 		public ChatMessage(ClientWrapper client) : base(client)
@@ -68,7 +69,7 @@ namespace SharperMC.Core.Networking.Packets.Play
 		public override void Write()
 		{
 			if (Buffer == null) return;
-			var message = JsonConvert.SerializeObject(Message);
+			var message = Message.Serialize();
 				
 			Buffer.WriteVarInt(SendId);
 			//Buffer.WriteString("{ \"text\": \"" + Message + "\" }");

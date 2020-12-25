@@ -25,6 +25,7 @@
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands
 {
@@ -33,8 +34,8 @@ namespace SharperMC.Core.Commands
         string GetName();
         bool IsPlayer();
         void SendChat(string message);
-        void SendChat(McChatMessage message);
-        void SendChat(string message, ChatColor color);
+        void SendChat(ChatText message);
+        void SendChat(string message, TextAttribute color);
         // todo: permissions
     }
 }

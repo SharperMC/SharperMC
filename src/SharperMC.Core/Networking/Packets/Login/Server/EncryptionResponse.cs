@@ -34,6 +34,7 @@ using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Security;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking.Packets.Login.Server
 {
@@ -51,57 +52,55 @@ namespace SharperMC.Core.Networking.Packets.Login.Server
 
 		public override void Read()
 		{
-			if (Buffer != null)
+			if (Buffer == null) return;
+			var length = Buffer.ReadVarInt();
+			var sharedsecret = Buffer.Read(length);
+
+			length = Buffer.ReadVarInt();
+			var verifytoken = Buffer.Read(length);
+
+			Client.SharedKey = PacketCryptography.Decrypt(sharedsecret);
+
+			var recv = PacketCryptography.GenerateAes((byte[]) Client.SharedKey.Clone());
+			var send = PacketCryptography.GenerateAes((byte[]) Client.SharedKey.Clone());
+
+			var packetToken = PacketCryptography.Decrypt(verifytoken);
+
+			if (!packetToken.SequenceEqual(PacketCryptography.VerifyToken))
 			{
-				var length = Buffer.ReadVarInt();
-				var sharedsecret = Buffer.Read(length);
+				//Wrong token! :(
+				ConsoleFunctions.WriteWarningLine("Wrong token!");
+				return;
+			}
 
-				length = Buffer.ReadVarInt();
-				var verifytoken = Buffer.Read(length);
+			Client.Decryptor = recv.CreateDecryptor();
+			Client.Encryptor = send.CreateEncryptor();
 
-				Client.SharedKey = PacketCryptography.Decrypt(sharedsecret);
+			Client.EncryptionEnabled = true;
+			Client.Player = new Player(Globals.LevelManager.MainLevel)
+			{
+				Uuid = GetUuid(Client.Username),
+				Username = Client.Username,
+				Wrapper = Client,
+				Gamemode = Globals.LevelManager.MainLevel.DefaultGamemode
+			};
 
-				var recv = PacketCryptography.GenerateAes((byte[]) Client.SharedKey.Clone());
-				var send = PacketCryptography.GenerateAes((byte[]) Client.SharedKey.Clone());
+			if (Client.Player.IsAuthenticated())
+			{
+				new LoginSucces(Client) {Username = Client.Username, Uuid = Client.Player.Uuid}.Write();
+				Client.PacketMode = PacketMode.Play;
 
-				var packetToken = PacketCryptography.Decrypt(verifytoken);
+				new SetCompression(Client).Write();
 
-				if (!packetToken.SequenceEqual(PacketCryptography.VerifyToken))
-				{
-					//Wrong token! :(
-					ConsoleFunctions.WriteWarningLine("Wrong token!");
-					return;
-				}
+				new JoinGame(Client) {Player = Client.Player}.Write();
+				new SpawnPosition(Client).Write();
 
-				Client.Decryptor = recv.CreateDecryptor();
-				Client.Encryptor = send.CreateEncryptor();
-
-				Client.EncryptionEnabled = true;
-				Client.Player = new Player(Globals.LevelManager.MainLevel)
-				{
-					Uuid = GetUuid(Client.Username),
-					Username = Client.Username,
-					Wrapper = Client,
-					Gamemode = Globals.LevelManager.MainLevel.DefaultGamemode
-				};
-
-				if (Client.Player.IsAuthenticated())
-				{
-					new LoginSucces(Client) {Username = Client.Username, Uuid = Client.Player.Uuid}.Write();
-					Client.PacketMode = PacketMode.Play;
-
-					new SetCompression(Client).Write();
-
-					new JoinGame(Client) {Player = Client.Player}.Write();
-					new SpawnPosition(Client).Write();
-
-					Client.Player.InitializePlayer();
-				}
-				else
-				{
-					new LoginSucces(Client) {Username = Client.Username, Uuid = Client.Player.Uuid}.Write();
-					new Disconnect(Client) {Reason = new McChatMessage("Authentication failed! Try restarting your client.")}.Write();
-				}
+				Client.Player.InitializePlayer();
+			}
+			else
+			{
+				new LoginSucces(Client) {Username = Client.Username, Uuid = Client.Player.Uuid}.Write();
+				new Disconnect(Client) {Reason = new ChatText("Authentication failed! Try restarting your client.")}.Write();
 			}
 		}
 

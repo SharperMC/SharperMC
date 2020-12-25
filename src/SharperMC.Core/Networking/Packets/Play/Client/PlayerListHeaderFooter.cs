@@ -27,6 +27,7 @@ using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking.Packets.Play.Client
 {
@@ -42,20 +43,18 @@ namespace SharperMC.Core.Networking.Packets.Play.Client
 			SendId = 0x47;
 		}
 
-		public McChatMessage Header { get; set; }
-		public McChatMessage Footer { get; set; }
+		public ChatText Header { get; set; }
+		public ChatText Footer { get; set; }
 
 		public override void Write()
 		{
-			if (Buffer != null)
-			{
-				var head = JsonConvert.SerializeObject(Header);
-				var foot = JsonConvert.SerializeObject(Footer);
-				Buffer.WriteVarInt(SendId);
-				Buffer.WriteString(head);
-				Buffer.WriteString(foot);
-				Buffer.FlushData();
-			}
+			if (Buffer == null) return;
+			var head = Header.Serialize();
+			var foot = Footer.Serialize();
+			Buffer.WriteVarInt(SendId);
+			Buffer.WriteString(head);
+			Buffer.WriteString(foot);
+			Buffer.FlushData();
 		}
 	}
 }

@@ -11,6 +11,7 @@ using SharperMC.Core.PluginChannel;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Security;
+using SharperMC.Core.Utils.Text;
 using SharperMC.Core.Worlds;
 using SharperMC.Core.Worlds.Anvil;
 using SharperMC.Core.Worlds.Flatland;
@@ -80,7 +81,7 @@ namespace SharperMC.Core
 		public static void StopServer(string stopMsg = "Server shutting down...")
 		{
 			ConsoleFunctions.WriteInfoLine("Shutting down...");
-			Globals.BroadcastPacket(new Disconnect(null) { Reason = new McChatMessage("§f" + stopMsg) });
+			Globals.BroadcastPacket(new Disconnect(null) { Reason = new ChatText("§f" + stopMsg) });
 			ConsoleFunctions.WriteInfoLine("Saving all player data...");
 			foreach (Player player in Globals.LevelManager.GetAllPlayers())
 			{

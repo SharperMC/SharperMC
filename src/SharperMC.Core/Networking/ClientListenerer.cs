@@ -37,6 +37,7 @@ using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Networking;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking
 {
@@ -205,14 +206,14 @@ namespace SharperMC.Core.Networking
 					{
 						new Disconnect(WrappedClient)
 						{
-							Reason = new McChatMessage("§fServer threw an exception!\n\nException: \n" + ex.Message)
+							Reason = new ChatText("§fServer threw an exception!\n\nException: \n" + ex.Message)
 						}.Write();
 					}
 					else
 					{
 						new Disconnect(WrappedClient)
 						{
-							Reason = new McChatMessage("§fYou were kicked because of an internal problem!")
+							Reason = new ChatText("§fYou were kicked because of an internal problem!")
 						}.Write();
 					}
 					break;

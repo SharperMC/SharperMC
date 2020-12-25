@@ -9,6 +9,7 @@ using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Packets;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking
 {
@@ -81,30 +82,26 @@ namespace SharperMC.Core.Networking
 
 		public void PacketError(ClientWrapper client, Exception exception)
 		{
-			if (PacketErrors.ContainsKey(client.ClientIdentifier))
+			if (!PacketErrors.ContainsKey(client.ClientIdentifier)) return;
+			var errors = PacketErrors[client.ClientIdentifier];
+			PacketErrors[client.ClientIdentifier] = errors + 1;
+		
+			if (Server.ServerSettings.DisplayPacketErrors)
 			{
-				int errors = PacketErrors[client.ClientIdentifier];
-				PacketErrors[client.ClientIdentifier] = errors + 1;
-		
-				if (Server.ServerSettings.DisplayPacketErrors)
-				{
-					ConsoleFunctions.WriteWarningLine("Packet error for player: \"" + client.Player.Username + "\" Packet errors: " +
-					                                  PacketErrors[client.ClientIdentifier] + "\nError:\n" + exception.Message);
-				}
-		
-				if (PacketErrors[client.ClientIdentifier] >= 3)
-				{
-					if (Server.ServerSettings.ReportExceptionsToClient)
-					{
-						new Disconnect(client) {Reason = new McChatMessage("You were kicked from the server!\n" + exception.Message)}.Write();
-					}
-					else
-					{
-						new Disconnect(client) { Reason = new McChatMessage("You were kicked from the server!") }.Write();
-					}
-					Globals.DisconnectClient(client);
-				}
+				ConsoleFunctions.WriteWarningLine("Packet error for player: \"" + client.Player.Username + "\" Packet errors: " +
+				                                  PacketErrors[client.ClientIdentifier] + "\nError:\n" + exception.Message);
 			}
+
+			if (PacketErrors[client.ClientIdentifier] < 3) return;
+			if (Server.ServerSettings.ReportExceptionsToClient)
+			{
+				new Disconnect(client) {Reason = new ChatText("You were kicked from the server!\n" + exception.Message)}.Write();
+			}
+			else
+			{
+				new Disconnect(client) { Reason = new ChatText("You were kicked from the server!") }.Write();
+			}
+			Globals.DisconnectClient(client);
 		}
 
 		public void CleanErrors(ClientWrapper client)
