@@ -14,7 +14,7 @@ namespace SharperMC.Core.Utils.Console
         public static bool Minimal = false;
         public static bool Pause = false;
 
-        public static void Start(string[] args)
+        public static void Setup(string[] args)
         {
             LineRead += (s) =>
             {
@@ -26,16 +26,15 @@ namespace SharperMC.Core.Utils.Console
             {
                 ConsoleFunctions.WriteInfoLine("ConsoleColors enabled.");
             }
-            // ReSharper disable once AssignmentInConditionalExpression
-            if (Minimal = args.Contains("--minimal"))
-            {
-                // do minimal when using in a web-panel-thingy like pterodactyl
-                MinimalStart(args);
-            }
-            else
-            {
-                TabStart(args);
-            }
+
+            Minimal = args.Contains("--minimal");
+        }
+
+        public static void Start()
+        {
+            if (Minimal) // do minimal when using in a web-panel-thingy like pterodactyl
+                MinimalStart();
+            else TabStart();
         }
 
         public static void LineRed(string s)
@@ -49,14 +48,14 @@ namespace SharperMC.Core.Utils.Console
             else TabConsole.Instance.Log(text);
         }
 
-        private static void TabStart(string[] args)
+        private static void TabStart()
         {
-            TabConsole.Instance.StartInputting(args);
+            TabConsole.Instance.StartInputting();
         }
 
-        private static void MinimalStart(string[] args)
+        private static void MinimalStart()
         {
-            BasicConsole.Instance.StartInputting(args);
+            BasicConsole.Instance.StartInputting();
         }
     }
 }

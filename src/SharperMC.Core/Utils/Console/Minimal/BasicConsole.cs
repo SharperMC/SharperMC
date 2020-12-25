@@ -6,7 +6,7 @@ namespace SharperMC.Core.Utils.Console.Minimal
     {
         public static readonly BasicConsole Instance = new BasicConsole();
 
-        public void StartInputting(string[] args)
+        public void StartInputting()
         {
             while (true) GuiApp.LineRed(System.Console.ReadLine());
         }

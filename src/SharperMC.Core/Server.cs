@@ -28,8 +28,9 @@ namespace SharperMC.Core
 		public static ConfigManager ConfigManager;
 		public static ServerSettings ServerSettings;
 
-		public Server()
+		public Server(string[] args)
 		{
+			GuiApp.Setup(args);
 			ConsoleFunctions.ClearConsole();
 			ConsoleFunctions.WriteInfoLine("Initiating server on {0}", true, Globals.ProtocolName);
 			CurrentDirectory = Directory.GetCurrentDirectory();
@@ -61,7 +62,7 @@ namespace SharperMC.Core
 		}
 
 		
-		public void StartServer(string[] args)
+		public void StartServer()
 		{
 			if (!_initiated) throw new Exception("Server not initiated!");
 			Console.CancelKeyPress += ConsoleOnCancelKeyPress;
@@ -70,7 +71,7 @@ namespace SharperMC.Core
 			try
 			{
 				new Thread(Globals.ServerListener.StartListening).Start();
-				new Thread(() => GuiApp.Start(args)).Start();
+				new Thread(GuiApp.Start).Start();
 			}
 			catch (Exception ex)
 			{

@@ -22,7 +22,7 @@ namespace SharperMC.Core.Utils.Console.Tabbing
         private readonly List<ConsoleKeyInfo> _keys = new List<ConsoleKeyInfo>();
         private ConsoleKeyInfo _key;
 
-        public void StartInputting(string[] args)
+        public void StartInputting()
         {
             while (true)
             {
