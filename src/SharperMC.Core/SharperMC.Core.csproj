@@ -279,6 +279,7 @@
     <Compile Include="Utils\Security\ZLibStream.cs" />
     <Compile Include="Utils\Text\TextAttribute.cs" />
     <Compile Include="Utils\Text\ChatText.cs" />
+    <Compile Include="Utils\Text\TextUtils.cs" />
     <Compile Include="Utils\Vectors\OpenSimplex.cs" />
     <Compile Include="Utils\Vectors\Ray.cs" />
     <Compile Include="Utils\Vectors\Ray2.cs" />

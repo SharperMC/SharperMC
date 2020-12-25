@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
@@ -17,11 +18,11 @@ namespace SharperMC.Core.Utils.Text
         public readonly object JsonValue;
 
         // Initializer for non-colors.
-        public TextAttribute(char chatCode, string ansiCode, string jsonKey):
-        this(chatCode, ansiCode, jsonKey, true)
+        public TextAttribute(char chatCode, string ansiCode, string jsonKey) :
+            this(chatCode, ansiCode, jsonKey, true)
         {
         }
-        
+
         // Initializer for reset.
         public TextAttribute(char chatCode, string ansiCode, string jsonKey, object jsonValue)
         {
@@ -97,5 +98,44 @@ namespace SharperMC.Core.Utils.Text
         public static readonly TextAttribute Underline = new TextAttribute('n', "4", "underlined");
         public static readonly TextAttribute Italic = new TextAttribute('o', "3", "italic");
         public static readonly TextAttribute Reset = new TextAttribute('r', "0", "color", "reset");
+
+        private static readonly Dictionary<char, TextAttribute> CharAttr = new Dictionary<char, TextAttribute>();
+
+        static TextColor()
+        {
+            // Could've done this through reflection ig
+            CharAttr.Add('0', Black);
+            CharAttr.Add('1', DarkBlue);
+            CharAttr.Add('2', DarkGreen);
+            CharAttr.Add('3', DarkAqua);
+            CharAttr.Add('4', DarkRed);
+            CharAttr.Add('5', DarkPurple);
+            CharAttr.Add('6', Gold);
+            CharAttr.Add('7', Gray);
+            CharAttr.Add('8', DarkGray);
+            CharAttr.Add('9', Blue);
+            CharAttr.Add('a', Aqua);
+            CharAttr.Add('b', Green);
+            CharAttr.Add('c', Red);
+            CharAttr.Add('d', Purple);
+            CharAttr.Add('e', Yellow);
+            CharAttr.Add('f', White);
+            CharAttr.Add('k', Obfuscated);
+            CharAttr.Add('l', Bold);
+            CharAttr.Add('m', Strikethrough);
+            CharAttr.Add('n', Underline);
+            CharAttr.Add('o', Italic);
+            CharAttr.Add('r', Reset);
+        }
+
+        public static TextAttribute GetFromChar(char c)
+        {
+            return CharAttr[c];
+        }
+
+        public static bool IsColorChar(char c)
+        {
+            return "1234567890abcdefklmnor".IndexOf(c) != -1;
+        }
     }
 }

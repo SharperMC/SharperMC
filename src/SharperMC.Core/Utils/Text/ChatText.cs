@@ -12,6 +12,10 @@ namespace SharperMC.Core.Utils.Text
 
         public ChatText Next;
 
+        public ChatText()
+        {
+        }
+
         public ChatText(string text, params TextAttribute[] colors)
         {
             Text = text;
