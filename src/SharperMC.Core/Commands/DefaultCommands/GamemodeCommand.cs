@@ -26,6 +26,7 @@ using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands.DefaultCommands
 {
@@ -41,7 +42,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             if (sender.IsPlayer())
             {
                 if(args.Length == 0)
-                    sender.SendChat("Your current gamemode is [" + ((Player) sender).Gamemode + "]", ChatColor.Gray);
+                    sender.SendChat("Your current gamemode is [" + ((Player) sender).Gamemode + "]", TextColor.Gray);
                 else if(args.Length >= 1)
                     switch (args[0].ToLower())
                     {

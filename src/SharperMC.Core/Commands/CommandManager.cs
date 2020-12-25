@@ -29,6 +29,7 @@ using SharperMC.Core.Commands.DefaultCommands;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands
 {
@@ -98,7 +99,7 @@ namespace SharperMC.Core.Commands
             catch (Exception ex)
             {
                 ConsoleFunctions.WriteWarningLine(ex.ToString());
-                sender.SendChat("An error occured when executing this command.", ChatColor.Red);
+                sender.SendChat("An error occured when executing this command.", TextColor.Red);
             }
         }
 
@@ -134,7 +135,7 @@ namespace SharperMC.Core.Commands
             catch (Exception ex)
             {
                 ConsoleFunctions.WriteWarningLine(ex.ToString());
-                sender.SendChat("An error occured when tab-completing the command.", ChatColor.Red);
+                sender.SendChat("An error occured when tab-completing the command.", TextColor.Red);
             }
             return new List<string>();
         }
@@ -142,7 +143,7 @@ namespace SharperMC.Core.Commands
         public static void UnknownCommand(ICommandSender sender, string command)
         {
             // todo: customizable
-            sender.SendChat("Unknown command: " + command, ChatColor.Red);
+            sender.SendChat("Unknown command: " + command, TextColor.Red);
         }
     }
 }

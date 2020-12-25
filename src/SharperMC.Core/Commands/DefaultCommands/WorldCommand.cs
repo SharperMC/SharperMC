@@ -22,11 +22,9 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using System;
 using SharperMC.Core.Entity;
-using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands.DefaultCommands
 {
@@ -49,7 +47,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
                 var level = Globals.LevelManager.GetLevel(args[0]);
                 if (level == null)
                 {
-                    sender.SendChat("That level doesn't exist!", ChatColor.Red);
+                    sender.SendChat("That level doesn't exist!", TextColor.Red);
                     return;
                 }
                 
