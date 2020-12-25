@@ -82,7 +82,7 @@ namespace SharperMC.Core
 		public static void StopServer(string stopMsg = "Server shutting down...")
 		{
 			ConsoleFunctions.WriteInfoLine("Shutting down...");
-			Globals.BroadcastPacket(new Disconnect(null) { Reason = new ChatText("§f" + stopMsg) });
+			Globals.BroadcastPacket(new Disconnect(null) { Reason = new ChatText(stopMsg, TextColor.Reset) });
 			ConsoleFunctions.WriteInfoLine("Saving all player data...");
 			foreach (Player player in Globals.LevelManager.GetAllPlayers())
 			{

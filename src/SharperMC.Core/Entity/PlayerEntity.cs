@@ -458,7 +458,7 @@ namespace SharperMC.Core.Entity
 
 		public void SendChat(string message)
 		{
-			SendChat(new ChatText(message));
+			SendChat(TextUtils.ToChatText(message));
 		}
 
 		public void SendChat(string message, TextAttribute color)

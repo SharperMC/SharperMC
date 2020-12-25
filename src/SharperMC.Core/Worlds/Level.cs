@@ -368,7 +368,7 @@ namespace SharperMC.Core.Worlds
             var average = _lastCalc;
 
             var d = 1000 - _lastCalc;
-            d = d / 50;
+            d /= 50;
             var exact = d;
 
             var color = "a";
@@ -376,11 +376,9 @@ namespace SharperMC.Core.Worlds
             if (exact <= 15 && exact > 10) color = "e";
 
 
-            if (player != null)
-            {
-                player.SendChat("TPS: §" + color + exact);
-                player.SendChat("Miliseconds in Tick: " + average + "ms");
-            }
+            if (player == null) return (int) exact;
+            player.SendChat("TPS: §" + color + exact);
+            player.SendChat("Miliseconds in Tick: " + average + "ms");
 
             return (int) exact;
         }

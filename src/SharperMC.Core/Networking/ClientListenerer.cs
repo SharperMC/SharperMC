@@ -206,14 +206,14 @@ namespace SharperMC.Core.Networking
 					{
 						new Disconnect(WrappedClient)
 						{
-							Reason = new ChatText("§fServer threw an exception!\n\nException: \n" + ex.Message)
+							Reason = new ChatText("Server threw an exception!\n\nException: \n" + ex.Message, TextColor.Reset)
 						}.Write();
 					}
 					else
 					{
 						new Disconnect(WrappedClient)
 						{
-							Reason = new ChatText("§fYou were kicked because of an internal problem!")
+							Reason = new ChatText("You were kicked because of an internal problem!", TextColor.Reset)
 						}.Write();
 					}
 					break;
