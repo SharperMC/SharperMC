@@ -26,6 +26,8 @@ using System.Collections.Generic;
 
 namespace SharperMC.Core.Permissions
 {
+    // Every implementation must have a 
+    // static IPermissible Serialize(Dictionary<string, string> dict)
     public interface IPermissible
     {
         void SetOp(bool op);
@@ -42,5 +44,6 @@ namespace SharperMC.Core.Permissions
         Permission GetPermission(string permissionName);
         IEnumerable<Permission> GetMatchingPermissions(string match);
         IEnumerable<Permission> GetPermissions();
+        Dictionary<string, string> Serialize();
     }
 }

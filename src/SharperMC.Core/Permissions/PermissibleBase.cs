@@ -32,11 +32,18 @@ namespace SharperMC.Core.Permissions
     {
         public static void Test()
         {
+            var a = typeof(PermissibleBase);
+            Activator.CreateInstance(a);
             var perm = new PermissibleBase();
-            perm.SetPermission(new Permission("no u haha gay"));
-            Console.WriteLine(perm.HasPermission("no .*"));
-            Console.WriteLine(perm.HasPermission("no u.*"));
-            Console.WriteLine(perm.HasPermission("no me.*"));
+            perm.SetPermission("no");
+            Console.WriteLine(perm.HasPermission("no.*")); // true
+            Console.WriteLine(perm.HasPermission("no u.*")); // false
+            perm.SetPermission("no u haha");
+            Console.WriteLine(perm.HasPermission("no u.*")); // true
+            Console.WriteLine(perm.HasPermission("no me.*")); // false
+            perm.SetOp(true);
+            Console.WriteLine(perm.HasPermission("no me.*")); // true; op
+            Console.WriteLine(perm.HasPermission(new Permission("no me.*", PermissionType.False))); // false
         }
         
         public List<Permission> Permissions = new List<Permission>();
@@ -64,7 +71,7 @@ namespace SharperMC.Core.Permissions
 
         public virtual void SetPermission(string permissionName)
         {
-            SetPermission(new Permission(permissionName));
+            SetPermission(new Permission(permissionName, PermissionType.True));
         }
 
         public virtual void SetPermission(Permission permission)
@@ -81,7 +88,7 @@ namespace SharperMC.Core.Permissions
         { // todo: improve
             permission.Name = permission.Name.ToLower();
             var first = Permissions.FirstOrDefault(p => p.MatchesPermission(permission.Name));
-            return first != null && first.GetValue(Op);// || permission.GetValue(Op);
+            return first != null && first.GetValue(Op) || first == null && permission.GetValue(Op);
         }
 
         public virtual bool HasPermissionSet(string permissionName)
@@ -114,7 +121,24 @@ namespace SharperMC.Core.Permissions
 
         public virtual IEnumerable<Permission> GetPermissions()
         {
-            throw new System.NotImplementedException();
+            return Permissions.Select(perm => perm.Copy());
+        }
+
+        public Dictionary<string, string> Serialize()
+        {
+            return Permissions.ToDictionary(p => p.Name, p => p.Type.ToString());
+        }
+
+        static IPermissible Serialize(Dictionary<string, string> dict)
+        {
+            var p = new PermissibleBase();
+            foreach (var pair in dict)
+            {
+                Enum.TryParse(pair.Value, true, out PermissionType type);
+                p.SetPermission(new Permission(pair.Key, type));
+            }
+
+            return p;
         }
     }
 }

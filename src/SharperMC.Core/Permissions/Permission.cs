@@ -30,22 +30,19 @@ namespace SharperMC.Core.Permissions
 {
     public class Permission
     {
+        public static Type PermissibleType = typeof(PermissibleBase);
+
+        public static IPermissible NewPermissible(Dictionary<string, string> dict)
+        {
+            var method = PermissibleType.GetMethod("Serialize");
+            if (method == null) throw new Exception("No \"Serialize\" method in " + PermissibleType.Name);
+            return (IPermissible) method.Invoke(null, new object[] {dict});
+        }
+        
         public string Name;
         public PermissionType Type;
 
-        public Permission()
-        {
-            Name = "";
-            Type = PermissionType.True;
-        }
-
-        public Permission(string name)
-        {
-            Name = name.ToLower();
-            Type = PermissionType.True;
-        }
-
-        public Permission(string name, PermissionType type)
+        public Permission(string name, PermissionType type = PermissionType.Op)
         {
             Name = name.ToLower();
             Type = type;
@@ -127,6 +124,11 @@ namespace SharperMC.Core.Permissions
             {
                 return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (int) Type;
             }
+        }
+
+        public Permission Copy()
+        {
+            return new Permission(Name, Type);
         }
     }
 
