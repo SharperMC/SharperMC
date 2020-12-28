@@ -33,7 +33,7 @@ namespace SharperMC.Core.Commands
     {
         string GetName();
         bool IsPlayer();
-        void SendChat(string message);
+        void SendChat(string message, params object[] args);
         void SendChat(ChatText message);
         void SendChat(string message, TextAttribute color);
         // todo: permissions

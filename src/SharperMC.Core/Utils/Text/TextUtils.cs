@@ -92,5 +92,20 @@ namespace SharperMC.Core.Utils.Text
 
             return chatText;
         }
+        
+        public static string Format(string text, params object[] args)
+        {
+            return (args == null || args.Length == 0) ? text : string.Format(text, args);
+        }
+
+        public static ChatText NewFancyText(string prefix, TextAttribute color, string text)
+        {
+            return NewFancyText(prefix, color, new ChatText(text, TextColor.Reset));
+        }
+
+        public static ChatText NewFancyText(string prefix, TextAttribute color, ChatText text)
+        {
+            return new ChatText(prefix, color) {Next = text};
+        }
     }
 }

@@ -282,12 +282,6 @@ namespace SharperMC.Core.Entity
 				Reason = GameStateReason.ChangeGameMode,
 				Value = (float) target
 			}.Write();
-
-			if (!silent)
-			{
-				ConsoleFunctions.WriteInfoLine(Username + "'s gamemode was changed to " + target.ToString("D"));
-				SendChat("Your gamemode was changed to " + target.ToString(), TextColor.Yellow);
-			}
 		}
 
 		public void SetGamemode(Gamemode target)
@@ -456,14 +450,19 @@ namespace SharperMC.Core.Entity
 			new ChatMessage(Wrapper) {Message = message}.Write();
 		}
 
-		public void SendChat(string message)
+		public void SendChat(string message, params object[] args)
 		{
-			SendChat(TextUtils.ToChatText(message));
+			SendChat(TextUtils.ToChatText(TextUtils.Format(message, args)));
 		}
 
 		public void SendChat(string message, TextAttribute color)
 		{
 			SendChat(new ChatText(message, color));
+		}
+
+		public void Kick(string reason, params object[] args)
+		{
+			Kick(TextUtils.ToChatText(TextUtils.Format(reason, args)));
 		}
 
 		public void Kick(ChatText reason)

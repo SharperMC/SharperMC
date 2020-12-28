@@ -65,6 +65,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
                             ((Player) sender).SetGamemode(Gamemode.Creative);
                             break;
                     }
+                sender.SendChat($"Set your gamemode to [{((Player) sender).Gamemode}]", TextColor.Green);
             }
             else
             {

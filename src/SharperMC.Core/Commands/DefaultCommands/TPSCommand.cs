@@ -23,39 +23,34 @@
 // ©Copyright SharperMC - 2020
 
 using System;
+using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Console;
-using SharperMC.Core.Utils.Packets;
-using SharperMC.Core.Utils.Text;
+using SharperMC.Core.Utils.Entities.Player;
 
-namespace SharperMC.Core.Commands
+namespace SharperMC.Core.Commands.DefaultCommands
 {
-    public class ConsoleSender : ICommandSender
-    { //todo: Move this in a better location & add color support
-        public string GetName()
+    public class TPSCommand : Command
+    {
+        public TPSCommand() : base("tps", "/tps", "Gets server's tps.")
         {
-            return "CONSOLE";
         }
 
-        public bool IsPlayer()
+        public override void Execute(ICommandSender sender, string label, string[] args)
         {
-            return false;
+            var average = Globals.LevelManager.MainLevel.AvgTps();
+            var exact = Globals.LevelManager.MainLevel.CalculateTps();
+            var color = "a";
+            if (exact <= 10) color = "c";
+            if (exact <= 15 && exact > 10) color = "e";
+            sender.SendChat("TPS: §" + color + exact);
+            sender.SendChat("Miliseconds in Tick: " + average + "ms");
         }
 
-        public void SendChat(string message, params object[] args)
+        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
         {
-            ConsoleFunctions.Write(TextUtils.ToChatText(TextUtils.Format(message, args)));
-        }
-
-        public void SendChat(ChatText message)
-        {
-            ConsoleFunctions.Write(message);
-        }
-
-        public void SendChat(string message, TextAttribute color)
-        {
-            ConsoleFunctions.WriteLine(message, color);
+            return new string[0];
         }
     }
 }

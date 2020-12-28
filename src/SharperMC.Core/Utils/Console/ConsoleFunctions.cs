@@ -33,7 +33,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteLine(string text, params object[] args)
         {
-            Write(new ChatText(Format(text, args), TextColor.Reset));
+            Write(new ChatText(TextUtils.Format(text, args), TextColor.Reset));
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteLine(string text, TextAttribute color, params object[] args)
         {
-            Write(new ChatText(Format(text, args), color));
+            Write(new ChatText(TextUtils.Format(text, args), color));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteInfoLine(string text, params object[] args)
         {
-            Write(NewFancyText("[Info] ", TextColor.Green, Format(text, args)));
+            Write(TextUtils.NewFancyText("[Info] ", TextColor.Green, TextUtils.Format(text, args)));
         }
 
         /// <summary>
@@ -57,8 +57,8 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteInfoLine(ChatText text, params object[] args)
         {
-            text.Text = Format(text.Text, args);
-            Write(NewFancyText("[Info] ", TextColor.Green, text));
+            text.Text = TextUtils.Format(text.Text, args);
+            Write(TextUtils.NewFancyText("[Info] ", TextColor.Green, text));
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace SharperMC.Core.Utils.Console
         public static void WriteFatalErrorLine(string text, params object[] args)
         {
             Write(new ChatText("[FatalError] ", TextColor.Red, TextColor.Bold)
-                {Next = new ChatText(Format(text, args), TextColor.Reset)});
+                {Next = new ChatText(TextUtils.Format(text, args), TextColor.Reset)});
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteErrorLine(string text, params object[] args)
         {
-            Write(NewFancyText("[Error] ", TextColor.DarkRed, Format(text, args)));
+            Write(TextUtils.NewFancyText("[Error] ", TextColor.DarkRed, TextUtils.Format(text, args)));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace SharperMC.Core.Utils.Console
         /// </summary>
         public static void WriteWarningLine(string text, params object[] args)
         {
-            Write(NewFancyText("[Warning] ", TextColor.Yellow, Format(text, args)));
+            Write(TextUtils.NewFancyText("[Warning] ", TextColor.Yellow, TextUtils.Format(text, args)));
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace SharperMC.Core.Utils.Console
         public static void WriteDebugLine(string text, params object[] args)
         {
             if (!Server.ServerSettings.Debug) return;
-            Write(NewFancyText("[Debug] ", TextColor.Gray, Format(text, args)));
+            Write(TextUtils.NewFancyText("[Debug] ", TextColor.Gray, TextUtils.Format(text, args)));
         }
 
         public static void Write(ChatText text)
@@ -103,21 +103,6 @@ namespace SharperMC.Core.Utils.Console
         public static void ClearConsole()
         {
             System.Console.Clear();
-        }
-
-        public static string Format(string text, params object[] args)
-        {
-            return (args == null || args.Length == 0) ? text : string.Format(text, args);
-        }
-
-        public static ChatText NewFancyText(string prefix, TextAttribute color, string text)
-        {
-            return NewFancyText(prefix, color, new ChatText(text, TextColor.Reset));
-        }
-
-        public static ChatText NewFancyText(string prefix, TextAttribute color, ChatText text)
-        {
-            return new ChatText(prefix, color) {Next = text};
         }
 
         // Pauses 

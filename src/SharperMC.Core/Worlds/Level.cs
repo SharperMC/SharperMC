@@ -363,23 +363,16 @@ namespace SharperMC.Core.Worlds
         private readonly Stopwatch _sw = new Stopwatch();
         private long _lastCalc;
 
-        public int CalculateTps(Player player = null)
+        public long AvgTps()
         {
-            var average = _lastCalc;
-
+            return _lastCalc;
+        }
+        public int CalculateTps()
+        {
             var d = 1000 - _lastCalc;
             d /= 50;
             var exact = d;
-
-            var color = "a";
-            if (exact <= 10) color = "c";
-            if (exact <= 15 && exact > 10) color = "e";
-
-
-            if (player == null) return (int) exact;
-            player.SendChat("TPS: §" + color + exact);
-            player.SendChat("Miliseconds in Tick: " + average + "ms");
-
+            
             return (int) exact;
         }
 
