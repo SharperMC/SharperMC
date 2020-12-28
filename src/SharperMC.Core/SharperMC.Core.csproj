@@ -221,6 +221,9 @@
     <Compile Include="Networking\Packets\Play\UpdateSign.cs" />
     <Compile Include="Networking\Packets\Status\Ping.cs" />
     <Compile Include="Networking\Packets\Status\Request.cs" />
+    <Compile Include="Permissions\IPermissible.cs" />
+    <Compile Include="Permissions\PermissibleBase.cs" />
+    <Compile Include="Permissions\Permission.cs" />
     <Compile Include="PluginChannel\BrandMessage.cs" />
     <Compile Include="PluginChannel\MessageFactory.cs" />
     <Compile Include="PluginChannel\PluginMessage.cs" />
