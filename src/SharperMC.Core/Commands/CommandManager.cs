@@ -44,6 +44,7 @@ namespace SharperMC.Core.Commands
             // player.Teleport(new PlayerLocation(player.KnownPosition.X, 80, player.KnownPosition.Z));
             AddCommand(new GamemodeCommand());
             AddCommand(new HelpCommand());
+            AddCommand(new PluginCommand());
             AddCommand(new SaveCommand());
             AddCommand(new StopCommand());
             AddCommand(new TestCommand());

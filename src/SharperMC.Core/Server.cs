@@ -8,6 +8,7 @@ using SharperMC.Core.Enums;
 using SharperMC.Core.Networking;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.PluginChannel;
+using SharperMC.Core.Plugins;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Security;
@@ -22,7 +23,7 @@ namespace SharperMC.Core
 {
 	public class Server
 	{
-		private readonly bool _initiated;
+		public static bool Initiated { get; private set;}
 		public static string CurrentDirectory;
 		public static DateTime StartTime;
 		public static ConfigManager ConfigManager;
@@ -32,6 +33,10 @@ namespace SharperMC.Core
 		{
 			GuiApp.Setup(args);
 			ConsoleFunctions.ClearConsole();
+			
+			ConsoleFunctions.WriteInfoLine("Loading plugins...");
+			PluginManager.RegisterPlugins();
+			
 			ConsoleFunctions.WriteInfoLine("Initiating server on {0}", true, Globals.ProtocolName);
 			CurrentDirectory = Directory.GetCurrentDirectory();
 			var currentDomain = AppDomain.CurrentDomain;
@@ -58,15 +63,18 @@ namespace SharperMC.Core
 			ConsoleFunctions.WriteLine("Files are good hopefully.", ConsoleColor.Green);
 			ConsoleFunctions.Continue();
 			
-			_initiated = true;
+			Initiated = true;
 		}
 
 		
 		public void StartServer()
 		{
-			if (!_initiated) throw new Exception("Server not initiated!");
+			if (!Initiated) throw new Exception("Server not initiated!");
 			Console.CancelKeyPress += ConsoleOnCancelKeyPress;
 			StartTime = DateTime.UtcNow;
+			
+			ConsoleFunctions.WriteInfoLine("Enabling plugins...");
+			PluginManager.EnableAllPlugins();
 		
 			try
 			{
@@ -83,6 +91,10 @@ namespace SharperMC.Core
 		{
 			ConsoleFunctions.WriteInfoLine("Shutting down...");
 			Globals.BroadcastPacket(new Disconnect(null) { Reason = new ChatText(stopMsg, TextColor.Reset) });
+			
+			ConsoleFunctions.WriteInfoLine("Disabling all plugins...");
+			PluginManager.DisableAllPlugins();
+			
 			ConsoleFunctions.WriteInfoLine("Saving all player data...");
 			foreach (Player player in Globals.LevelManager.GetAllPlayers())
 			{

@@ -121,6 +121,7 @@
     <Compile Include="Commands\ConsoleSender.cs" />
     <Compile Include="Commands\DefaultCommands\GamemodeCommand.cs" />
     <Compile Include="Commands\DefaultCommands\HelpCommand.cs" />
+    <Compile Include="Commands\DefaultCommands\PuginCommand.cs" />
     <Compile Include="Commands\DefaultCommands\SaveCommand.cs" />
     <Compile Include="Commands\DefaultCommands\StopCommand.cs" />
     <Compile Include="Commands\DefaultCommands\TestCommand.cs" />
@@ -227,6 +228,11 @@
     <Compile Include="PluginChannel\BrandMessage.cs" />
     <Compile Include="PluginChannel\MessageFactory.cs" />
     <Compile Include="PluginChannel\PluginMessage.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginAttributes.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Plugins\PluginState.cs" />
+    <Compile Include="Plugins\SharperPlugin.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="TileEntities\SignTileEntity.cs" />
     <Compile Include="TileEntities\TileEntity.cs" />

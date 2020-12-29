@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Externals\fNbt\fNbt.csproj" />
+      <ProjectReference Include="..\SharperMC.API\SharperMC.API.csproj" />
+      <ProjectReference Include="..\SharperMC.Core\SharperMC.Core.csproj" />
+      <ProjectReference Include="..\SharperMC\SharperMC.csproj" />
+    </ItemGroup>
+
+</Project>
