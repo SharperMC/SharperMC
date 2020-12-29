@@ -44,7 +44,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             ChatText last = null;
             foreach (var pair in enabledList)
             {
-                enabledText.SetNext(last = new ChatText($"({pair.Key.GetName()}), "));
+                enabledText.SetNext(last = new ChatText($"{pair.Key.GetName()}, "));
             }
             if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
             sender.SendChat(enabledText);
@@ -56,7 +56,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             last = null;
             foreach (var pair in disabledList)
             {
-                disabledText.SetNext(last = new ChatText($"({pair.Key.GetName()}), "));
+                disabledText.SetNext(last = new ChatText($"{pair.Key.GetName()}, "));
             }
             if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
             sender.SendChat(disabledText);
@@ -68,7 +68,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             last = null;
             foreach (var pair in loadedList)
             {
-                loadedText.SetNext(last = new ChatText($"({pair.Key.GetName()}), "));
+                loadedText.SetNext(last = new ChatText($"{pair.Key.GetName()}, "));
             }
             if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
             sender.SendChat(loadedText);
