@@ -40,8 +40,6 @@ namespace SharperMC.Core.Commands
 
         static CommandManager()
         {
-            // todo: teleport command
-            // player.Teleport(new PlayerLocation(player.KnownPosition.X, 80, player.KnownPosition.Z));
             AddCommand(new GamemodeCommand());
             AddCommand(new HelpCommand());
             AddCommand(new PluginCommand());
