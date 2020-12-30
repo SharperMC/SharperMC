@@ -5,10 +5,22 @@ namespace SharperMC.Core.Config
 {
     public interface ISection
     {
+        /// <summary>
+        /// Gets name.
+        /// </summary>
+        /// <returns>Name</returns>
         public string GetName();
-        
-        public object Get(string key, object defaultValue=null);
 
+        /// <summary>
+        /// Gets a value in the section (split by a period)
+        /// </summary>
+        /// <param name="key">The key of the value.</param>
+        /// <param name="defaultValue">The value to return if not found.</param>
+        /// <returns>The value or defaultValue if not found</returns>
+        public object Get(string key, object defaultValue = null);
+        
+        public IDictionary<string, object> GetKeys();
+        
         public virtual string GetString(string key, string defaultValue = "")
         {
             return Get(key, defaultValue) as string ?? defaultValue;
@@ -64,6 +76,27 @@ namespace SharperMC.Core.Config
             return GetList(key).Cast<ISection>();
         }
 
+        /// <summary>
+        /// Removes a value from the section and returns it. If the value is not found, returns null.
+        /// </summary>
+        /// <param name="key">The key of the value.</param>
+        /// <returns>The value or null if not found</returns>
+        public object Remove(string key);
+
+        /// <summary>
+        /// Sets a value in the section.
+        /// </summary>
+        /// <param name="key">The key of the value.</param>
+        /// <param name="value">The value itself.</param>
+        /// <exception cref="System.ArgumentException">If a key is found to not be a section.</exception>
         public void Set(string key, object value);
+        
+        /// <summary>
+        /// Generates a new ISection.
+        /// </summary>
+        /// <param name="key">The section's key.</param>
+        /// <param name="dict">The section's dict.</param>
+        /// <returns>A new ISection</returns>
+        public ISection NewSection(string key, Dictionary<string, object> dict);
     }
 }

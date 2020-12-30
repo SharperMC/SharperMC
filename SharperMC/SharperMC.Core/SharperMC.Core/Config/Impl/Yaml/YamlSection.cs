@@ -4,6 +4,10 @@ namespace SharperMC.Core.Config.Impl.Yaml
 {
     public class YamlSection : MemorySection
     {
+        public YamlSection(string name, Dictionary<string, object> dict) : base(name, dict)
+        {
+        }
+
         public YamlSection(string name, Dictionary<object, object> dict)
         {
             Name = name;
@@ -19,11 +23,8 @@ namespace SharperMC.Core.Config.Impl.Yaml
                         break;
                     case List<object> list:
                         for (var index = 0; index < list.Count; index++)
-                        {
-                            var o = list[index];
-                            if (o is Dictionary<object, object> dictionary)
+                            if (list[index] is Dictionary<object, object> dictionary)
                                 list[index] = new YamlSection(sk, dictionary);
-                        }
                         Dict[sk] = list;
                         break;
                     default:
@@ -31,6 +32,11 @@ namespace SharperMC.Core.Config.Impl.Yaml
                         break;
                 }
             }
+        }
+
+        public override ISection NewSection(string key, Dictionary<string, object> dict)
+        {
+            return new YamlSection(key, dict);
         }
     }
 }
