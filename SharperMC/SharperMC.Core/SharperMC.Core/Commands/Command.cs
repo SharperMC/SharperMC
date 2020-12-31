@@ -31,11 +31,11 @@ namespace SharperMC.Core.Commands
         public string Description;
         public string Usage;
 
-        protected Command(string name, string description, string usage) : this(name, new string[0], description, usage)
+        protected Command(string name, string usage, string description) : this(name, new string[0], usage, description)
         {
         }
 
-        protected Command(string name, string[] aliases, string description, string usage)
+        protected Command(string name, string[] aliases, string usage, string description)
         {
             Name = name;
             Aliases = aliases;

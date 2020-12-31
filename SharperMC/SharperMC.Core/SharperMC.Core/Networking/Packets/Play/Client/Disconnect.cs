@@ -22,14 +22,11 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using Newtonsoft.Json;
-using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Misc;
-using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Text;
 
-namespace SharperMC.Core.Networking.Packets.Login.Client
+namespace SharperMC.Core.Networking.Packets.Play.Client
 {
 	internal class Disconnect : Package<Disconnect>
 	{

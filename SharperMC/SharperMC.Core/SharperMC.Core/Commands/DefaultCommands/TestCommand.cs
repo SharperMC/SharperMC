@@ -28,7 +28,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class TestCommand : Command
     {
-        public TestCommand() : base("test", new[] {"tester", "testing"}, "/test", "Test command.")
+        public TestCommand() : base("test", new[] {"tester", "testing"}, "test", "Test command.")
         {
         }
 

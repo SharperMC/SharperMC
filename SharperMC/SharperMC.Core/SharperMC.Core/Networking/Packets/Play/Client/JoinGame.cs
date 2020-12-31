@@ -55,7 +55,7 @@ namespace SharperMC.Core.Networking.Packets.Play.Client
 				Buffer.WriteByte((byte) Client.Player.Level.Difficulty);
 				Buffer.WriteByte((byte) Core.Server.ServerSettings.MaxPlayers);
 				Buffer.WriteString(Client.Player.Level.LevelType.ToString());
-				Buffer.WriteBool(true);
+				Buffer.WriteBool(Core.Server.ServerSettings.ReducedDebugInfo);
 				Buffer.FlushData();
 			}
 		}

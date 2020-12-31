@@ -5,6 +5,7 @@ using System.Timers;
 using SharperMC.Core.Config;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Networking.Packets.Play;
+using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;

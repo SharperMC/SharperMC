@@ -30,7 +30,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class WorldCommand : Command
     {
-        public WorldCommand() : base("world", "/world [world]", "Teleports you to a world.")
+        public WorldCommand() : base("world", "world [world]", "Teleports you to a world.")
         {
         }
 

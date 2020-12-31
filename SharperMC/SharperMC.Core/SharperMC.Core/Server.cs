@@ -9,6 +9,7 @@ using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Networking;
 using SharperMC.Core.Networking.Packets.Login.Client;
+using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.PluginChannel;
 using SharperMC.Core.Plugins;
 using SharperMC.Core.Utils.Console;
@@ -148,6 +149,7 @@ namespace SharperMC.Core
             ServerSettings.OnlineMode = ConfigManager.GetProperty("OnlineMode", false);
             ServerSettings.EncryptionEnabled = ConfigManager.GetProperty("EncryptionEnabled", true);
             ServerSettings.MaxPlayers = ConfigManager.GetProperty("MaxPlayers", 10);
+            ServerSettings.ReducedDebugInfo = ConfigManager.GetProperty("ReducedDebugInfo", false);
             ServerSettings.Gamemode = ConfigManager.GetProperty("Gamemode", Gamemode.Survival);
             ServerSettings.DisplayPacketErrors = ConfigManager.GetProperty("DisplayPacketErrors", false);
             ServerSettings.Debug = ConfigManager.GetProperty("Debug", false);

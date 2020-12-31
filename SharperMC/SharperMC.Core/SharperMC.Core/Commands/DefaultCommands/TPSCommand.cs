@@ -33,7 +33,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class TPSCommand : Command
     {
-        public TPSCommand() : base("tps", "/tps", "Gets server's tps.")
+        public TPSCommand() : base("tps", "tps", "Gets server's tps.")
         {
         }
 

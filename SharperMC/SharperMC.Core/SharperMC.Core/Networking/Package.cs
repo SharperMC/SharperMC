@@ -26,6 +26,7 @@ using System;
 using System.Net.Sockets;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Networking.Packets.Login.Client;
+using SharperMC.Core.Networking.Packets.Play.Client;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;

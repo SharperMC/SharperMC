@@ -20,6 +20,8 @@ namespace SharperMC.Core.Config
 		public bool OnlineMode = false;
 		public bool EncryptionEnabled = true;
 		public int MaxPlayers = 10;
+		
+		public bool ReducedDebugInfo = false;
 
 		public Gamemode Gamemode = Gamemode.Survival;
 		

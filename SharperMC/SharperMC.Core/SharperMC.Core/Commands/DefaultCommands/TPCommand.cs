@@ -33,7 +33,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class TPCommand : Command
     {
-        public TPCommand() : base("tp", new[] {"teleport"}, "/tp <x> <y> <z> [yaw] [pitch]", "Teleports you.")
+        public TPCommand() : base("tp", new[] {"teleport"}, "tp <x> <y> <z> [yaw] [pitch]", "Teleports you.")
         {
         }
 

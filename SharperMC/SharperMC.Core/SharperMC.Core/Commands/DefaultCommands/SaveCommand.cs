@@ -31,7 +31,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
     public class SaveCommand : Command
     {
 
-        public SaveCommand() : base("save", "/save", "Saves the world.")
+        public SaveCommand() : base("save", "save", "Saves the world.")
         {
         }
         

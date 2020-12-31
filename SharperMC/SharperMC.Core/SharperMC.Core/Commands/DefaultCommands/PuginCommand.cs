@@ -31,7 +31,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class PluginCommand : Command
     {
-        public PluginCommand() : base("pl", new[] {"plugin", "plugins"}, "/pl", "Gets plugins.")
+        public PluginCommand() : base("pl", new[] {"plugin", "plugins"}, "pl", "Gets plugins.")
         {
         }
 

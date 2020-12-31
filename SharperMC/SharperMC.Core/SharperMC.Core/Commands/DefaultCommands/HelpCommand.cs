@@ -27,7 +27,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
     public class HelpCommand : Command
     {
 
-        public HelpCommand() : base("help", new []{"?"}, "/help", "Gets help.")
+        public HelpCommand() : base("help", new []{"?"}, "help", "Gets help.")
         {
         }
         

@@ -33,7 +33,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
     public class GamemodeCommand : Command
     {
 
-        public GamemodeCommand() : base("gamemode", new []{"gm"}, "/gamemode [gamemode]", "Sets gamemode.")
+        public GamemodeCommand() : base("gamemode", new []{"gm"}, "gamemode [gamemode]", "Sets gamemode.")
         {
         }
         
