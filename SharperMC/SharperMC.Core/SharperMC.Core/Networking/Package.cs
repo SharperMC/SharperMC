@@ -64,7 +64,7 @@ namespace SharperMC.Core.Networking
 		internal void SetTarget(ClientWrapper client)
 		{
 			Client = client;
-			if (client.TcpClient != null)
+			if (client.TcpClient != null && client.TcpClient.Connected)
 			{
 				Stream = client.TcpClient.GetStream();
 			}

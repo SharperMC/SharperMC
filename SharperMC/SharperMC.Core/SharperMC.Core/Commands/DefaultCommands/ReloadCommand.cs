@@ -1,10 +1,11 @@
-﻿using SharperMC.Core.Utils.Text;
+﻿using SharperMC.Core.Plugins;
+using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands.DefaultCommands
 {
-     public class ReloadCommand : Command
-     {
-        public  ReloadCommand() : base("reload", "reload", "Reloads everything (plugins, server config, etc...)")
+    public class ReloadCommand : Command
+    {
+        public ReloadCommand() : base("reload", "reload", "Reloads everything (plugins, server config, etc...)")
         {
         }
 
@@ -16,24 +17,37 @@ namespace SharperMC.Core.Commands.DefaultCommands
                 Server.LoadServerSettingsFromFile();
                 sender.SendChat("Server fully reloaded!");
             }
-            else if(args.Length >= 1)
+            else if (args.Length >= 1)
             {
                 switch (args[0])
                 {
                     case "plugins":
-                        //TODO: reload plugins
+                        ReloadPlugins();
+                        sender.SendChat("Reloaded all plugins.", TextColor.Green);
                         break;
                     case "config":
-                        Server.LoadServerSettingsFromFile();
-                        sender.SendChat("Server config has been reloaded from file. ", TextColor.Green);
+                        ReloadConfig();
+                        sender.SendChat("Server config has been reloaded from file.", TextColor.Green);
                         break;
                     default:
-                        // Also reload plugins here
-                        Server.LoadServerSettingsFromFile();
-                        sender.SendChat("Server fully reloaded!");
+                        ReloadPlugins();
+                        ReloadConfig();
+                        sender.SendChat("Server fully reloaded!", TextColor.Green);
                         break;
                 }
             }
+        }
+
+        private void ReloadPlugins()
+        {
+            // TODO: Remove event thingies and command systems when implemented
+            PluginManager.DisableAllPlugins();
+            PluginManager.EnableAllPlugins();
+        }
+
+        private void ReloadConfig()
+        {
+            Server.LoadServerSettingsFromFile();
         }
 
         public override string[] TabComplete(ICommandSender sender, string label, string[] args)
@@ -41,5 +55,4 @@ namespace SharperMC.Core.Commands.DefaultCommands
             return args.Length == 0 ? new[] {"plugins", "config", "all"} : new string[0];
         }
     }
-    
 }

@@ -121,7 +121,6 @@ namespace SharperMC.Core.Plugins
             {
                 if (state == PluginState.Disabled) return;
                 Disable(plugin);
-                Plugins[plugin] = PluginState.Disabled;
             }
         }
 
