@@ -100,9 +100,51 @@ namespace SharperMC.Core.Plugins
 
         public static void AddPlugin(IPlugin plugin)
         {
-            plugin.Load();
-            Plugins.Add(plugin, PluginState.Loaded);
+            Plugins[plugin] = PluginState.Disabled;
+            Load(plugin);
             if (!Server.Initiated) return;
+            Enable(plugin);
+        }
+
+        public static void EnableAllPlugins()
+        {
+            foreach (var (plugin, state) in Plugins.ToDictionary(x => x.Key, x => x.Value))
+            {
+                if (state == PluginState.Enabled || state == PluginState.Failed) return;
+                Enable(plugin);
+            }
+        }
+
+        public static void DisableAllPlugins()
+        {
+            foreach (var (plugin, state) in Plugins.ToDictionary(x => x.Key, x => x.Value))
+            {
+                if (state == PluginState.Disabled) return;
+                Disable(plugin);
+                Plugins[plugin] = PluginState.Disabled;
+            }
+        }
+
+        public static void Load(IPlugin plugin)
+        {
+            CheckPluginRegistration(plugin);
+            try
+            {
+                plugin.Load();
+                Plugins[plugin] = PluginState.Loaded;
+            }
+            catch (Exception ex)
+            {
+                ConsoleFunctions.WriteErrorLine(
+                    $"Failed to load plugin: {plugin.GetName()} {plugin.GetVersion()}   {ex}");
+                Plugins[plugin] = PluginState.Failed;
+            }
+        }
+
+        public static void Enable(IPlugin plugin)
+        {
+            ConsoleFunctions.WriteLine($"{plugin.GetName()}");
+            CheckPluginRegistration(plugin);
             try
             {
                 plugin.Enable();
@@ -111,42 +153,37 @@ namespace SharperMC.Core.Plugins
             catch (Exception ex)
             {
                 ConsoleFunctions.WriteErrorLine(
-                    $"Failed to enable plugin: {plugin.GetName()} {plugin.GetVersion()}. {ex}");
+                    $"Failed to enable plugin: {plugin.GetName()} {plugin.GetVersion()}   {ex}");
+                Plugins[plugin] = PluginState.Failed;
             }
         }
-
-        public static void EnableAllPlugins()
+        
+        public static void Disable(IPlugin plugin)
         {
-            foreach (var pair in Plugins.ToDictionary(x => x.Key, x => x.Value))
+            CheckPluginRegistration(plugin);
+            try
             {
-                try
-                {
-                    pair.Key.Enable();
-                    Plugins[pair.Key] = PluginState.Enabled;
-                }
-                catch (Exception ex)
-                {
-                    ConsoleFunctions.WriteErrorLine(
-                        $"Failed to enable plugin: {pair.Key.GetName()} {pair.Key.GetVersion()}. {ex}");
-                }
+                plugin.Disable();
             }
+            catch (Exception ex)
+            {
+                ConsoleFunctions.WriteErrorLine(
+                    $"Failed to disable plugin: {plugin.GetName()} {plugin.GetVersion()}   {ex}");
+            }
+            Plugins[plugin] = PluginState.Disabled;
         }
 
-        public static void DisableAllPlugins()
+        public static bool IsPluginRegistered(IPlugin plugin)
         {
-            foreach (var pair in Plugins.ToDictionary(x => x.Key, x => x.Value))
-            {
-                try
-                {
-                    pair.Key.Disable();
-                }
-                catch (Exception ex)
-                {
-                    ConsoleFunctions.WriteErrorLine(
-                        $"Failed to disable plugin: {pair.Key.GetName()} {pair.Key.GetVersion()}. {ex}");
-                }
-                Plugins[pair.Key] = PluginState.Disabled;
-            }
+            return Plugins.ContainsKey(plugin);
+        }
+
+        public static void CheckPluginRegistration(IPlugin plugin)
+        {
+            if (plugin == null)
+                throw new ArgumentException($"Plugin is null!");
+            if (!IsPluginRegistered(plugin))
+                throw new ArgumentException($"{plugin.GetName()} is not loaded!");
         }
     }
 }

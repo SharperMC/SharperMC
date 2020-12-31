@@ -49,17 +49,6 @@ namespace SharperMC.Core.Commands.DefaultCommands
             if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
             sender.SendChat(enabledText);
             
-            var disabledPlugins = PluginManager.Plugins.Where(o => o.Value == PluginState.Disabled);
-            var disabledText = new ChatText($"Disabled Plugins: ", TextColor.Red);
-            var disabledList = disabledPlugins as KeyValuePair<IPlugin, PluginState>[] ?? disabledPlugins.ToArray();
-            disabledText.SetNext(new ChatText($"({disabledList.Count()}) ", TextColor.Reset));
-            last = null;
-            foreach (var pair in disabledList)
-            {
-                disabledText.SetNext(last = new ChatText($"{pair.Key.GetName()}, "));
-            }
-            if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
-            sender.SendChat(disabledText);
             
             var loadedPlugins = PluginManager.Plugins.Where(o => o.Value == PluginState.Loaded);
             var loadedText = new ChatText($"Loaded Plugins: ", TextColor.Gray);
@@ -72,6 +61,32 @@ namespace SharperMC.Core.Commands.DefaultCommands
             }
             if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
             sender.SendChat(loadedText);
+            
+            
+            var disabledPlugins = PluginManager.Plugins.Where(o => o.Value == PluginState.Disabled);
+            var disabledText = new ChatText($"Disabled Plugins: ", TextColor.Red);
+            var disabledList = disabledPlugins as KeyValuePair<IPlugin, PluginState>[] ?? disabledPlugins.ToArray();
+            disabledText.SetNext(new ChatText($"({disabledList.Count()}) ", TextColor.Reset));
+            last = null;
+            foreach (var pair in disabledList)
+            {
+                disabledText.SetNext(last = new ChatText($"{pair.Key.GetName()}, "));
+            }
+            if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
+            sender.SendChat(disabledText);
+            
+            
+            var failedPlugins = PluginManager.Plugins.Where(o => o.Value == PluginState.Failed);
+            var failedText = new ChatText($"Failed Plugins: ", TextColor.DarkRed);
+            var failedList = failedPlugins as KeyValuePair<IPlugin, PluginState>[] ?? failedPlugins.ToArray();
+            failedText.SetNext(new ChatText($"({failedList.Count()}) ", TextColor.Reset));
+            last = null;
+            foreach (var pair in failedList)
+            {
+                failedText.SetNext(last = new ChatText($"{pair.Key.GetName()}, "));
+            }
+            if (last != null) last.Text = last.Text.Substring(0, last.Text.Length - 2) + ".";
+            sender.SendChat(failedText);
         }
 
         public override string[] TabComplete(ICommandSender sender, string label, string[] args)

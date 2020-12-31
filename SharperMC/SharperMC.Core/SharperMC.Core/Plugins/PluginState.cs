@@ -27,6 +27,7 @@ namespace SharperMC.Core.Plugins
     public enum PluginState
     {
         Disabled,
+        Failed,
         Loaded,
         Enabled
     }

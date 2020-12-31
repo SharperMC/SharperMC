@@ -26,10 +26,10 @@ namespace SharperMC.Core.Plugins
 {
     public abstract class SharperPlugin : IPlugin
     {
-        internal string Name = "Unknown";
-        internal string Version = "Unknown";
-        internal string Author = "Unknown";
-        internal string Description = "";
+        public string Name = "Unknown";
+        public string Version = "Unknown";
+        public string Author = "Unknown";
+        public string Description = "";
 
         public virtual void Load(){}
         public virtual void Enable(){}

@@ -15,19 +15,29 @@ namespace ExamplePlugin
      */
     public class PluginMain : SharperPlugin
     {
+        private IPlugin _plugin;
         public override void Load()
         {
             ConsoleFunctions.WriteInfoLine("Loading!!!!!!");
+            PluginManager.AddPlugin(_plugin = new FailedPlugin()
+            {
+                Name = "FailedPlugin",
+                Version = "0.1",
+                Author = "Sms_Gamer_3808",
+                Description = "See what happens when a plugin fails to load..."
+            });
         }
 
         public override void Enable()
         {
             ConsoleFunctions.WriteInfoLine("Enabling!!!!!!");
+            PluginManager.Enable(_plugin);
         }
 
         public override void Disable()
         {
             ConsoleFunctions.WriteInfoLine("Disabling!!!!!!");
+            PluginManager.Disable(_plugin);
         }
     }
 }
