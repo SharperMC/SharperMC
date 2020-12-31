@@ -26,8 +26,21 @@ namespace SharperMC.Core.Plugins
 {
     public interface IPlugin
     {
+        /// <summary>
+        /// This will be called when the server first loads the plugin. It is only called once, even during reloads.
+        ///
+        /// You want to register your events here.
+        /// </summary>
         void Load();
+        /// <summary>
+        /// This will be called every time the plugin gets enabled.
+        ///
+        /// You want to register your event listeners here.
+        /// </summary>
         void Enable();
+        /// <summary>
+        /// This will be called every time the plugin gets disabled.
+        /// </summary>
         void Disable();
         string GetName();
         string GetVersion();

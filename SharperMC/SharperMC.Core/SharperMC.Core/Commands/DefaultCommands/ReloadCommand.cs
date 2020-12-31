@@ -1,4 +1,5 @@
-﻿using SharperMC.Core.Plugins;
+﻿using SharperMC.Core.Events;
+using SharperMC.Core.Plugins;
 using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands.DefaultCommands
@@ -40,7 +41,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
 
         private void ReloadPlugins()
         {
-            // TODO: Remove event thingies and command systems when implemented
+            EventManager.UnregisterAllListeners();
             PluginManager.DisableAllPlugins();
             PluginManager.EnableAllPlugins();
         }
