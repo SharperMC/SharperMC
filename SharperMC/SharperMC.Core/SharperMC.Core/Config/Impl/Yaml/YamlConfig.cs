@@ -61,8 +61,6 @@ namespace SharperMC.Core.Config.Impl.Yaml
                 }
             }
 
-            System.Console.WriteLine(new string('=', 20));
-            // System.Console.WriteLine(serializer.Serialize(mainDict));
             File.WriteAllText(_filePath, serializer.Serialize(mainDict));
         }
 
