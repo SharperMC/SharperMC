@@ -57,6 +57,8 @@ SharperMC is a C# 1.8.x Minecraft server running on the .NET Framework.
 - [fNbt](https://github.com/mstefarov/fNbt) Minecraft NBT support.
 - [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) Json.
 - [LibNoise](https://github.com/lessneek/LibNoise) Noise generating (World Genning).
+- [YamlDotNet](https://github.com/aaubry/YamlDotNet/) Yaml configs stuffs.
+- [DotNetZip.Reduced](https://archive.codeplex.com/?p=dotnetzip) Zip compression shenanigans.
 
 ## Licensing
 SharperMC uses MIT License you can find it [Here](https://github.com/SharperMC/SharperMC/blob/master/LICENSE).
