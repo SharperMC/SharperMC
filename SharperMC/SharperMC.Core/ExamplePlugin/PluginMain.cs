@@ -10,8 +10,7 @@ namespace ExamplePlugin
 [assembly: PluginAttributes("ExamplePlugin.dll", "ExamplePlugin.PluginMain", "ExamplePlugin", "1.0", 
     "The SharperMC Team", "An example plugin for SharperMC.")]
     
-     * in the AssemblyInfo. For some reason, it's staying in the obj.Debug idk why.
-     * Todo: I'll have fix this.
+     * in the AssemblyInfo.
      */
     public class PluginMain : SharperPlugin
     {
