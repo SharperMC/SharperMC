@@ -14,6 +14,12 @@ namespace SharperMC.Core.Config.Impl
             Dict = dict;
         }
 
+        public MemorySection(ISection section, string name = null)
+        {
+            Name = name ?? section.GetName();
+            Dict = new Dictionary<string, object>(section.GetKeys()); // shallow copy
+        }
+
         internal MemorySection()
         {
         }

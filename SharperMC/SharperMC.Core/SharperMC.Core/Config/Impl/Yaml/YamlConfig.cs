@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,6 +30,18 @@ namespace SharperMC.Core.Config.Impl
             _filePath = filePath;
             if (start) Reload();
             else Dict = new Dictionary<string, object>();
+        }
+        
+        public YamlConfig(ISection section, string name) : base(section, name)
+        {
+            // Todo: Make a "ConfigBase" class that JsonConfig and YamlConfig will implement
+            // Todo: Implement me.
+        }
+
+        public void ConvertToSections()
+        {
+            // Todo: Make a "ConfigBase" class that JsonConfig and YamlConfig will implement
+            // Todo: Implement me.
         }
 
         public string GetFilePath()

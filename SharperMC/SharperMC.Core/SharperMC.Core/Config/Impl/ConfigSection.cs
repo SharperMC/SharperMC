@@ -1,15 +1,29 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SharperMC.Core.Config.Impl
 {
     public class ConfigSection : MemorySection
     {
-        public ConfigSection(string name, Dictionary<string, object> dict) : base(name, dict)
+        public ConfigSection(string name, IDictionary<string, object> dict)
+        {
+            var d = new Dictionary<object, object>(); // Casting didn't wanna play nice.
+            foreach (var (key, value) in dict) d.Add(key, value);
+            Setup(name, d);
+        }
+
+        public ConfigSection(string name, IDictionary<object, object> dict)
+        {
+            Setup(name, dict);
+        }
+
+        public ConfigSection(ISection section, string name = null) : this(name ?? section.GetName(), section.GetKeys())
         {
         }
 
-        public ConfigSection(string name, Dictionary<object, object> dict)
+        private void Setup(string name, object obj)
         {
+            var dict = obj as IDictionary<object, object>;
             Name = name;
             Dict = new Dictionary<string, object>();
             foreach(var (key, value) in dict)
