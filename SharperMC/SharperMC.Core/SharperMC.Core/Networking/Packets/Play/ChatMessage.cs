@@ -25,6 +25,8 @@
 using Newtonsoft.Json;
 using SharperMC.Core.Commands;
 using SharperMC.Core.Enums;
+using SharperMC.Core.Events;
+using SharperMC.Core.Events.DefaultEvents;
 using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;
@@ -34,48 +36,60 @@ using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking.Packets.Play
 {
-	public class ChatMessage : Package<ChatMessage>
-	{
-		public ChatText Message;
-		public ChatMessageType MessageType = ChatMessageType.ChatBox;
+    public class ChatMessage : Package<ChatMessage>
+    {
+        public ChatText Message;
+        public ChatMessageType MessageType = ChatMessageType.ChatBox;
 
-		public ChatMessage(ClientWrapper client) : base(client)
-		{
-			ReadId = 0x01;
-			SendId = 0x02;
-		}
+        public ChatMessage(ClientWrapper client) : base(client)
+        {
+            ReadId = 0x01;
+            SendId = 0x02;
+        }
 
-		public ChatMessage(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
-		{
-			ReadId = 0x01;
-			SendId = 0x02;
-		}
+        public ChatMessage(ClientWrapper client, DataBuffer buffer) : base(client, buffer)
+        {
+            ReadId = 0x01;
+            SendId = 0x02;
+        }
 
-		public override void Read()
-		{
-			var message = Buffer.ReadString();
-			
-			if (CommandManager.ShouldProcess(message))
-			{
-				CommandManager.ParseCommand(Client.Player, message);
-				return;
-			}
-			var msg = Globals.ChatManager.FormatMessage(Client.Player, message);
+        public override void Read()
+        {
+            var message = Buffer.ReadString();
 
-			Globals.ChatManager.BroadcastChat(msg);
-			ConsoleFunctions.WriteInfoLine(msg);
-		}
+            var preChatEvent = new PreChatEvent(message, CommandManager.ShouldProcess(message), Client.Player);
+            EventManager.CallEvent(preChatEvent);
+            if (preChatEvent.Cancelled) return;
 
-		public override void Write()
-		{
-			if (Buffer == null) return;
-			var message = Message.Serialize();
-				
-			Buffer.WriteVarInt(SendId);
-			//Buffer.WriteString("{ \"text\": \"" + Message + "\" }");
-			Buffer.WriteString(message);
-			Buffer.WriteByte((byte)MessageType);
-			Buffer.FlushData();
-		}
-	}
+            message = preChatEvent.Message;
+
+            if (preChatEvent.ProcessAsCommand)
+            {
+                CommandManager.ParseCommand(Client.Player, message);
+                return;
+            }
+
+            var chatEvent = new ChatEvent(message, "<{0}> {1}", Client.Player);
+            EventManager.CallEvent(chatEvent);
+            if (chatEvent.Cancelled) return;
+            message = chatEvent.Message;
+
+            var msg = string.Format(chatEvent.Format, Client.Player.GetName(), message); // Todo: Make this customizable
+
+            Globals.ChatManager.BroadcastChat(msg);
+            ConsoleFunctions.WriteInfoLine(msg);
+        }
+
+        public override void Write()
+        {
+            if (Buffer == null) return;
+            var message = Message.Serialize();
+
+            Buffer.WriteVarInt(SendId);
+            //Buffer.WriteString("{ \"text\": \"" + Message + "\" }");
+            Buffer.WriteString(message);
+            Buffer.WriteByte((byte) MessageType);
+            Buffer.FlushData();
+        }
+    }
 }

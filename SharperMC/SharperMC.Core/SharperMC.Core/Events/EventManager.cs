@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
+using SharperMC.Core.Events.DefaultEvents;
 using SharperMC.Core.Plugins;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.CustomTypes;
@@ -17,6 +18,12 @@ namespace SharperMC.Core.Events
 
         public static readonly Dictionary<Type, OrderedDictionary<EventPriority, HashSet<RegisteredListener>>> Events =
             new Dictionary<Type, OrderedDictionary<EventPriority, HashSet<RegisteredListener>>>();
+
+        public static void SetupDefaultEvents()
+        {
+            RegisterEvent(typeof(PreChatEvent));
+            RegisterEvent(typeof(ChatEvent));
+        }
 
         // Doesn't *have* to be an IEvent, but it should be. No support will be given if it's not an IEvent.
         public static void RegisterEvent(Type eventType)
