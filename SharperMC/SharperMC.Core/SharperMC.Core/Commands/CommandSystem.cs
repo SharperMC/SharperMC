@@ -32,7 +32,7 @@ namespace SharperMC.Core.Commands
         {
             var aliases = new string[command.Aliases.Length + 1];
             command.Aliases.CopyTo(aliases, 0);
-            aliases[aliases.Length - 1] = command.Name;
+            aliases[^1] = command.Name;
             for (var i = 0; i < aliases.Length; i++)
                 aliases[i] = aliases[i].ToLower();
             CommandMap.Add(aliases, command);

@@ -33,7 +33,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
         {
         }
 
-        public override void Execute(ICommandSender sender, string label, string[] args)
+        public override void Execute(ICommandSender sender, string label, string[] args, string origMessage)
         {
             if (args.Length > 0 && args[0].ToLower().Equals("send"))
             {
@@ -352,7 +352,8 @@ namespace SharperMC.Core.Commands.DefaultCommands
             sender.SendChat($"Label: {label} Args: {{{joinedArgs}}}");
         }
 
-        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args,
+            string origMessage)
         {
             return args.Length > 0 ? args : new[] {"Hey", "Hello", "Howdy"};
         }

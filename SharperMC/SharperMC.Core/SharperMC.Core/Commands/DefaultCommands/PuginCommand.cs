@@ -35,7 +35,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
         {
         }
 
-        public override void Execute(ICommandSender sender, string label, string[] args)
+        public override void Execute(ICommandSender sender, string label, string[] args, string origMessage)
         {
             var enabledPlugins = PluginManager.Plugins.Where(o => o.Value == PluginState.Enabled);
             var enabledText = new ChatText($"Enabled Plugins: ", TextColor.Green);
@@ -89,7 +89,8 @@ namespace SharperMC.Core.Commands.DefaultCommands
             sender.SendChat(failedText);
         }
 
-        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args,
+            string origMessage)
         {
             return new string[0];
         }

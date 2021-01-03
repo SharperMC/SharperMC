@@ -75,6 +75,7 @@ namespace SharperMC.Core.Commands
 
         public static void ParseCommand(ICommandSender sender, string message)
         {
+            var origMessage = message;
             try
             {
                 message = message.Trim();
@@ -95,7 +96,7 @@ namespace SharperMC.Core.Commands
                 }
                 else args = new string[0];
 
-                command.Execute(sender, split[0], args);
+                command.Execute(sender, split[0], args, origMessage);
             }
             catch (Exception ex)
             {
@@ -115,6 +116,7 @@ namespace SharperMC.Core.Commands
                 }
                 return strings;
             }
+            var origMessage = message;
             try
             {
                 message = message.Trim();
@@ -131,7 +133,7 @@ namespace SharperMC.Core.Commands
                 }
                 else args = new string[0];
 
-                return command.TabComplete(sender, split[0], args).ToList();
+                return command.TabComplete(sender, split[0], args, origMessage).ToList();
             }
             catch (Exception ex)
             {

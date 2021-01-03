@@ -45,8 +45,10 @@ namespace SharperMC.Core.Commands
             Usage = usage;
         }
 
-        public abstract void Execute(ICommandSender sender, string label, string[] args);
-        public abstract IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args);
+        public abstract void Execute(ICommandSender sender, string label, string[] args, string rawMessage);
+
+        public abstract IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args,
+            string rawMessage);
 
         public string GetUsage(string label)
         {

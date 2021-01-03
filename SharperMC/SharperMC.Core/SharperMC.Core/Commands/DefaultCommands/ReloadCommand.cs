@@ -11,7 +11,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
         {
         }
 
-        public override void Execute(ICommandSender sender, string label, string[] args)
+        public override void Execute(ICommandSender sender, string label, string[] args, string origMessage)
         {
             if (args.Length == 0)
             {
@@ -52,7 +52,8 @@ namespace SharperMC.Core.Commands.DefaultCommands
             Server.LoadServerSettingsFromFile();
         }
 
-        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args,
+            string origMessage)
         {
             return args.Length == 0 ? new[] {"plugins", "config", "all"} : new string[0];
         }
