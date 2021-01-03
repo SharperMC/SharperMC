@@ -57,9 +57,9 @@ namespace SharperMC.Core.Networking.Packets.Play
             var hasPosition = Buffer.ReadBool();    
             // ConsoleFunctions.WriteInfoLine(""+message + " " + hasPosition);
             
-            if (CommandManager.IsCommand(message))
+            if (CommandManager.ShouldProcess(message))
             {
-                CommandManager.ParseTab(Client.Player, message.Substring(1));
+                CommandManager.ParseTab(Client.Player, message);
                 return;
             }//else { player name list thingy UwU}
         }

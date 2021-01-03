@@ -55,9 +55,9 @@ namespace SharperMC.Core.Networking.Packets.Play
 		{
 			var message = Buffer.ReadString();
 			
-			if (CommandManager.IsCommand(message))
+			if (CommandManager.ShouldProcess(message))
 			{
-				CommandManager.ParseCommand(Client.Player, message.Substring(1));
+				CommandManager.ParseCommand(Client.Player, message);
 				return;
 			}
 			var msg = Globals.ChatManager.FormatMessage(Client.Player, message);

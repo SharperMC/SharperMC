@@ -22,24 +22,20 @@
 // 
 // ©Copyright SharperMC - 2020
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SharperMC.Core.Commands.DefaultCommands;
-using SharperMC.Core.Enums;
-using SharperMC.Core.Utils;
-using SharperMC.Core.Utils.Console;
-using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Commands
 {
     public static class CommandManager
     {
-        public const string CommandStart = "/";
-        public static readonly Dictionary<string[], Command> CommandMap = new Dictionary<string[], Command>();
+        public static readonly ICommandSystem DefaultSystem = new CommandSystem(new[] {"/"});
+        public static readonly List<ICommandSystem> CommandSystems = new List<ICommandSystem>();
 
         static CommandManager()
         {
+            AddCommandSystem(DefaultSystem);
             AddCommand(new GamemodeCommand());
             AddCommand(new HelpCommand());
             AddCommand(new PluginCommand());
@@ -52,101 +48,65 @@ namespace SharperMC.Core.Commands
             AddCommand(new ReloadCommand());
         }
 
+        public static void AddCommandSystem(ICommandSystem commandSystem)
+        {
+            CommandSystems.Add(commandSystem);
+        }
+
         public static void AddCommand(Command command)
         {
-            var aliases = new string[command.Aliases.Length + 1];
-            command.Aliases.CopyTo(aliases, 0);
-            aliases[aliases.Length - 1] = command.Name;
-            for (var i = 0; i < aliases.Length; i++)
-                aliases[i] = aliases[i].ToLower();
-            CommandMap.Add(aliases, command);
+            DefaultSystem.AddCommand(command);
         }
 
-        public static bool IsCommand(string command)
+        public static bool ShouldProcess(string command)
         {
-            return command.StartsWith(CommandStart);
+            return ShouldProcess(command, DefaultSystem) ||
+                   CommandSystems.Any(system => ShouldProcess(command, system));
         }
 
-        public static Command GetCommand(string label)
+        public static bool ShouldProcess(string command, ICommandSystem system)
         {
-            label = label.ToLower();
-            return CommandMap.FirstOrDefault((s) => s.Key.Contains(label)).Value;
+            return system.GetPrefixes().Any(command.StartsWith);
         }
 
         public static void ParseCommand(ICommandSender sender, string message)
         {
-            var origMessage = message;
-            try
             {
-                message = message.Trim();
-                while (message.Contains("  ")) message = message.Replace("  ", " ");
-                var split = message.Split(' ');
-                var command = GetCommand(split[0]);
-                if (command == default(Command))
+                var system = DefaultSystem;
+                var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
+                if (!string.IsNullOrWhiteSpace(prefix))
                 {
-                    UnknownCommand(sender, split[0]);
+                    system.ParseCommand(sender, message.Substring(prefix.Length));
                     return;
                 }
-
-                string[] args;
-                if (split.Length > 1)
-                {
-                    args = new string[split.Length - 1];
-                    Array.Copy(split, 1, args, 0, split.Length - 1);
-                }
-                else args = new string[0];
-
-                command.Execute(sender, split[0], args, origMessage);
             }
-            catch (Exception ex)
+            foreach (var system in CommandSystems)
             {
-                ConsoleFunctions.WriteWarningLine(ex.ToString());
-                sender.SendChat("An error occured when executing this command.", TextColor.Red);
+                var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
+                if (string.IsNullOrWhiteSpace(prefix)) continue;
+                system.ParseCommand(sender, message.Substring(prefix.Length));
+                return;
             }
         }
 
-        public static List<string> ParseTab(ICommandSender sender, string message)
+        public static IEnumerable<string> ParseTab(ICommandSender sender, string message)
         {
-            if (string.IsNullOrEmpty(message))
             {
-                var strings = new List<string>();
-                foreach (var keyValuePair in CommandMap)
+                var system = DefaultSystem;
+                var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
+                if (!string.IsNullOrWhiteSpace(prefix))
                 {
-                    strings.AddRange(keyValuePair.Key);
+                    return system.ParseTab(sender, message.Substring(prefix.Length));
                 }
-                return strings;
             }
-            var origMessage = message;
-            try
+            foreach (var system in CommandSystems)
             {
-                message = message.Trim();
-                while (message.Contains("  ")) message = message.Replace("  ", " ");
-                var split = message.Split(' ');
-                var command = GetCommand(split[0]);
-                if (command == default(Command)) return new List<string>();
-
-                string[] args;
-                if (split.Length > 1)
-                {
-                    args = new string[split.Length - 1];
-                    Array.Copy(split, 1, args, 0, split.Length - 1);
-                }
-                else args = new string[0];
-
-                return command.TabComplete(sender, split[0], args, origMessage).ToList();
+                var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
+                if (string.IsNullOrWhiteSpace(prefix)) continue;
+                return system.ParseTab(sender, message.Substring(prefix.Length));
             }
-            catch (Exception ex)
-            {
-                ConsoleFunctions.WriteWarningLine(ex.ToString());
-                sender.SendChat("An error occured when tab-completing the command.", TextColor.Red);
-            }
-            return new List<string>();
-        }
 
-        public static void UnknownCommand(ICommandSender sender, string command)
-        {
-            // todo: customizable
-            sender.SendChat("Unknown command: " + command, TextColor.Red);
+            return new string[0];
         }
     }
 }
