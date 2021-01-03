@@ -2,14 +2,14 @@ using SharperMC.Core.Commands;
 
 namespace SharperMC.Core.Events.DefaultEvents
 {
-    public class ChatEventBase : SenderEvent, ICancellable
+    public class ChatEventBase : ISenderEvent, ICancellable
     {
-        public override string EventName { get; } = "ChatEvent";
-        public override bool IsAsync { get; } = false; // probably true idk
-        public override ICommandSender Sender { get; }
+        public string EventName { get; } = "ChatEvent";
+        public bool IsAsync { get; } = false; // probably true idk
+        public ICommandSender Sender { get; }
         public string Message { get; set; }
 
-        public ChatEventBase(string message, ICommandSender sender)
+        protected ChatEventBase(string message, ICommandSender sender)
         {
             Message = message;
             Sender = sender;
