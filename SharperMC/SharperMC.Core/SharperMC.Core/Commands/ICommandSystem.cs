@@ -11,7 +11,6 @@ namespace SharperMC.Core.Commands
         public IEnumerable<string> ParseTab(ICommandSender sender, string message);
         
         public void AddCommand(Command command);
-        public Command GetCommand(string commandName);
-        public bool IsCommand(string commandName);
+        public Command GetCommand(string label);
     }
 }
