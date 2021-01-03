@@ -23,6 +23,9 @@ namespace SharperMC.Core.Events
         {
             RegisterEvent(typeof(PreChatEvent));
             RegisterEvent(typeof(ChatEvent));
+            RegisterEvent(typeof(CommandPreExecutionEvent));
+            RegisterEvent(typeof(CommandPostExecutionEvent));
+            RegisterEvent(typeof(CommandEvent));
         }
 
         // Doesn't *have* to be an IEvent, but it should be. No support will be given if it's not an IEvent.
