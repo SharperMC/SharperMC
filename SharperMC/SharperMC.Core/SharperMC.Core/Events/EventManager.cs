@@ -19,7 +19,7 @@ namespace SharperMC.Core.Events
         public static readonly Dictionary<Type, OrderedDictionary<EventPriority, HashSet<RegisteredListener>>> Events =
             new Dictionary<Type, OrderedDictionary<EventPriority, HashSet<RegisteredListener>>>();
 
-        public static void SetupDefaultEvents()
+        public static void RegisterDefaultEvents()
         {
             RegisterEvent(typeof(PreChatEvent));
             RegisterEvent(typeof(ChatEvent));

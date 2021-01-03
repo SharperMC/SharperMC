@@ -7,6 +7,7 @@ using SharperMC.Core.Chat;
 using SharperMC.Core.Config;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
+using SharperMC.Core.Events;
 using SharperMC.Core.Networking;
 using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Networking.Packets.Play.Client;
@@ -45,6 +46,9 @@ namespace SharperMC.Core
                     );
             ConsoleFunctions.WriteInfoLine("For some reason, writing async in non-minimal console doesn't work.");
             ConsoleFunctions.WriteInfoLine("For some reason, the server doesn't close all threads. Just kill it for now.");
+            ConsoleFunctions.WriteInfoLine("Registering default events...");
+            EventManager.RegisterDefaultEvents();
+            
             ConsoleFunctions.WriteInfoLine("Loading plugins...");
             PluginManager.RegisterPlugins();
 
