@@ -18,8 +18,9 @@ namespace SharperMC.Core.Utils.Console
         {
             LineRead += (s) =>
             {
-                if (!string.IsNullOrEmpty(s))
-                    CommandManager.ParseCommand(Globals.ConsoleSender, s);
+                if (string.IsNullOrEmpty(s)) return;
+                if (!CommandManager.ShouldProcess(s)) s = "/" + s;
+                CommandManager.ParseCommand(Globals.ConsoleSender, s);
             };
             ConsoleColors = args.Contains("--console-colors");
             if (ConsoleColors)
