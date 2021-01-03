@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using SharperMC.Core.Utils.Json;
 
 namespace SharperMC.Core.Config.Impl.Json
 {
-    public class JsonConfig : MemorySection, IConfig, ISection
+    public class JsonConfig : ConfigBase
     {
-        private string _filePath;
         private Formatting _formatting;
 
         public static void Test()
@@ -17,6 +19,9 @@ namespace SharperMC.Core.Config.Impl.Json
                 new JsonConfig("/media/shoghi/Data/appdata/projects/C#/SharperMC/TestServer/Logs/test.json");
             System.Console.WriteLine(config.Get("test.owo") ?? "null");
             System.Console.WriteLine(config.Get("uwu") ?? "null");
+            System.Console.WriteLine(config.Get("hot") ?? "null");
+            System.Console.WriteLine(config.Get("hot.amazing") ?? "null");
+            System.Console.WriteLine(string.Join(", ", config.GetSection("hot.amazing").GetKeys().Keys));
             System.Console.WriteLine(config.Get("hot.amazing.owo") ?? "null");
             System.Console.WriteLine(config.GetISections("hot.amazing.owo").ToArray()[2].Get("jesus"));
             System.Console.WriteLine(config.Get("hot.amazing.uwu") ?? "null");
@@ -26,83 +31,26 @@ namespace SharperMC.Core.Config.Impl.Json
             config.Save();
         }
 
-        public JsonConfig(string filePath, Formatting formatting = Formatting.None, bool start = true)
+        public JsonConfig(string filePath, Formatting formatting = Formatting.None, bool start = true) : base(filePath,
+            start)
         {
-            Name = filePath.Substring(filePath.LastIndexOf(Path.DirectorySeparatorChar));
-            _filePath = filePath;
             _formatting = formatting;
-            if (start) Reload();
-            else Dict = new Dictionary<string, object>();
         }
 
-        public string GetFilePath()
+        public JsonConfig(ISection section, string filePath, Formatting formatting = Formatting.None) : base(section,
+            filePath)
         {
-            return _filePath;
+            _formatting = formatting;
         }
 
-        public void Save()
+        protected override string SerializeToString(Dictionary<string, object> dict)
         {
-            var mainDict = new Dictionary<string, object>();
-
-            foreach (var (key, value) in Dict)
-            {
-                switch (value)
-                {
-                    case ISection v:
-                        ConvertToDict((IDictionary<string, object>) (mainDict[key] = v.GetKeys()));
-                        break;
-                    case List<object> objects:
-                    {
-                        for (var index = 0; index < objects.Count; index++)
-                            if (objects[index] is ISection sect)
-                                ConvertToDict((IDictionary<string, object>) (objects[index] = sect.GetKeys()));
-                        mainDict[key] = objects;
-                        break;
-                    }
-                    default:
-                        mainDict[key] = value;
-                        break;
-                }
-            }
-
-            File.WriteAllText(_filePath, JsonConvert.SerializeObject(mainDict, _formatting));
+            return JsonConvert.SerializeObject(dict, _formatting);
         }
 
-        private void ConvertToDict(IDictionary<string, object> dict)
+        protected override Dictionary<string, object> Deserialize()
         {
-            foreach (var (key, value) in new Dictionary<string, object>(dict))
-            {
-                switch (value)
-                {
-                    case ISection v:
-                        ConvertToDict((IDictionary<string, object>) (dict[key] = v.GetKeys()));
-                        break;
-                    case List<object> objects:
-                    {
-                        for (var index = 0; index < objects.Count; index++)
-                            if (objects[index] is ISection sect)
-                                ConvertToDict((IDictionary<string, object>) (objects[index] = sect.GetKeys()));
-                        break;
-                    }
-                }
-            }
-        }
-
-        public void Reload()
-        {
-            Dict = JsonConvert.DeserializeObject<Dictionary<string, object>>(File.OpenText(_filePath).ReadToEnd());
-            foreach (var (key, value) in new Dictionary<string, object>(Dict))
-                switch (value)
-                {
-                    case Dictionary<object, object> objects:
-                        Dict[key] = new ConfigSection(key, objects);
-                        break;
-                    case List<object> objects:
-                        for (var index = 0; index < objects.Count; index++)
-                            if (objects[index] is Dictionary<object, object> dictionary)
-                                objects[index] = new ConfigSection(key, dictionary);
-                        break;
-                }
+            return (Dictionary<string, object>) JsonHelper.Deserialize(File.OpenText(_filePath).ReadToEnd());
         }
 
         public override ISection NewSection(string key, Dictionary<string, object> dict)

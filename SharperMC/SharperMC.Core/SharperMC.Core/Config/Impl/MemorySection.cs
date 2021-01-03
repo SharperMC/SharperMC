@@ -20,7 +20,7 @@ namespace SharperMC.Core.Config.Impl
             Dict = new Dictionary<string, object>(section.GetKeys()); // shallow copy
         }
 
-        internal MemorySection()
+        protected MemorySection()
         {
         }
 

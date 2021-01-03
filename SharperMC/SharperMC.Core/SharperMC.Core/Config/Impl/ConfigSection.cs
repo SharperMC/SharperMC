@@ -35,10 +35,17 @@ namespace SharperMC.Core.Config.Impl
                     case Dictionary<object, object> d:
                         Dict[sk] = new ConfigSection(sk, d);
                         break;
+                    case Dictionary<string, object> d:
+                        Dict[sk] = new ConfigSection(sk, d);
+                        break;
                     case List<object> list:
                         for (var index = 0; index < list.Count; index++)
-                            if (list[index] is Dictionary<object, object> dictionary)
-                                list[index] = new ConfigSection(sk, dictionary);
+                            list[index] = list[index] switch
+                            {
+                                Dictionary<object, object> dictionary => new ConfigSection(sk, dictionary),
+                                Dictionary<string, object> dictionary => new ConfigSection(sk, dictionary),
+                                _ => list[index]
+                            };
                         Dict[sk] = list;
                         break;
                     default:

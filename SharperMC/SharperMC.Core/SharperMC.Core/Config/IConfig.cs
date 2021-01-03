@@ -1,7 +1,7 @@
 namespace SharperMC.Core.Config
 {
-    // Yaml : almost done, just need to implement serialization
-    // Json : todo
+    // Yaml : Done
+    // Json : Done
     // other? (toml...)
     public interface IConfig : ISection
     {
