@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace SharperMC.Core.Config
 {
@@ -100,32 +101,37 @@ namespace SharperMC.Core.Config
         /// <returns>A new ISection</returns>
         public ISection NewSection(string key, Dictionary<string, object> dict);
 
+        private const BindingFlags AllTypes =
+            BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic;
+
         /// <summary>
         /// For each field in type, check if this section's keys contains the fields name. If so, set the field's
         /// value to the section's value (from key) with the given obj.
         /// </summary>
         /// <param name="type">The type to get keys from</param>
         /// <param name="obj">Set null if it's static</param>
-        public void ToObject(Type type, object obj)
+        /// <param name="flags">Flags to use for GetFields</param>
+        public void ToObject(Type type, object obj, BindingFlags flags = AllTypes)
         {
             var keys = GetKeys();
-            foreach (var field in type.GetFields())
+            foreach (var field in type.GetFields(flags))
                 if (keys.ContainsKey(field.Name))
                     field.SetValue(obj, keys[field.Name]);
         }
 
         /// <summary>
-        /// Same as ToObject(Type type, object obj) but limits to certain values.
+        /// Same as ToObject(Type type, object obj, BindingFlags flags) but limits to certain values.
         /// </summary>
         /// <param name="type">The type to get keys from</param>
         /// <param name="obj">Set null if it's static</param>
         /// <param name="values">The limited values</param>
-        public void ToObject(Type type, object obj, IEnumerable<string> values)
+        /// <param name="flags">Flags to use for GetFields</param>
+        public void ToObject(Type type, object obj, IEnumerable<string> values, BindingFlags flags = AllTypes)
         {
             var k = GetKeys();
             var keys = GetKeys().Keys.Intersect(values);
             var enumerable = keys as string[] ?? keys.ToArray();
-            foreach (var field in type.GetFields())
+            foreach (var field in type.GetFields(flags))
                 if (enumerable.Contains(field.Name))
                     field.SetValue(obj, k[field.Name]);
         }
