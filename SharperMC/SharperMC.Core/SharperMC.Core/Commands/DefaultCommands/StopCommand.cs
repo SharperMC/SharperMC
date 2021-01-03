@@ -22,6 +22,8 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using System.Collections.Generic;
+
 namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class StopCommand : Command
@@ -36,7 +38,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             Server.StopServer();
         }
 
-        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
         {
             return new string[0];
         }

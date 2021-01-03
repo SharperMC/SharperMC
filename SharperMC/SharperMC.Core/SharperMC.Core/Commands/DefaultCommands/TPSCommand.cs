@@ -23,6 +23,7 @@
 // ©Copyright SharperMC - 2020
 
 using System;
+using System.Collections.Generic;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Enums;
 using SharperMC.Core.Utils;
@@ -48,7 +49,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             sender.SendChat("Miliseconds in Tick: " + average + "ms");
         }
 
-        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
         {
             return new string[0];
         }

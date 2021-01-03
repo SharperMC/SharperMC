@@ -22,6 +22,8 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using System.Collections.Generic;
+
 namespace SharperMC.Core.Commands
 {
     public abstract class Command
@@ -44,7 +46,7 @@ namespace SharperMC.Core.Commands
         }
 
         public abstract void Execute(ICommandSender sender, string label, string[] args);
-        public abstract string[] TabComplete(ICommandSender sender, string label, string[] args);
+        public abstract IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args);
 
         public string GetUsage(string label)
         {

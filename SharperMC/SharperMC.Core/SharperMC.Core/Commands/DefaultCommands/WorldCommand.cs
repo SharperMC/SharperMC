@@ -22,6 +22,7 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using System.Collections.Generic;
 using SharperMC.Core.Entity;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Text;
@@ -59,7 +60,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             }
         }
 
-        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
         {
             return new string[0];
         }

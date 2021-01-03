@@ -22,6 +22,8 @@
 // 
 // ©Copyright SharperMC - 2020
 
+using System.Collections.Generic;
+
 namespace SharperMC.Core.Commands.DefaultCommands
 {
     public class HelpCommand : Command
@@ -37,7 +39,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             sender.SendChat($"Label: {label} Args: {{{joinedArgs}}}");
         }
 
-        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
         {
             return new string[0];
         }

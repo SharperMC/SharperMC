@@ -89,7 +89,7 @@ namespace SharperMC.Core.Commands.DefaultCommands
             sender.SendChat(failedText);
         }
 
-        public override string[] TabComplete(ICommandSender sender, string label, string[] args)
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args)
         {
             return new string[0];
         }
