@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Reflection;
 using SharperMC.Core.Events.DefaultEvents;
 using SharperMC.Core.Plugins;
@@ -10,16 +8,15 @@ using SharperMC.Core.Utils.CustomTypes;
 
 namespace SharperMC.Core.Events
 {
-    public class EventManager
+    public static class EventManager
     {
-        // TODO: Test
         public static readonly Dictionary<IPlugin, HashSet<RegisteredListener>> PluginListeners =
             new Dictionary<IPlugin, HashSet<RegisteredListener>>();
 
         public static readonly Dictionary<Type, OrderedDictionary<EventPriority, HashSet<MethodListener>>> Events =
             new Dictionary<Type, OrderedDictionary<EventPriority, HashSet<MethodListener>>>();
 
-        public static void RegisterDefaultEvents()
+        internal static void RegisterDefaultEvents()
         {
             RegisterEvent(typeof(PreChatEvent));
             RegisterEvent(typeof(ChatEvent));
@@ -38,11 +35,11 @@ namespace SharperMC.Core.Events
         {
             var dict = new OrderedDictionary<EventPriority, HashSet<MethodListener>>
             {
-                {EventPriority.ReallyHigh, new HashSet<MethodListener>()},
-                {EventPriority.High, new HashSet<MethodListener>()},
-                {EventPriority.Medium, new HashSet<MethodListener>()},
-                {EventPriority.Low, new HashSet<MethodListener>()},
                 {EventPriority.ReallyLow, new HashSet<MethodListener>()},
+                {EventPriority.Low, new HashSet<MethodListener>()},
+                {EventPriority.Medium, new HashSet<MethodListener>()},
+                {EventPriority.High, new HashSet<MethodListener>()},
+                {EventPriority.ReallyHigh, new HashSet<MethodListener>()},
                 {EventPriority.Monitor, new HashSet<MethodListener>()}
             };
             return dict;
@@ -123,7 +120,7 @@ namespace SharperMC.Core.Events
             var type = e.GetType();
             if (!Events.TryGetValue(type, out var dict))
                 throw new ArgumentException($"{e.GetType().FullName} is not registered!");
-            foreach (var (_, listeners) in dict)
+            foreach (var listeners in dict.Values)
             {
                 foreach (var listener in listeners)
                 {
