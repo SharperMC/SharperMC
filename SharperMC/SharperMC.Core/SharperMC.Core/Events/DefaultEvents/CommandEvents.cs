@@ -2,7 +2,7 @@ using SharperMC.Core.Commands;
 
 namespace SharperMC.Core.Events.DefaultEvents
 {
-    public abstract class CommandEventBase : ISenderEvent, ICancellable
+    public abstract class CommandEventBase : ISenderEvent
     {
         public abstract string EventName { get; }
         public bool IsAsync { get; } = false;
@@ -18,14 +18,12 @@ namespace SharperMC.Core.Events.DefaultEvents
             Prefix = prefix;
             Type = type;
         }
-
-        public bool Cancelled { get; set; }
     }
 
     /// <summary>
     /// Calls after the ICommandSystem is found, but before it is passed to it.
     /// </summary>
-    public class CommandPreExecutionEvent : CommandEventBase
+    public class CommandPreExecutionEvent : CommandEventBase, ICancellable
     {
         public override string EventName { get; } = "CommandPreExecutionEvent";
         public ICommandSystem System { get; set; }
@@ -35,6 +33,8 @@ namespace SharperMC.Core.Events.DefaultEvents
         {
             System = system;
         }
+
+        public bool Cancelled { get; set; }
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ namespace SharperMC.Core.Events.DefaultEvents
     /// <summary>
     /// Calls before and after command execution, but after the Command is found.
     /// </summary>
-    public class CommandEvent : CommandEventBase
+    public class CommandEvent : CommandEventBase, ICancellable
     {
         public override string EventName { get; } = "CommandEvent";
         public ICommandSystem System { get; set; }
@@ -68,5 +68,7 @@ namespace SharperMC.Core.Events.DefaultEvents
             System = system;
             Command = command;
         }
+
+        public bool Cancelled { get; set; }
     }
 }
