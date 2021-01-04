@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SharperMC.Core.Events;
+using SharperMC.Core.Events.DefaultEvents;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Text;
 
@@ -21,7 +23,7 @@ namespace SharperMC.Core.Commands
             return Prefixes;
         }
 
-        public virtual void ParseCommand(ICommandSender sender, string message)
+        public virtual void ParseCommand(ICommandSender sender, string message, string prefix)
         {
             var origMessage = message;
             try
@@ -29,10 +31,32 @@ namespace SharperMC.Core.Commands
                 message = message.Trim();
                 while (message.Contains("  ")) message = message.Replace("  ", " ");
                 var split = message.Split(' ');
-                var command = GetCommand(split[0]);
+                var label = split.Length == 1 ? message : message.Substring(message.IndexOf(' '));
+                var command = GetCommand(label);
+
+                {
+                    var e = new CommandEvent(sender, command, origMessage, label, prefix, this, EventType.Pre);
+                    EventManager.CallEvent(e);
+                    if (e.Cancelled) return;
+                    if (e.Message != origMessage)
+                    {
+                        origMessage = e.Message;
+                        
+                        message = origMessage.Trim();
+                        while (message.Contains("  ")) message = message.Replace("  ", " ");
+                        
+                        split = message.Split(' ');
+                    }
+
+                    command = e.Command;
+                    sender = e.Sender;
+                    label = e.Label;
+                    prefix = e.Prefix;
+                }
+                
                 if (command == default(Command))
                 {
-                    UnknownCommand(sender, split[0]);
+                    UnknownCommand(sender, label);
                     return;
                 }
 
@@ -44,7 +68,12 @@ namespace SharperMC.Core.Commands
                 }
                 else args = new string[0];
 
-                command.Execute(sender, split[0], args, origMessage);
+                command.Execute(sender, label, args, origMessage);
+                
+                {
+                    var e = new CommandEvent(sender, command, origMessage, label, prefix, this, EventType.Post);
+                    EventManager.CallEvent(e);
+                }
             }
             catch (Exception ex)
             {
@@ -53,7 +82,7 @@ namespace SharperMC.Core.Commands
             }
         }
 
-        public virtual IEnumerable<string> ParseTab(ICommandSender sender, string message)
+        public virtual IEnumerable<string> ParseTab(ICommandSender sender, string message, string prefix)
         {
             if (string.IsNullOrEmpty(message))
             {

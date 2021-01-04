@@ -25,6 +25,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using SharperMC.Core.Commands.DefaultCommands;
+using SharperMC.Core.Events;
+using SharperMC.Core.Events.DefaultEvents;
 
 namespace SharperMC.Core.Commands
 {
@@ -76,7 +78,12 @@ namespace SharperMC.Core.Commands
                 var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
                 if (!string.IsNullOrWhiteSpace(prefix))
                 {
-                    system.ParseCommand(sender, message.Substring(prefix.Length));
+                    var preE = new CommandPreExecutionEvent(sender, message, prefix, system);
+                    EventManager.CallEvent(preE);
+                    if (preE.Cancelled) return;
+                    preE.System.ParseCommand(preE.Sender, preE.Message.Substring(prefix.Length), preE.Prefix);
+                    var postE = new CommandPostExecutionEvent(preE.Sender, preE.Message, preE.Prefix, preE.System);
+                    EventManager.CallEvent(postE);
                     return;
                 }
             }
@@ -84,7 +91,13 @@ namespace SharperMC.Core.Commands
             {
                 var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
                 if (string.IsNullOrWhiteSpace(prefix)) continue;
-                system.ParseCommand(sender, message.Substring(prefix.Length));
+                
+                var preE = new CommandPreExecutionEvent(sender, message, prefix, system);
+                EventManager.CallEvent(preE);
+                if (preE.Cancelled) return;
+                preE.System.ParseCommand(preE.Sender, preE.Message.Substring(prefix.Length), preE.Prefix);
+                var postE = new CommandPostExecutionEvent(preE.Sender, preE.Message, preE.Prefix, preE.System);
+                EventManager.CallEvent(postE);
                 return;
             }
         }
@@ -96,14 +109,14 @@ namespace SharperMC.Core.Commands
                 var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
                 if (!string.IsNullOrWhiteSpace(prefix))
                 {
-                    return system.ParseTab(sender, message.Substring(prefix.Length));
+                    return system.ParseTab(sender, message.Substring(prefix.Length), prefix);
                 }
             }
             foreach (var system in CommandSystems)
             {
                 var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
                 if (string.IsNullOrWhiteSpace(prefix)) continue;
-                return system.ParseTab(sender, message.Substring(prefix.Length));
+                return system.ParseTab(sender, message.Substring(prefix.Length), prefix);
             }
 
             return new string[0];
