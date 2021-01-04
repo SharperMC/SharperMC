@@ -60,5 +60,21 @@ namespace ExamplePlugin
                 $"LowOnCommand. Cmd: {e.Command.Name} EType: {e.Type} Label: {e.Label} Sender: {e.Sender.GetName()} " +
                 $"Message: {{{e.Message}}}");
         }
+
+        [EListener(typeof(CommandPreExecutionEvent))]
+        public void PreProcess(CommandPreExecutionEvent e)
+        {
+            ConsoleFunctions.WriteInfoLine(
+                $"PreProcess. System: {e.System.GetType().Name} EType: {e.Type} Prefix: {e.Prefix} Sender: {e.Sender.GetName()} " +
+                $"Message: {{{e.Message}}}");
+        }
+
+        [EListener(typeof(CommandPostExecutionEvent))]
+        public void PostProcess(CommandPostExecutionEvent e)
+        {
+            ConsoleFunctions.WriteInfoLine(
+                $"PostProcess. System: {e.System.GetType().Name} EType: {e.Type} Prefix: {e.Prefix} Sender: {e.Sender.GetName()} " +
+                $"Message: {{{e.Message}}}");
+        }
     }
 }
