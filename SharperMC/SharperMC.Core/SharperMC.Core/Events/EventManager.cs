@@ -59,7 +59,9 @@ namespace SharperMC.Core.Events
         public static void UnregisterListener(RegisteredListener listener)
         {
             PluginListeners[listener.Plugin].Remove(listener);
-            foreach (var (key, value) in listener.Listeners) Events[key][value.Key].Remove(listener);
+            foreach (var (key, value) in listener.Listeners)
+            foreach (var (key1, _) in value)
+                Events[key][key1].Remove(listener);
         }
 
         public static void UnregisterAllListeners()
@@ -73,17 +75,25 @@ namespace SharperMC.Core.Events
             foreach (var registeredListener in listeners) UnregisterListener(registeredListener);
         }
 
-        public static Dictionary<Type, KeyValuePair<EventPriority, MethodInfo>> GetListeners(object listener)
+        public static Dictionary<Type, List<KeyValuePair<EventPriority, MethodInfo>>> GetListeners(object listener)
         {
-            var result = new Dictionary<Type, KeyValuePair<EventPriority, MethodInfo>>();
+            var result = new Dictionary<Type, List<KeyValuePair<EventPriority, MethodInfo>>>();
             foreach (var method in listener.GetType().GetMethods())
             {
                 foreach (var attribute1 in method.GetCustomAttributes(typeof(EListener)))
                 {
                     var attribute = (EListener) attribute1;
                     if (Events.ContainsKey(attribute.EventType))
-                        result.Add(attribute.EventType,
-                            new KeyValuePair<EventPriority, MethodInfo>(attribute.Priority, method));
+                    {
+                        if (result.TryGetValue(attribute.EventType, out var val))
+                            val.Add(new KeyValuePair<EventPriority, MethodInfo>(attribute.Priority, method));
+                        else
+                            result.Add(attribute.EventType,
+                                new List<KeyValuePair<EventPriority, MethodInfo>>()
+                                {
+                                    new KeyValuePair<EventPriority, MethodInfo>(attribute.Priority, method)
+                                });
+                    }
                     else ConsoleFunctions.WriteWarningLine($"{attribute.EventType.FullName} is not registered!");
                 }
             }
@@ -97,15 +107,16 @@ namespace SharperMC.Core.Events
             var type = e.GetType();
             if (!Events.TryGetValue(type, out var dict))
                 throw new ArgumentException($"{e.GetType().FullName} is not registered!");
-            foreach (var listener in dict.SelectMany(pair => pair.Value))
-                listener.Listeners[type].Value.Invoke(listener.Listener, new object[] {e});
+            foreach (var (key, value) in dict)
+            foreach (var listener in value)
+                listener.Listeners[type].First(d => d.Key == key).Value.Invoke(listener.Listener, new object[] {e});
         }
 
         public class RegisteredListener
         {
             public readonly object Listener;
             public readonly IPlugin Plugin;
-            public readonly Dictionary<Type, KeyValuePair<EventPriority, MethodInfo>> Listeners;
+            public readonly Dictionary<Type, List<KeyValuePair<EventPriority, MethodInfo>>> Listeners;
 
             public RegisteredListener(object listener, IPlugin plugin)
             {
