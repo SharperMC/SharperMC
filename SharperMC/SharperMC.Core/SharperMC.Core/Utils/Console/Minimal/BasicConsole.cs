@@ -13,6 +13,7 @@ namespace SharperMC.Core.Utils.Console.Minimal
 
         public void Log(ChatText text)
         {
+            if (!GuiApp.Pause) text.SetNext(new ChatText("", TextColor.Reset));
             text.PrintNext(GuiApp.ConsoleColors);
             if (!GuiApp.Pause) System.Console.Write("\n");
         }
