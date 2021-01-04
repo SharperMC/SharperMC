@@ -31,7 +31,7 @@ namespace SharperMC.Core.Commands
                 message = message.Trim();
                 while (message.Contains("  ")) message = message.Replace("  ", " ");
                 var split = message.Split(' ');
-                var label = split.Length == 1 ? message : message.Substring(message.IndexOf(' '));
+                var label = split.Length == 1 ? message : message.Substring(0, message.IndexOf(' '));
                 var command = GetCommand(label);
 
                 {
