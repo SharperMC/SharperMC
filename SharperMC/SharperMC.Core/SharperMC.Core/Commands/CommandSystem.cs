@@ -44,6 +44,8 @@ namespace SharperMC.Core.Commands
                         
                         message = origMessage.Trim();
                         while (message.Contains("  ")) message = message.Replace("  ", " ");
+                        
+                        split = message.Split(' ');
                     }
 
                     command = e.Command;

@@ -39,7 +39,7 @@ namespace SharperMC.Core.Events
             var dict = new OrderedDictionary<EventPriority, HashSet<RegisteredListener>>
             {
                 {EventPriority.ReallyHigh, new HashSet<RegisteredListener>()},
-                {EventPriority.ReallyHigh, new HashSet<RegisteredListener>()},
+                {EventPriority.High, new HashSet<RegisteredListener>()},
                 {EventPriority.Medium, new HashSet<RegisteredListener>()},
                 {EventPriority.Low, new HashSet<RegisteredListener>()},
                 {EventPriority.ReallyLow, new HashSet<RegisteredListener>()},

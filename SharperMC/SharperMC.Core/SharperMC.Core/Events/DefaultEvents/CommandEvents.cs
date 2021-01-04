@@ -68,7 +68,7 @@ namespace SharperMC.Core.Events.DefaultEvents
                 _message = value;
 
                 var i = _message.IndexOf(' ');
-                Label = i == 0 ? _message : _message.Substring(0, i);
+                Label = i < 0 ? _message : _message.Substring(0, i);
             }
         }
 
