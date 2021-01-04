@@ -17,6 +17,7 @@ namespace ExamplePlugin
     public class PluginMain : SharperPlugin
     {
         private IPlugin _plugin;
+
         public override void Load()
         {
             ConsoleFunctions.WriteInfoLine("Loading!!!!!!");
@@ -39,20 +40,25 @@ namespace ExamplePlugin
         [EListener(typeof(CommandEvent))]
         public void OnCommand(CommandEvent e)
         {
-            ConsoleFunctions.WriteInfoLine($"OnCommand. Cmd: {e.Command.Name} Label: {e.Label} Sender: {e.Sender.GetName()} " +
-                                           $"Message: \n{e.Message}");
+            ConsoleFunctions.WriteInfoLine(
+                $"OnCommand. Cmd: {e.Command.Name} EType: {e.Type} Label: {e.Label} Sender: {e.Sender.GetName()} " +
+                $"Message: {{{e.Message}}}");
         }
+
         [EListener(typeof(CommandEvent), EventPriority.High)]
         public void HighOnCommand(CommandEvent e)
         {
-            ConsoleFunctions.WriteInfoLine($"HighOnCommand. Cmd: {e.Command.Name} Label: {e.Label} Sender: {e.Sender.GetName()} " +
-                                           $"Message: \n{e.Message}");
+            ConsoleFunctions.WriteInfoLine(
+                $"HighOnCommand. Cmd: {e.Command.Name} EType: {e.Type} Label: {e.Label} Sender: {e.Sender.GetName()} " +
+                $"Message: {{{e.Message}}}");
         }
+
         [EListener(typeof(CommandEvent), EventPriority.Low)]
         public void LowOnCommand(CommandEvent e)
         {
-            ConsoleFunctions.WriteInfoLine($"LowOnCommand. Cmd: {e.Command.Name} Label: {e.Label} Sender: {e.Sender.GetName()} " +
-                                           $"Message: \n{e.Message}");
+            ConsoleFunctions.WriteInfoLine(
+                $"LowOnCommand. Cmd: {e.Command.Name} EType: {e.Type} Label: {e.Label} Sender: {e.Sender.GetName()} " +
+                $"Message: {{{e.Message}}}");
         }
     }
 }
