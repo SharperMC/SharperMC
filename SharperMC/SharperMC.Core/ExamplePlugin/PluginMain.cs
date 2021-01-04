@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using SharperMC.Core.Commands;
 using SharperMC.Core.Events;
 using SharperMC.Core.Events.DefaultEvents;
 using SharperMC.Core.Plugins;
@@ -21,12 +23,16 @@ namespace ExamplePlugin
         public override void Load()
         {
             ConsoleFunctions.WriteInfoLine("Loading!!!!!!");
-            EventManager.RegisterListener(new EventListener(), this);
+            // EventManager.RegisterListener(new EventListener(), this);
         }
 
         public override void Enable()
         {
             ConsoleFunctions.WriteInfoLine("Enabling!!!!!!");
+            CommandManager.AddCommand(new ExampleCommand("/"));
+            var exampleSystem = new CommandSystem(new [] {"\\"});
+            exampleSystem.AddCommand(new ExampleCommand("\\"));
+            CommandManager.AddCommandSystem(exampleSystem);
         }
 
         public override void Disable()
@@ -75,6 +81,24 @@ namespace ExamplePlugin
             ConsoleFunctions.WriteInfoLine(
                 $"PostProcess. System: {e.System.GetType().Name} EType: {e.Type} Prefix: {e.Prefix} Sender: {e.Sender.GetName()} " +
                 $"Message: {{{e.Message}}}");
+        }
+    }
+    
+    public class ExampleCommand : Command
+    {
+        public ExampleCommand(string prefix) :
+            base("example", $"{prefix}example", "Example command")
+        {
+        }
+
+        public override void Execute(ICommandSender sender, string label, string[] args, string rawMessage)
+        {
+            sender.SendChat("Example command! RawMessage: " + rawMessage);
+        }
+
+        public override IEnumerable<string> TabComplete(ICommandSender sender, string label, string[] args, string rawMessage)
+        {
+            return new[] {"example", "example2"};
         }
     }
 }
