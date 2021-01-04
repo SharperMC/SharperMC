@@ -8,12 +8,14 @@ namespace SharperMC.Core.Events.DefaultEvents
         public bool IsAsync { get; } = false;
         public ICommandSender Sender { get; }
         public string Message { get; set; }
+        public string Prefix { get; set; }
         public EventType Type { get; }
 
-        protected CommandEventBase(ICommandSender sender, string message, EventType type)
+        protected CommandEventBase(ICommandSender sender, string message, string prefix, EventType type)
         {
             Sender = sender;
             Message = message;
+            Prefix = prefix;
             Type = type;
         }
 
@@ -28,8 +30,8 @@ namespace SharperMC.Core.Events.DefaultEvents
         public override string EventName { get; } = "CommandPreExecutionEvent";
         public ICommandSystem System { get; set; }
 
-        public CommandPreExecutionEvent(ICommandSender sender, string message, ICommandSystem system) :
-            base(sender, message, EventType.Pre)
+        public CommandPreExecutionEvent(ICommandSender sender, string message, string prefix, ICommandSystem system) :
+            base(sender, message, prefix, EventType.Pre)
         {
             System = system;
         }
@@ -43,8 +45,8 @@ namespace SharperMC.Core.Events.DefaultEvents
         public override string EventName { get; } = "CommandPostExecutionEvent";
         public ICommandSystem System { get; set; }
 
-        public CommandPostExecutionEvent(ICommandSender sender, string message, ICommandSystem system) : 
-            base(sender, message, EventType.Post)
+        public CommandPostExecutionEvent(ICommandSender sender, string message, string prefix, ICommandSystem system) :
+            base(sender, message, prefix, EventType.Post)
         {
             System = system;
         }
@@ -59,8 +61,9 @@ namespace SharperMC.Core.Events.DefaultEvents
         public ICommandSystem System { get; set; }
         public Command Command { get; set; }
 
-        public CommandEvent(ICommandSender sender, Command command, string message, ICommandSystem system, EventType type) : 
-            base(sender, message, type)
+        public CommandEvent(ICommandSender sender, Command command, string message, string prefix,
+            ICommandSystem system, EventType type) :
+            base(sender, message, prefix, type)
         {
             System = system;
             Command = command;
