@@ -81,7 +81,7 @@ namespace SharperMC.Core.Commands
                     var preE = new CommandPreExecutionEvent(sender, message, prefix, system);
                     EventManager.CallEvent(preE);
                     if (preE.Cancelled) return;
-                    preE.System.ParseCommand(preE.Sender, preE.Message.Substring(prefix.Length));
+                    preE.System.ParseCommand(preE.Sender, preE.Message.Substring(prefix.Length), preE.Prefix);
                     var postE = new CommandPostExecutionEvent(preE.Sender, preE.Message, preE.Prefix, preE.System);
                     EventManager.CallEvent(postE);
                     return;
@@ -95,7 +95,7 @@ namespace SharperMC.Core.Commands
                 var preE = new CommandPreExecutionEvent(sender, message, prefix, system);
                 EventManager.CallEvent(preE);
                 if (preE.Cancelled) return;
-                preE.System.ParseCommand(preE.Sender, preE.Message.Substring(prefix.Length));
+                preE.System.ParseCommand(preE.Sender, preE.Message.Substring(prefix.Length), preE.Prefix);
                 var postE = new CommandPostExecutionEvent(preE.Sender, preE.Message, preE.Prefix, preE.System);
                 EventManager.CallEvent(postE);
                 return;
@@ -109,14 +109,14 @@ namespace SharperMC.Core.Commands
                 var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
                 if (!string.IsNullOrWhiteSpace(prefix))
                 {
-                    return system.ParseTab(sender, message.Substring(prefix.Length));
+                    return system.ParseTab(sender, message.Substring(prefix.Length), prefix);
                 }
             }
             foreach (var system in CommandSystems)
             {
                 var prefix = system.GetPrefixes().FirstOrDefault(message.StartsWith);
                 if (string.IsNullOrWhiteSpace(prefix)) continue;
-                return system.ParseTab(sender, message.Substring(prefix.Length));
+                return system.ParseTab(sender, message.Substring(prefix.Length), prefix);
             }
 
             return new string[0];
