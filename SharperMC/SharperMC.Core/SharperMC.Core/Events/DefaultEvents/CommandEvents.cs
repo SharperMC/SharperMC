@@ -9,13 +9,15 @@ namespace SharperMC.Core.Events.DefaultEvents
         public ICommandSender Sender { get; }
         public string Message { get; set; }
         public string Prefix { get; set; }
+        public ICommandSystem System { get; set; }
         public EventType Type { get; }
 
-        protected CommandEventBase(ICommandSender sender, string message, string prefix, EventType type)
+        protected CommandEventBase(ICommandSender sender, string message, string prefix, ICommandSystem system, EventType type)
         {
             Sender = sender;
             Message = message;
             Prefix = prefix;
+            System = system;
             Type = type;
         }
     }
@@ -26,12 +28,10 @@ namespace SharperMC.Core.Events.DefaultEvents
     public class CommandPreExecutionEvent : CommandEventBase, ICancellable
     {
         public override string EventName { get; } = "CommandPreExecutionEvent";
-        public ICommandSystem System { get; set; }
 
         public CommandPreExecutionEvent(ICommandSender sender, string message, string prefix, ICommandSystem system) :
-            base(sender, message, prefix, EventType.Pre)
+            base(sender, message, prefix, system, EventType.Pre)
         {
-            System = system;
         }
 
         public bool Cancelled { get; set; }
@@ -43,12 +43,10 @@ namespace SharperMC.Core.Events.DefaultEvents
     public class CommandPostExecutionEvent : CommandEventBase
     {
         public override string EventName { get; } = "CommandPostExecutionEvent";
-        public ICommandSystem System { get; set; }
 
         public CommandPostExecutionEvent(ICommandSender sender, string message, string prefix, ICommandSystem system) :
-            base(sender, message, prefix, EventType.Post)
+            base(sender, message, prefix, system, EventType.Post)
         {
-            System = system;
         }
     }
 
@@ -58,14 +56,12 @@ namespace SharperMC.Core.Events.DefaultEvents
     public class CommandEvent : CommandEventBase, ICancellable
     {
         public override string EventName { get; } = "CommandEvent";
-        public ICommandSystem System { get; set; }
         public Command Command { get; set; }
 
         public CommandEvent(ICommandSender sender, Command command, string message, string prefix,
             ICommandSystem system, EventType type) :
-            base(sender, message, prefix, type)
+            base(sender, message, prefix, system, type)
         {
-            System = system;
             Command = command;
         }
 
