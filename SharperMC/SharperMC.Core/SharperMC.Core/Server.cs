@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using SharperMC.Core.Chat;
 using SharperMC.Core.Config;
 using SharperMC.Core.Entity;
@@ -45,10 +46,11 @@ namespace SharperMC.Core
                             "\u00A74\u00A7l[ETHO]\u00A7r \u00A7l\u00A7nUSE\u00A77 --minimal\u00A7r \u00A7l\u00A7nIN PROGRAM ARGUMENTS TO FIX ASYNC WRITING OR DEAL W/ IT")
                     );
             ConsoleFunctions.WriteInfoLine("For some reason, writing async in non-minimal console doesn't work.");
-            ConsoleFunctions.WriteInfoLine("For some reason, the server doesn't close all threads. Just kill it for now.");
+            ConsoleFunctions.WriteInfoLine(
+                "For some reason, the server doesn't close all threads. Just kill it for now.");
             ConsoleFunctions.WriteInfoLine("Registering default events...");
             EventManager.RegisterDefaultEvents();
-            
+
             ConsoleFunctions.WriteInfoLine("Loading plugins...");
             PluginManager.RegisterPlugins();
 
@@ -94,7 +96,7 @@ namespace SharperMC.Core
             try
             {
                 new Thread(Globals.ServerListener.StartListening).Start();
-                new Thread(GuiApp.Start).Start();
+                GuiApp.Start();
             }
             catch (Exception ex)
             {
@@ -103,7 +105,7 @@ namespace SharperMC.Core
         }
 
         private static bool ShutDown;
-        
+
         public static void StopServer(string stopMsg = "Server shutting down...")
         {
             if (ShutDown) return;
@@ -123,8 +125,10 @@ namespace SharperMC.Core
             ConsoleFunctions.WriteInfoLine("Saving chunks...");
             Globals.LevelManager.SaveAllChunks();
             ConsoleFunctions.WriteInfoLine("Stopping listening...");
+
             //todo:
-            ConsoleFunctions.WriteInfoLine("For some reason, the app decides to keep existing. Press Ctrl+C after a second. This will be fixed soon (hopefully).");
+            ConsoleFunctions.WriteInfoLine(
+                "For some reason, the app decides to keep existing. Press Ctrl+C after a second. This will be fixed soon (hopefully).");
             Globals.ServerListener.StopListenening();
             Environment.Exit(0);
         }
