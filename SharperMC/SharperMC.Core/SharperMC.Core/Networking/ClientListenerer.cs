@@ -81,10 +81,8 @@ namespace SharperMC.Core.Networking
 
 		public void StopListenening()
 		{
-			ConsoleFunctions.WriteLine("123");
 			if(_serverListener != null && _serverListener.Server.IsBound)
 				_serverListener.Stop();
-			ConsoleFunctions.WriteLine("321");
 		}
 
 		#region ReadUncompressed
