@@ -28,16 +28,12 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Ionic.Zlib;
-using SharperMC.Core.Config;
 using SharperMC.Core.Networking.Packets;
-using SharperMC.Core.Networking.Packets.Login.Client;
 using SharperMC.Core.Networking.Packets.Play.Client;
-using SharperMC.Core.Utils;
 using SharperMC.Core.Utils.Client;
 using SharperMC.Core.Utils.Console;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Networking;
-using SharperMC.Core.Utils.Packets;
 using SharperMC.Core.Utils.Text;
 
 namespace SharperMC.Core.Networking
@@ -67,7 +63,14 @@ namespace SharperMC.Core.Networking
 			ConsoleFunctions.WriteInfoLine("To shutdown the server safely press CTRL+C or use stop/shutdown!");
 			while (_serverListener.Server.IsBound)
 			{
-				TcpClient client = _serverListener.AcceptTcpClient();
+				var pending = _serverListener.Pending();
+				if (!pending)
+				{
+					Thread.Sleep(1);
+					continue;
+				}
+
+				var client = _serverListener.AcceptTcpClient();
 				ConsoleFunctions.WriteDebugLine("A new client has been accepted.");
 				new Task(() =>
 				{
