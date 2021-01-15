@@ -15,7 +15,6 @@ namespace SharperMC.Core.Commands.DefaultCommands
         {
             if (args.Length == 0)
             {
-                // Also reload plugins here
                 Server.LoadServerSettingsFromFile();
                 sender.SendChat("Server fully reloaded!");
             }

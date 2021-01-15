@@ -88,25 +88,20 @@ namespace SharperMC.Core
 			{
 				if (client.Disconnected)
 					return;
-				client.Disconnected = true;
-				if(reason == null)
-					ConsoleFunctions.WriteInfoLine(client.Player.Username + " disconnected.");
-				else
-					ConsoleFunctions.WriteInfoLine(client.Player.Username + " disconnected (Reason: {0}).", true, reason);
-				client.ThreadPool.KillAllThreads();
 				if (client.Player != null)
 				{
+					ConsoleFunctions.WriteInfoLine(client.Player.Username + " disconnected" + (reason == null ? "." : " (Reason: {0})."), reason);
 					client.Player.SavePlayer();
 					client.Player.Level.RemovePlayer(client.Player.EntityId);
 					client.Player.Level.BroadcastPlayerRemoval(client);
 				}
+				client.ThreadPool.KillAllThreads();
 				client.TcpClient.Close();
 				ClientManager.RemoveClient(client);
+				client.Disconnected = true;
 			}
 			else
-			{
-				ConsoleFunctions.WriteFatalErrorLine("Cannot disconnect a client from the server! (Save/Restart)");
-			}
+				ConsoleFunctions.WriteFatalErrorLine("Cannot disconnect a client from the server! (Save/Restart/Panic)");
 		}
 	}
 }
