@@ -5,12 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="DotNetZip.Reduced" Version="1.9.1.8" />
-      <PackageReference Include="fNbt" Version="0.6.4" />
-      <PackageReference Include="fNBT.Serialization" Version="0.6.3" />
-      <PackageReference Include="LibNoise" Version="0.2.0" />
-      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-      <PackageReference Include="YamlDotNet" Version="9.1.0" />
+      <Folder Include="Networking\Packets\Versions\47\Handshake" />
+      <Folder Include="Networking\Packets\Versions\47\Login\Client" />
+      <Folder Include="Networking\Packets\Versions\47\Play" />
+      <Folder Include="Networking\Packets\Versions\47\Status" />
     </ItemGroup>
 
 </Project>

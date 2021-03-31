@@ -4,9 +4,6 @@ namespace SharperMC
 {
 	internal static class Program
 	{
-		private static void Main(string[] args)
-		{
-			new Server(args).StartServer();
-		}
+		private static void Main(string[] args) => new Core.SharperMC(args).Server?.StartServer();
 	}
 }
