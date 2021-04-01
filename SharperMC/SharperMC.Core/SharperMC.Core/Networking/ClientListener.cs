@@ -14,6 +14,7 @@ namespace SharperMC.Core.Networking
 		private TcpListener _serverListener;
 
 		private PacketReader _packetReader = new PacketReader();
+		private bool _disposed;
 
 		public void StartListening()
 		{
@@ -35,12 +36,15 @@ namespace SharperMC.Core.Networking
 			{
 				try
 				{
+					if (_disposed)
+					{
+						Console.WriteLine("Disconnecting from ServerListener.");
+						break;
+					}
+					if (!_serverListener.Pending()) continue;
 					TcpClient client = _serverListener.AcceptTcpClient();
 					Console.WriteLine("[ClientListener] ACCEPTED NEW CLIENT");
-					new Task(() =>
-					{
-						HandleClient(client);
-					}).Start();
+					new Task(() => { HandleClient(client); }).Start();
 				}
 				catch (Exception ex)
 				{
@@ -51,6 +55,7 @@ namespace SharperMC.Core.Networking
 
 		public void StopListening()
 		{
+			_disposed = true;
 			if(_serverListener != null && _serverListener.Server.IsBound)
 				_serverListener.Stop();
 		}
