@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Networking\Packets\Versions\47\Handshake" />
+      <Folder Include="Networking\Packets\Versions\47\Play\Server" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DotNetZip.Reduced" Version="1.9.1.8" />
+      <PackageReference Include="fNbt" Version="0.6.4" />
+      <PackageReference Include="fNBT.Serialization" Version="0.6.3" />
+      <PackageReference Include="LibNoise" Version="0.2.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="YamlDotNet" Version="10.1.0" />
+    </ItemGroup>
+
+</Project>
