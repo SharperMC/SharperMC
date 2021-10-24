@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Numerics;
 using System.Text;
 using SharperMC.Core.Utils.Wrappers;
 
-namespace SharperMC.Core.Utils
+namespace SharperMC.Core.Utils.Data
 {
     public class DataBuffer
     {

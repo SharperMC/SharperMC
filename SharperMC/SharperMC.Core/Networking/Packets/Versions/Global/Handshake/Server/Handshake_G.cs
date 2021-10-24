@@ -2,6 +2,7 @@
 using SharperMC.Core.Networking.Packets.Type;
 using SharperMC.Core.Networking.Packets.Versions._47;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Data;
 using SharperMC.Core.Utils.Enums;
 using SharperMC.Core.Utils.Wrappers;
 

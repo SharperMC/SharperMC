@@ -7,6 +7,7 @@ using SharperMC.Core.Networking.Packets.Type;
 using SharperMC.Core.Networking.Packets.Versions._47.Login.Client;
 using SharperMC.Core.Networking.Packets.Versions._47.Play.Client;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Data;
 using SharperMC.Core.Utils.Enums;
 using SharperMC.Core.Utils.Misc;
 using SharperMC.Core.Utils.Types;
@@ -58,6 +59,7 @@ namespace SharperMC.Core.Networking.Packets.Versions._47.Login.Server
             
             new JoinGame_47(ClientWrapper).Write();
             new SpawnPosition_47(ClientWrapper).Write();
+            ClientWrapper.Player.Spawn();
         }
     }
 }

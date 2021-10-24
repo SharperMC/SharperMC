@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Data;
 using SharperMC.Core.Utils.Wrappers;
 
 namespace SharperMC.Core.Networking.Packets

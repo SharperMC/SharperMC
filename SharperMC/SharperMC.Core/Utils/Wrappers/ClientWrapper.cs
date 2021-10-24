@@ -12,7 +12,7 @@ namespace SharperMC.Core.Utils.Wrappers
 {
     public class ClientWrapper
     {
-        private TcpClient TcpClient { get; }
+        public TcpClient TcpClient { get; }
         public PacketHandler PacketHandler { get; }
         
         public Player Player;

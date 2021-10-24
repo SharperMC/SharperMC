@@ -4,12 +4,21 @@ namespace SharperMC.Core.Utils.World
 {
     public class Location
     {
+        public readonly Core.World World;
         public readonly double X;
         public readonly double Y;
         public readonly double Z;
 
         public readonly float Yaw;
         public readonly float Pitch;
+        
+        public Location(Core.World world, double x, double y, double z)
+        {
+            World = world;
+            X = x;
+            Y = y;
+            Z = z;
+        }
         
         public Location(double x, double y, double z)
         {
@@ -18,11 +27,28 @@ namespace SharperMC.Core.Utils.World
             Z = z;
         }
         
+        public Location(Core.World world, double x, double y, double z, float yaw, float pitch)
+        {
+            World = world;
+            X = x;
+            Y = y;
+            Z = z;
+            Yaw = yaw;
+            Pitch = pitch;
+        }
+        
         public Location(double x, double y, double z, float yaw, float pitch)
         {
             X = x;
             Y = y;
             Z = z;
+            Yaw = yaw;
+            Pitch = pitch;
+        }
+        
+        public Location(Core.World world, float yaw, float pitch)
+        {
+            World = world;
             Yaw = yaw;
             Pitch = pitch;
         }

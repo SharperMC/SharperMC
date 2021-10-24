@@ -7,6 +7,7 @@ using SharperMC.Core.Networking.Packets.Versions._47.Login.Server;
 using SharperMC.Core.Networking.Packets.Versions._47.Status.Server;
 using SharperMC.Core.Networking.Packets.Versions.Global.Handshake.Server;
 using SharperMC.Core.Utils;
+using SharperMC.Core.Utils.Data;
 using SharperMC.Core.Utils.Enums;
 using SharperMC.Core.Utils.Wrappers;
 
@@ -27,6 +28,7 @@ namespace SharperMC.Core.Networking.Packets
             if (SharperMC.Instance.Server.ServerSettings.ProtocolVersions.Contains(47) || SharperMC.Instance.Server.ServerSettings.AllProtocols())
             {
                 _serverPackets.Add(new Request_47(_clientWrapper));
+                _serverPackets.Add(new Ping_47(_clientWrapper));
 
                 _serverPackets.Add(new LoginStart_47(_clientWrapper));
             }
